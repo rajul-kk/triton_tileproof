@@ -6,9 +6,10 @@ Labels (most severe first)
 ``numerical``     **benign over the reals but numerically different**. Z3 proves the mutant
                   computes the same real-valued function as the reference at the oracle sizes,
                   *and* a concrete input (the witness) makes the two kernels' rounded outputs
-                  differ bit for bit. ``precision_loss`` says whether the mutant's a-priori error
-                  bound is materially worse than the reference's (accumulator downgrade, a
-                  narrower cast) or about the same (a legal-looking reordering).
+                  differ bit for bit. ``precision_loss`` says whether the mutant's running error
+                  bound (max over the inputs tried) is more than ``PRECISION_LOSS_RATIO`` times the
+                  reference's (accumulator downgrade, a narrower cast) or about the same (a
+                  legal-looking reordering).
 ``benign``        real-equivalent and no witness. ``fp_proof="uf"`` means bitwise identity is
                   *proved* (see check 2). ``fp_proof=None`` means only that the witness search
                   found nothing: that is evidence, not a proof.

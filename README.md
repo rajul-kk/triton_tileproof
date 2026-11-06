@@ -25,6 +25,7 @@ are Triton-specific and the labels come from a formal oracle that can also prove
 | `src/triton_equiv/fporacle.py` | Floating-point tier for every bit-vector-benign mutant: Z3 real-arithmetic equivalence, a structural bitwise-identity proof with rounded ops as uninterpreted functions, and an fp64-referenced witness search with running error bounds. The docstring says what it proves and what it does not |
 | `src/triton_equiv/harness.py` | Allclose checker audit on the Triton CPU interpreter: confusion table of oracle label against checker verdict, and the tolerance blind-band sweep |
 | `results/labels.json`, `results/checker_audit.json`, `results/blind_band.json` | Outputs, each with the command that produced it |
+| `notebooks/kernelgym_audit.ipynb` | Kaggle notebook that plants the mutants into KernelGYM's `kernel_simple` correctness check. **Written, not run** |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
 | `tests/` | Known-label oracle tests, fp-tier tests, mutation tests, interpreter tests |
 
@@ -49,12 +50,13 @@ The four label families:
 * `numerical`: Z3 proves the mutant computes the same real-valued function at the oracle sizes,
   and a concrete input makes the rounded outputs differ. Every one of the 8 carries a witness
   input, and all 8 witnesses reproduce bit for bit in the Triton interpreter (WSL). It is
-  `precision_loss` when the mutant's a-priori error bound is more than 4x the reference's.
+  `precision_loss` when the mutant's running error bound is more than 4x the reference's
+  (max over the inputs tried).
   The measured ratios are 8204x (fp16 accumulator in `row_sum_loop`), 15x and 17x
   (`matmul_fp16` downgrade and bf16 cast). Reorderings measure 0.6x-1.5x.
 * `benign`: real-equivalent and no witness. 4 are **proved** bitwise identical by the
-  uninterpreted-function check. The other 4 (matmul `other=1.0` on a lane that always meets a
-  zero) found no witness in 720 inputs, which is evidence, not proof.
+  uninterpreted-function check. The other 4 (`other=1.0` in both matmuls, on a lane that always
+  meets a zero) found no witness in 720 inputs, which is evidence, not proof.
 
 Labels depend on size. Every OOB mutant is benign at the tile-multiple size, and the matmul
 pid-axis mutant is benign on a 1x1 grid. A reduction loop needs at least 3 iterations
@@ -124,6 +126,23 @@ here are flagged by the oracle without running any GPU or choosing a tolerance. 
 given loss is acceptable is a policy decision; the oracle only shows that it exists.
 These numbers come from the CPU interpreter only.
 
+## KernelGYM audit notebook (written, **not run**)
+
+`notebooks/kernelgym_audit.ipynb` is for a Kaggle GPU session. It clones KernelGYM at commit
+`3a84417` and this repo, then wraps each reference kernel and all 43 mutants as a KernelGYM
+`ModelNew` module. Each one goes through `KernelSimpleToolkit.evaluate`
+(`kernelgym/toolkit/kernel_simple/toolkit.py`, called in-process with the `kernelbench` backend
+adapter that `kernelgym/workflow/kernel_simple.py` selects). The notebook records which faulty
+mutants are accepted. It has never been executed: there is no GPU here, so it is untested.
+
+One thing it checks comes from reading the toolkit code, not from running it.
+`_normalize_case` stores `rtol=None` and `atol=None` when a case gives no tolerance. The later
+`case.get("rtol", 1e-4)` then returns `None` rather than the default. `torch.allclose`
+raises `TypeError` on `rtol=None` (checked on torch 2.15 CPU), and the toolkit catches the
+exception as a failed comparison. If that reading is right, cases
+without explicit tolerances reject every kernel, correct or not. The notebook's reference-kernel
+control tests this.
+
 ## Scope limits
 
 * **Floating-point tier: fp64 reference plus bounded error analysis, not Z3 floating point.**
@@ -139,6 +158,9 @@ These numbers come from the CPU interpreter only.
 * `matmul:acc_dtype_downgrade` is benign in the interpreter because `acc += tl.dot(...)`
   promotes the fp16 accumulator to fp32. Compiled Triton would reject the loop-carried
   dtype change. That was not run here (no GPU).
+* The checker audit ran only on the CPU interpreter. Out-of-bounds behaviour on a GPU (faults,
+  corrupting a neighbouring allocation) and GPU reduction orders were not observed. The
+  KernelGYM notebook is untested.
 * Labels are proofs only at the listed sizes. Problem sizes are not symbolic.
 * No symbolic executor against a PyTorch spec yet.
 
