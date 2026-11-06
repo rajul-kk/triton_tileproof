@@ -9,6 +9,8 @@ was actually read for each source:
 - `source`: repository files read on GitHub (named in the row). Nothing was cloned, built or run
 - `snippet`: a search-engine result snippet only
 - `full PDF`: the full paper. **Only 2609.22220 and 2511.12638 (Volta) were read at this level**
+- `full text (partial)`: the arXiv HTML, read in part (the share is given in the row)
+- `abstract + blog`: the conference abstract plus a vendor blog post about the work
 
 "No code" means no repository link appeared on the abstract or listing page and none turned
 up in a web search. A repo released later, or linked only inside the PDF, would be missed.
@@ -24,7 +26,7 @@ up in a web search. A repo released later, or linked only inside the PDF, would 
 | 5 | **Measuring the Checker**, arXiv 2609.22220 (Du, Luu, Huang, Ng) | **full PDF** | **Data released**: KernelBench-M on Hugging Face (`Elfsong/KernelBench-M`). No code repo linked. | Mutation analysis of benchmark oracles: **124 mutation rules, CUDA only**, 10,303 compilable faults in 188 KernelBench problems. Labels come from **kill witnesses or quarantine; there are no formal proofs**. Its *Boundary* family already shows that aligned shapes hide dropped guards and tails ("remainder blocks never execute", **22.9% escape**). It already reports that the **tolerance blind band grows with reduction size**: an all-zeros softmax passes, and the largest undetectable relative error is 0.39 at d=64 and 2.5e3 at d=393,216. It does not mention KernelGYM. | **Pre-empts** "aligned sizes hide OOB/tail bugs" and "the blind band grows with n". Both must be cited to it, not claimed. Not covered by it: Triton-specific operators (`mask=`/`other=`, `program_id` axis, accumulator dtype), proof-backed labels (proved-benign, real-equivalent-but-rounding-different, precision loss), and the RL reward checkers. |
 | 6 | The Correctness Illusion, arXiv 2606.20128 (Sarkar) | abstract | No repo on the abstract page | 24-26 Triton/CPU stand-in kernels with 9-10 seeded bugs; seeded fuzzing, fp64 CPU reference, per-(op, dtype) tolerances. | Includes Triton. Fuzzing baseline. Small hand-seeded corpus. |
 | 7 | KernelBench-Verified, arXiv 2607.16241 | abstract | No repo on the abstract page | Hidden test suite with four input distributions, TF32 baseline, memory metrics. | Stronger testing baseline. |
-| 8 | TritonRL, arXiv 2510.17891 | abstract | No repo on the abstract page | 8B Triton-writing LLM trained with RL; a "multi-layered verification system" counters reward hacking. | **Audit target** (RL reward checker). Exact checks not yet read. |
+| 8 | TritonRL, arXiv 2510.17891 | full text (partial): arXiv HTML, first ~60%, read by the coordinating session | **No** ("Codes and datasets will be available soon") | 8B Triton-writing LLM trained with RL. Reward is `valid = syntax x func`. *Syntax*: a rule-based linter that checks for `@triton.jit`. *Func*: a linter that detects real Triton kernel calls and flags PyTorch module use, plus an LLM judge (Qwen3-235B-Instruct) for semantic correctness. Correctness runs on **5 random test inputs**; the paper writes the comparison as exact equality (`o_code(x) == g(x)`) and states no tolerance. | **Audit target.** No released code to run. As written, a fixed set of 5 random inputs at fixed shapes has the aligned-shape blind spot unless the shapes leave tails; the exact-equality reading would reject every reordering, which we label benign or reorder. Not checked against code. |
 | 9 | Dr. Kernel / KernelGYM, arXiv 2602.05885 | README and `kernelgym/toolkit/kernel_simple/toolkit.py`, `kernelgym/workflow/kernel_simple.py` (source) | **Yes**, Apache-2.0 | Distributed GPU RL environment. Correctness by rtol/atol against a reference over test cases. | **Audit target.** Needs a GPU; our notebook is written but not run. |
 | 10 | triton-verify (github.com/alinamiretai/triton-verify) | README | Yes, no license stated | Proves **pointer safety** on pre-optimization TTIR with Z3 bit-vectors; symbolic pid in [0, grid). Equivalence out of scope. | Overlaps with our `oob` query only. |
 | 11 | **kernel-tv / triton-tv** (github.com/Youngzt998/kernel-tv; fork jaeHbk/kernel-tv) | **source**, read on GitHub 2026-11-06 (see the next section) | **Yes**, **no license** (GitHub reports none; no LICENSE file). 288 commits; created 2026-09-04, last push 2026-09-16. Fork is 2 commits ahead (2026-10). | **Translation validation of the Triton compiler**: proves two TTIR functions (one kernel before and after a pass pipeline) equivalent with Z3. Includes a GPU equivalence fuzzer that compares compilations bitwise. | Different question (miscompiles, not LLM kernels or reward checkers). Today it models **no loops and no `tt.dot`**, no OOB, no tolerance. See below. |
@@ -45,7 +47,7 @@ not a paper draft.
 | Masked `tt.load` with `other=` | `Memory::load` returns `ite(mask_i, load(ptr_i), other_i)`. If `other` is absent, a **zero** tile is synthesized (Triton leaves those lanes undefined; we model them as fresh `undef`). The heap is read at `ptr_i` regardless of the mask. **Unmasked** loads and stores hit an `assert` ("not yet supported"). |
 | Masked `tt.store` | Byte-wise `ite(mask_i && addr == byteAddr, byte, old)` over a lambda array; masked-off lanes leave memory unchanged. |
 | Out-of-bounds | **Not modelled.** Memory is one unbounded `Array(BV64, BV8)` per pointer argument; no allocation sizes, no bounds or UB checks. A dropped guard that only touches memory outside the buffer is invisible. |
-| `scf.for` | Dispatched in `State::interpretOp`, but `interpretFor` (and `interpretIf`, `interpretWhile`) are **unimplemented**. The roadmap lists unrolled loops for milestone M1-MVP and summarized loops for M1-complete; loops "block 197 kernels" of their corpus. |
+| `scf.for` | Dispatched in `State::interpretOp`, but `interpretFor` (and `interpretIf`, `interpretWhile`) are **unimplemented**: each ends in `llvm_unreachable("... not yet implemented")` (confirmed independently by the coordinating session; `tt.dot` likewise has no branch in `interpretOp` and falls through to `llvm_unreachable`). The roadmap lists unrolled loops for milestone M1-MVP and summarized loops for M1-complete; loops "block 197 kernels" of their corpus. |
 | Reductions | `tt.reduce`: single operand, **1-D only** (`axis` ignored), folded left in index order and statically unrolled. The combiner is interpreted from the region. |
 | `tt.dot` | **Not dispatched.** `doc/dot-encoding.md` is a "proposed design note, NOT an adopted decision": an uninterpreted `fp_dot` with optional recurrence axioms and one UF family per `inputPrecision`. Fork notes say a saved TTIR pair "cannot yet be interpreted" because `tt.dot` and `scf.for` are unsupported. |
 | Floating point | Default **Abstract**: each value is an opaque `BitVec(width)` tag, every op an uninterpreted function, with axioms that +0, -0, +inf, -inf and NaN are distinct, `add`/`mul`/`max` commute and `neg` is an involution; associativity withheld. Ops: add, sub, mul, div, max, neg, abs, `math.exp`; no sqrt, no fma. Real and FPA (IEEE) modes are designed; `Real` throws in `load`/`store`. The fork adds IEEE constants and rounded add/sub/mul/div/fma in the core, but the TTIR binary still uses Abstract mode. No error bounds, no precision-loss notion. |
@@ -66,7 +68,8 @@ and not precision loss. No license, so its code cannot be reused.
 
 | Work | Read level | Code | Note |
 |---|---|---|---|
-| "Red-Teaming the Reward: A Verifier and Benchmark for Triton Kernel Optimization Agents" (Shiri, Hosseini), NeurIPS 2026 | abstract | None linked | Triton verifier plus KernelQuest. Rejected 813 of 1,800 agent runs. **Audit target.** |
+| **"Red-Teaming the Reward: A Verifier and Benchmark for Triton Kernel Optimization Agents"** (Shiri, Hosseini; Turing), NeurIPS 2026 | abstract + blog (neurips.cc listing; turing.com/blog/kernelquest-benchmark-ai-agents-triton-kernels), read by the coordinating session. OpenReview `JK85pn7BYN` blocked by a bot check | **Hidden**: verifier and certified solutions not released | Verifier with 4 gates: *structural* (a real Triton kernel does the work); *correctness* (5 seeded inputs across up to 5 distributions, plus dtype, storage-freshness, sensitivity and parameter-structure checks); *policy* (no TF32 or lower-precision casts on fp32 tasks, no CUDA-graph capture); *performance*. KernelQuest, 100 tasks. 25% of audited agent submissions were invalid, and "three published verifiers and a stopwatch baseline accepted nearly all" of them, while their verifier accepted almost none. Rejected 813 of 1,800 agent runs. The blog compares against KernelBench, KernelBench-Verified, robust-kbench, TritonBench, GEAK-eval, TritonGym, MultiKernelBench, AgentKernelArena, FastKernels and SOL-ExecBench; which three verifiers were audited is not stated in what was read. | **An audit of published Triton checkers already exists** here, built from agent-produced submissions and a hidden verifier. Ours is a complement: formally labelled, Triton-specific mutants that isolate the failure class (OOB at tails, `undef` lanes, precision loss, reorderings). Their policy gate (no lower-precision casts) targets the same thing as our precision-loss tier, by rule instead of by error bound. |
+| TritonGym | snippet | Unknown | Checker with gates for structure, freshness, precision and degeneracy. | Another Triton checker to audit or compare against. |
 | DRTriton, arXiv 2603.21465 | snippet | Unknown | Linter, compile, output comparison, no-op monkey-patching. **Audit target.** |
 | Verified Lifting, arXiv 2412.20992 | not re-read | Unknown | Earlier notes say masks are excluded and matmul fails. |
 | gpucheck (github.com/Akasxh/gpucheck) | snippet | Yes | Shape fuzzing for CUDA and Triton. Possible baseline. |
@@ -94,18 +97,23 @@ Our results on these points are **Triton-interpreter replications**, and should 
    Higham error bounds. 2609.22220 labels by kill witness or quarantine only. Volta is real-valued,
    so reorderings and precision loss are all "equal" to it. kernel-tv has no bounds, loops, `tt.dot`
    or error analysis.
-3. **An audit of the Triton RL reward checkers**: KernelGYM, TritonRL, DRTriton and Red-Teaming
-   the Reward. None of the papers above audits them, and 2609.22220 does not mention KernelGYM.
-   So far only the KernelGYM notebook exists, and it has **not been run** (no GPU).
+3. **An audit with formally labelled, Triton-specific mutants, which isolates the failure class**
+   (OOB at tails, `undef` lanes, precision loss, reorderings). It complements Red-Teaming the
+   Reward, whose audit is built on agent runs and a hidden verifier, and which already reports
+   that three published verifiers accept nearly all invalid submissions. **Do not claim** that
+   nobody has audited Triton RL checkers. Targets: KernelGYM (released; notebook written, **not
+   run**, no GPU), TritonRL (no code released), DRTriton, TritonGym. 2609.22220 does not mention
+   KernelGYM.
 
 **Competitive risk.** kernel-tv is active and Triton-level; once it supports unrolled `scf.for`
 and `tt.dot` it covers the `inequivalent` part of our oracle for compiler-produced pairs. Volta
 has released code and a completeness result. Tatva's group may extend to loops. The parts least
-likely to be scooped are the precision-loss tier, `undef` lanes and OOB at tails, and the reward
-checker audit.
+likely to be scooped are the formal labels themselves: the proved-benign and precision-loss tiers,
+`undef` lanes and OOB at tails. The checker audit as such is not new (Red-Teaming the Reward).
 
-**Still to read before submission:** Tatva full paper (OpenReview `cEh56JC9TB`), TritonRL,
-DRTriton and Red-Teaming full papers (their exact checks), and the Volta repository.
+**Still to read before submission:** Tatva full paper (OpenReview `cEh56JC9TB`), the rest of
+TritonRL, DRTriton, the Red-Teaming paper (OpenReview `JK85pn7BYN`: which three verifiers it
+audited), TritonGym, and the Volta repository.
 
 ## Sources
 
@@ -116,9 +124,9 @@ DRTriton and Red-Teaming full papers (their exact checks), and the Volta reposit
 - https://arxiv.org/abs/2609.22220 (full PDF read); https://huggingface.co/datasets/Elfsong/KernelBench-M (not opened)
 - https://arxiv.org/abs/2606.20128
 - https://arxiv.org/abs/2607.16241
-- https://arxiv.org/abs/2510.17891
 - https://github.com/hkust-nlp/KernelGYM
 - https://github.com/alinamiretai/triton-verify
 - https://github.com/Youngzt998/kernel-tv and https://github.com/jaeHbk/kernel-tv (files listed above, via github.com, raw.githubusercontent.com and api.github.com)
-- https://neurips.cc/virtual/2026/173031 (Red-Teaming the Reward)
+- https://neurips.cc/virtual/2026/173031 (Red-Teaming the Reward); https://www.turing.com/blog/kernelquest-benchmark-ai-agents-triton-kernels (read by the coordinating session)
+- https://arxiv.org/abs/2510.17891 (TritonRL; HTML read in part by the coordinating session)
 - https://arxiv.org/pdf/2603.21465 (DRTriton, snippet only)
