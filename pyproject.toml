@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "triton-equiv"
+version = "0.0.1"
+description = "Mutation audit and tile-loop-aware equivalence checking for Triton kernels (research skeleton)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+# Kept optional so the skeleton installs anywhere. Triton has no official
+# Windows wheel; use Linux/WSL (TRITON_INTERPRET=1 on CPU) or Kaggle for GPU.
+smt = ["z3-solver>=4.12"]
+triton = ["torch>=2.4", "triton>=3.0", "numpy>=1.26"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
