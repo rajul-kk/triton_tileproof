@@ -24,6 +24,9 @@ Subcommands (run under WSL with ``TRITON_INTERPRET=1``; see README):
                 against checker verdict -> ``results/checker_audit.json``.
 ``blind-band``  ``numerical`` mutants swept over the reduction length (``n_cols`` or ``K``), with
                 the miss rate of the kernelbench check per length -> ``results/blind_band.json``.
+
+Both take ``--kernels`` to restrict the run (the softmax/layernorm sweep is stored separately in
+``results/blind_band_rowwise.json``).
 """
 
 from __future__ import annotations
@@ -65,6 +68,17 @@ def torch_reference(kernel: str, launch, inputs: dict):
         if A.dtype == torch.float64:
             return {"c": (A @ B).reshape(-1)}
         return {"c": (A.float() @ B.float()).to(torch.float16).reshape(-1)}
+    if kernel == "softmax":
+        return {"out": torch.softmax(inputs["x"].view(-1, a["n_cols"]), dim=1).reshape(-1)}
+    if kernel == "layernorm":
+        x = inputs["x"].view(-1, a["n_cols"])
+        wide = x if x.dtype == torch.float64 else x.float()
+        y = torch.nn.functional.layer_norm(wide, (a["n_cols"],), eps=a["eps"])
+        return {"out": (y if x.dtype == torch.float64 else y.to(x.dtype)).reshape(-1)}
+    if kernel == "attention":
+        D = a["D"]
+        Q, K, V = (inputs[b].view(-1, D) for b in ("q", "k", "v"))
+        return {"o": (torch.softmax(Q @ K.T, dim=1) @ V).reshape(-1)}
     raise KeyError(kernel)
 
 
@@ -142,13 +156,15 @@ def _family(lab) -> str:
     return lab["label"]
 
 
-def audit(labels_path: str, trials: int):
+def audit(labels_path: str, trials: int, kernels=None):
     from .kernels import KERNELS
     from .mutate import mutants
     with open(labels_path) as f:
         labels = {lab["id"]: lab for lab in json.load(f)["labels"]}
     rows = []
     for name, spec in KERNELS.items():
+        if kernels and name not in kernels:
+            continue
         cands = [(f"{name}:reference", spec.source, None)] + \
                 [(m.id, m.source, labels[m.id]) for m in mutants(name, spec.source)]
         for mid, src, lab in cands:
@@ -198,10 +214,13 @@ SWEEP = {
     "row_sum_loop": [{"n_rows": 4, "n_cols": n, "BLOCK": 16} for n in _NS],
     "matmul": [{"M": 16, "N": 16, "K": k, "BM": 16, "BN": 16, "BK": 16} for k in _NS],
     "matmul_fp16": [{"M": 16, "N": 16, "K": k, "BM": 16, "BN": 16, "BK": 16} for k in _NS],
+    # Row-wise kernels hold a whole row in one tile, so n stops at 1024.
+    "softmax": [{"n_rows": 4, "n_cols": n, "BLOCK": n} for n in _NS[:4]],
+    "layernorm": [{"n_rows": 4, "n_cols": n, "BLOCK": n} for n in _NS[:4]],
 }
 
 
-def blind_band(labels_path: str, trials: int, dists=("randn", "rand")):
+def blind_band(labels_path: str, trials: int, dists=("randn", "rand"), kernels=None):
     torch = _torch()
     from .kernels import KERNELS
     from .mutate import mutants
@@ -209,6 +228,8 @@ def blind_band(labels_path: str, trials: int, dists=("randn", "rand")):
         labels = {lab["id"]: lab for lab in json.load(f)["labels"]}
     rows = []
     for name, sizes in SWEEP.items():
+        if kernels and name not in kernels:
+            continue
         spec = KERNELS[name]
         muts = [(m.id, m.source) for m in mutants(name, spec.source) if labels[m.id]["label"] == "numerical"]
         cands = [(f"{name}:reference", spec.source)] + muts
@@ -265,19 +286,21 @@ def main(argv=None):
     a.add_argument("--labels", default="results/labels.json")
     a.add_argument("--trials", type=int, default=3)
     a.add_argument("--out", default="results/checker_audit.json")
+    a.add_argument("--kernels", nargs="*", help="only these kernels (default: all)")
     b = sub.add_parser("blind-band")
     b.add_argument("--labels", default="results/labels.json")
     b.add_argument("--trials", type=int, default=20)
     b.add_argument("--out", default="results/blind_band.json")
+    b.add_argument("--kernels", nargs="*", help="only these kernels (default: all in SWEEP)")
     args = ap.parse_args(argv)
     t0 = time.time()
     doc = {"command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness " + " ".join(argv),
            "env": _env(), "tolerances": TOLERANCES}
     if args.cmd == "audit":
-        rows = audit(args.labels, args.trials)
+        rows = audit(args.labels, args.trials, args.kernels)
         doc.update(trials_per_size=args.trials, confusion=confusion(rows), rows=rows)
     else:
-        doc.update(trials=args.trials, rows=blind_band(args.labels, args.trials))
+        doc.update(trials=args.trials, rows=blind_band(args.labels, args.trials, kernels=args.kernels))
     doc["seconds"] = round(time.time() - t0, 1)
     with open(args.out, "w") as f:
         json.dump(doc, f, indent=1)

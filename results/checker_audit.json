@@ -33,151 +33,151 @@
  "confusion": {
   "tile/kernelbench": {
    "reference": {
-    "accept": 5,
+    "accept": 8,
     "reject": 0
    },
    "oob": {
-    "accept": 18,
+    "accept": 27,
     "reject": 0
    },
    "inequivalent": {
-    "accept": 2,
-    "reject": 7
+    "accept": 9,
+    "reject": 10
    },
    "numerical:precision": {
-    "accept": 3,
+    "accept": 6,
     "reject": 0
    },
    "numerical:reorder": {
-    "accept": 5,
+    "accept": 6,
     "reject": 0
    },
    "benign:proved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    },
    "benign:unproved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    }
   },
   "tile+odd/kernelbench": {
    "reference": {
-    "accept": 5,
+    "accept": 8,
     "reject": 0
    },
    "oob": {
-    "accept": 12,
-    "reject": 6
+    "accept": 19,
+    "reject": 8
    },
    "inequivalent": {
     "accept": 0,
-    "reject": 9
+    "reject": 19
    },
    "numerical:precision": {
-    "accept": 3,
+    "accept": 6,
     "reject": 0
    },
    "numerical:reorder": {
-    "accept": 5,
+    "accept": 6,
     "reject": 0
    },
    "benign:proved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    },
    "benign:unproved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    }
   },
   "tile/torch_default": {
    "reference": {
-    "accept": 5,
+    "accept": 8,
     "reject": 0
    },
    "oob": {
-    "accept": 18,
+    "accept": 27,
     "reject": 0
    },
    "inequivalent": {
-    "accept": 2,
-    "reject": 7
+    "accept": 9,
+    "reject": 10
    },
    "numerical:precision": {
     "accept": 0,
-    "reject": 3
+    "reject": 6
    },
    "numerical:reorder": {
-    "accept": 5,
+    "accept": 6,
     "reject": 0
    },
    "benign:proved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    },
    "benign:unproved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    }
   },
   "tile+odd/torch_default": {
    "reference": {
-    "accept": 5,
+    "accept": 8,
     "reject": 0
    },
    "oob": {
-    "accept": 12,
-    "reject": 6
+    "accept": 19,
+    "reject": 8
    },
    "inequivalent": {
     "accept": 0,
-    "reject": 9
+    "reject": 19
    },
    "numerical:precision": {
     "accept": 0,
-    "reject": 3
+    "reject": 6
    },
    "numerical:reorder": {
-    "accept": 5,
+    "accept": 6,
     "reject": 0
    },
    "benign:proved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    },
    "benign:unproved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    }
   },
   "tile+odd/kernelbench+canary": {
    "reference": {
-    "accept": 5,
+    "accept": 8,
     "reject": 0
    },
    "oob": {
-    "accept": 8,
-    "reject": 10
+    "accept": 11,
+    "reject": 16
    },
    "inequivalent": {
     "accept": 0,
-    "reject": 9
+    "reject": 19
    },
    "numerical:precision": {
-    "accept": 3,
+    "accept": 6,
     "reject": 0
    },
    "numerical:reorder": {
-    "accept": 5,
+    "accept": 6,
     "reject": 0
    },
    "benign:proved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    },
    "benign:unproved": {
-    "accept": 4,
+    "accept": 7,
     "reject": 0
    }
   }
@@ -950,7 +950,519 @@
    },
    "guard_write": false,
    "errors": []
+  },
+  {
+   "id": "softmax:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
   }
  ],
- "seconds": 11.0
+ "seconds": 135.2
 }
