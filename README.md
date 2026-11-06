@@ -77,6 +77,8 @@ targets the same failures as our precision-loss tier, but by a rule rather than 
 | `notebooks/kernelgym_audit.ipynb` | Kaggle notebook that plants all 72 mutants into KernelGYM's `kernel_simple` correctness check. Run on a Kaggle T4; see `docs/kernelgym_audit.md` |
 | `notebooks/kernelgym_readme_check.py` | Runs the `kernel_simple` example from KernelGYM's README three ways (verbatim, cases split out, explicit tolerance) |
 | `results/kernelgym_audit_t4.json`, `results/kernelgym_audit_t4_unpatched.json`, `results/kernelgym_readme_check_t4.json` | KernelGYM GPU results |
+| `src/triton_equiv/msync/` | Megakernel synchronisation: a schedule IR cut down from AutoMegaKernel's, an oracle that explores every SM interleaving, 12 schedule mutation operators and a checker audit. See `docs/megakernel_sync.md` |
+| `results/msync_audit.json` | 99 labelled schedule mutants and six checkers' verdicts (`python -m triton_equiv.msync.audit`) |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
 | `tests/` | Known-label oracle tests, fp-tier tests, mutation tests, interpreter tests |
 
@@ -253,6 +255,34 @@ apply there.
 TritonRL, DRTriton and Red-Teaming the Reward are the other audit targets. Their checkers have
 not been read in code or run.
 
+## Megakernel synchronisation (CPU model)
+
+Megakernels run a whole forward pass as one persistent kernel, with SMs handing work to
+each other through counters in global memory. `src/triton_equiv/msync/` applies this
+repo's method to that layer: a small schedule IR modelled on AutoMegaKernel's, an oracle
+that explores every interleaving of the SMs and labels a schedule `oob`, `deadlock`,
+`racy`, `inequivalent` or `benign` (benign holds for all inputs at that size), and 99
+mutants of five reference schedules (missing or partial waits, early signals, swapped
+queues, shifted and unclamped tiles, unoffset scratch, counters not zeroed, and RESOLVE's
+barrier-reset race).
+
+Accepted by six checkers (details and the three-part plan in `docs/megakernel_sync.md`):
+
+| Oracle label | n | one launch, warm memory, allclose | one launch, NaN memory | argmax only | 20 random schedules, exact | AMK-style static rules |
+|---|---|---|---|---|---|---|
+| racy | 39 | 37/39 | 29/39 | 29/29 | 0/39 | 8/30 |
+| deadlock | 27 | 1/27 | 1/27 | 1/23 | 0/27 | 2/26 |
+| oob | 11 | 7/11 | 2/11 | 8/8 | 2/11 | 11/11 |
+| inequivalent | 8 | 6/8 | 0/8 | 6/6 | 0/8 | 2/8 |
+| benign | 14 | 14/14 | 14/14 | 10/10 | 14/14 | 5/9 |
+
+A single launch on memory left by a previous launch misses almost every race; schedule
+perturbation catches all of them in this model; static rules catch most synchronisation
+bugs but no out-of-bounds tile. The "AMK-style rules" are our reading of AutoMegaKernel's
+validator from its docs, not its code, and two possible gaps (a deadlock through a
+transitive same-SM inversion, and counters not zeroed) still have to be checked against the
+real validator. This is a model with sequential consistency at step granularity, not a GPU.
+
 ## Scope limits
 
 * **Floating-point tier: fp64 reference plus bounded error analysis, not Z3 floating point.**
@@ -293,7 +323,7 @@ not been read in code or run.
 
 ```bash
 pip install -e ".[dev]"     # oracle + tests: Windows, Linux or WSL
-pytest                      # Windows: 55 passed, 2 skipped (no triton)
+pytest                      # Windows: 66 passed, 2 skipped (no triton)
 ```
 
 ### Triton CPU interpreter (WSL)
@@ -311,7 +341,7 @@ official Windows wheel, so these tests are skipped on Windows.
 python3 -m venv ~/venv-triton-equiv
 ~/venv-triton-equiv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
 ~/venv-triton-equiv/bin/pip install triton z3-solver numpy pytest
-~/venv-triton-equiv/bin/python -m pytest -q      # 58 passed
+~/venv-triton-equiv/bin/python -m pytest -q      # 69 passed
 ```
 
 ## License
