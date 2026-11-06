@@ -244,6 +244,10 @@ class _SymTL:
         return T(np.sum(x.arr, axis=axis), "val")
 
     @staticmethod
+    def reshape(x, shape, *_a, **_kw):
+        return T(np.reshape(x.arr, tuple(shape)), x.kind)  # row-major, as Triton without can_reorder
+
+    @staticmethod
     def dot(a, b, acc=None, **_kw):
         r = T(np.dot(a.arr, b.arr), "val")
         return r if acc is None else acc + r

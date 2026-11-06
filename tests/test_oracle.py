@@ -74,3 +74,12 @@ def test_unsupported_construct_raises():
     with pytest.raises(oracle.Unsupported):
         oracle.trace(src, "k", type(launch)((1,), {"x_ptr": "x", "BLOCK": 4}, {"x": 4}),
                      oracle._memory(launch), "t")
+
+
+def test_fp_mutants_are_invisible_to_the_bit_vector_oracle():
+    # Reordering, accumulator dtype and casts are all exact in 16-bit modular arithmetic,
+    # so the bit-vector tier calls every fp mutant benign; fporacle has to separate them.
+    from triton_equiv.mutate import FP_OPERATORS
+    for name, spec in KERNELS.items():
+        for m in mutants(name, spec.source, FP_OPERATORS):
+            assert oracle.label(spec, m.source).label == "benign", m.id

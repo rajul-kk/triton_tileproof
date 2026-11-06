@@ -24,3 +24,34 @@ def test_operators_rewrite_what_they_claim():
     assert "other=1.0" in by_op["wrong_other"][0].source
     # first-order: only one site changed per mutant
     assert by_op["wrong_other"][0].source.count("other=1.0") == 1
+
+
+def test_fp_operators_rewrite_what_they_claim():
+    from triton_equiv.mutate import FP_OPERATORS
+
+    def one(kernel, op):
+        ms = list(mutants(kernel, KERNELS[kernel].source, [op]))
+        assert len(ms) == 1, (kernel, op, len(ms))
+        return ms[0].source
+
+    src = one("row_sum_loop", "reverse_reduction_loop")
+    assert "for k_rev in range(0, tl.cdiv(n_cols, BLOCK))" in src
+    assert "k = tl.cdiv(n_cols, BLOCK) - 1 - k_rev" in src
+    assert "tl.reshape(acc, (2, acc.shape[0] // 2))" in one("row_sum_loop", "split_sum")
+    assert "dtype=tl.float16" in one("row_sum_loop", "acc_dtype_downgrade")
+    assert "c = acc\n" in one("matmul_fp16", "drop_cast")
+    assert "acc.to(tl.bfloat16)" in one("matmul_fp16", "change_cast")
+    # vector_add has no loop, reduction, accumulator or cast: no fp mutants.
+    assert list(mutants("vector_add", KERNELS["vector_add"].source, FP_OPERATORS)) == []
+
+
+def test_fp_operator_site_counts():
+    from triton_equiv.mutate import FP_OPERATORS, count_sites
+    counts = {k: [count_sites(s.source, op) for op in FP_OPERATORS] for k, s in KERNELS.items()}
+    assert counts == {
+        "vector_add": [0, 0, 0, 0, 0],
+        "row_sum": [0, 1, 0, 0, 0],
+        "matmul": [1, 0, 1, 0, 0],
+        "row_sum_loop": [1, 1, 1, 0, 0],
+        "matmul_fp16": [1, 0, 1, 1, 1],
+    }
