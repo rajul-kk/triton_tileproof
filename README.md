@@ -7,8 +7,9 @@ that kernel benchmarks and RL reward environments use.
 variants, softmax, layernorm, single-head attention), eleven single-site AST mutation operators
 (72 mutants), a Z3 bit-vector oracle for index/mask logic, a floating-point tier that separates
 "exact over the reals but rounds differently" from truly benign mutants, and an audit of a
-standard allclose checker against those labels on the Triton CPU interpreter. Nothing has run
-on a GPU, and the KernelGYM notebook has not been run.
+standard allclose checker against those labels on the Triton CPU interpreter. The KernelGYM
+audit has also run once on a GPU (Kaggle Tesla T4, Triton 3.6.0); see
+[`docs/kernelgym_audit.md`](docs/kernelgym_audit.md).
 
 ## Contribution, and what is not new
 
@@ -37,9 +38,9 @@ What this repo adds:
    itself **not new**. *Red-Teaming the Reward* (NeurIPS 2026) already reports that three
    published verifiers accept nearly all of the invalid agent submissions (25% of those it
    audited). Its audit rests on agent runs and a verifier that is not released. Ours is a
-   complement, not a first. So far it covers only the allclose harness below. The KernelGYM
-   notebook is written but **not run** (no GPU). TritonRL has no released code, and DRTriton and
-   TritonGym have not been read in code.
+   complement, not a first. It covers the allclose harness below and KernelGYM's `kernel_simple`
+   check, run on a Kaggle T4. TritonRL has no released code, and DRTriton and TritonGym have not
+   been read in code.
 
 ## Related work (summary; details and read levels in `docs/scoop_check.md`)
 
@@ -73,7 +74,9 @@ targets the same failures as our precision-loss tier, but by a rule rather than 
 | `src/triton_equiv/fporacle.py` | Floating-point tier for every bit-vector-benign mutant: Z3 real-arithmetic equivalence, a structural bitwise-identity proof with rounded ops as uninterpreted functions, and an fp64-referenced witness search with running error bounds. It also confirms, in fp64, any difference that was found only under uninterpreted functions. The docstring says what it proves and what it does not |
 | `src/triton_equiv/harness.py` | Allclose checker audit on the Triton CPU interpreter: confusion table of oracle label against checker verdict, and the tolerance blind-band sweep |
 | `results/labels.json`, `results/checker_audit.json`, `results/blind_band.json`, `results/blind_band_rowwise.json` | Outputs, each with the command that produced it |
-| `notebooks/kernelgym_audit.ipynb` | Kaggle notebook that plants the original 43 mutants into KernelGYM's `kernel_simple` correctness check. **Written, not run** |
+| `notebooks/kernelgym_audit.ipynb` | Kaggle notebook that plants all 72 mutants into KernelGYM's `kernel_simple` correctness check. Run on a Kaggle T4; see `docs/kernelgym_audit.md` |
+| `notebooks/kernelgym_readme_check.py` | Runs the `kernel_simple` example from KernelGYM's README three ways (verbatim, cases split out, explicit tolerance) |
+| `results/kernelgym_audit_t4.json`, `results/kernelgym_audit_t4_unpatched.json`, `results/kernelgym_readme_check_t4.json` | KernelGYM GPU results |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
 | `tests/` | Known-label oracle tests, fp-tier tests, mutation tests, interpreter tests |
 
@@ -221,23 +224,31 @@ rounding of the output dominates both kernels. The bound is sound but loose here
 worse". Whether a given loss is acceptable is a policy decision; the oracle only shows that it
 exists. These numbers come from the CPU interpreter only.
 
-## KernelGYM audit notebook (written, **not run**)
+## KernelGYM audit (run on a Kaggle T4)
 
-`notebooks/kernelgym_audit.ipynb` is for a Kaggle GPU session. It clones KernelGYM at commit
-`3a84417` and this repo, then wraps each reference kernel and every mutant (it iterates over
-`KERNELS`, so now all 72) as a KernelGYM `ModelNew` module. Each one goes through
+`notebooks/kernelgym_audit.ipynb` clones KernelGYM at commit `3a84417` and this repo, then wraps
+each reference kernel and all 72 mutants as a KernelGYM `ModelNew` module. Each one goes through
 `KernelSimpleToolkit.evaluate` (`kernelgym/toolkit/kernel_simple/toolkit.py`, called in-process
-with the `kernelbench` backend adapter that `kernelgym/workflow/kernel_simple.py` selects). The
-notebook records which faulty mutants are accepted. It has never been executed: there is no GPU
-here, so it is untested.
+with the `kernelbench` backend adapter that `kernelgym/workflow/kernel_simple.py` selects). It ran
+on Kaggle (Tesla T4, torch 2.11.0, Triton 3.6.0) on 2026-11-07. Full write-up:
+[`docs/kernelgym_audit.md`](docs/kernelgym_audit.md); raw results in `results/kernelgym_*_t4*.json`.
 
-One thing it checks comes from reading the toolkit code, not from running it.
-`_normalize_case` stores `rtol=None` and `atol=None` when a case gives no tolerance. The later
-`case.get("rtol", 1e-4)` then returns `None` rather than the default. `torch.allclose`
-raises `TypeError` on `rtol=None` (checked on torch 2.15 CPU), and the toolkit catches the
-exception as a failed comparison. If that reading is right, cases
-without explicit tolerances reject every kernel, correct or not. The notebook's reference-kernel
-control tests this.
+Two problems in the `kernel_simple` path, both reproduced on KernelGYM's own README example
+(`notebooks/kernelgym_readme_check.py`):
+
+1. The toolkit `exec`s Triton source from a string when loading cases or init inputs, and
+   Triton 3.6 refuses `@jit` functions not defined in a file. The README example fails at
+   "Failed to load cases" before the kernel runs.
+2. With no `rtol`/`atol` in a case, `_normalize_case` stores `None`, `case.get("rtol", 1e-4)`
+   returns `None`, `torch.allclose` raises, and the comparison counts as a failure. A correct
+   `x + y` kernel is marked incorrect; with explicit tolerances it passes.
+
+To reach the comparison, the notebook bypasses the init-inputs loader (documented in the
+notebook). With that patch, all 16 reference controls pass with explicit tolerances. At
+tile-multiple sizes KernelGYM accepts all 27 out-of-bounds mutants and 9 of 19 output-changing
+mutants; odd sizes catch the 9 but still accept 17 of the 27 OOB mutants. Two
+`acc_dtype_downgrade` mutants do not compile on GPU Triton, so their interpreter labels do not
+apply there.
 
 TritonRL, DRTriton and Red-Teaming the Reward are the other audit targets. Their checkers have
 not been read in code or run.
@@ -267,14 +278,14 @@ not been read in code or run.
   error bounds hold for any summation order; the bitwise witnesses are only guaranteed in the
   interpreter.
 * `matmul:acc_dtype_downgrade` is benign in the interpreter because `acc += tl.dot(...)`
-  promotes the fp16 accumulator to fp32. Compiled Triton would reject the loop-carried
-  dtype change. That was not run here (no GPU).
+  promotes the fp16 accumulator to fp32. Compiled Triton rejects the loop-carried dtype
+  change (confirmed on Triton 3.6.0, T4), as it does for `matmul_fp16:acc_dtype_downgrade`.
 * The new kernels are deliberately small. Softmax and layernorm hold a whole row in one tile (no
   column loop); layernorm has no weight or bias; attention has no `1/sqrt(d)` scaling, a single
   key tile and no online-softmax loop.
-* The checker audit ran only on the CPU interpreter. Out-of-bounds behaviour on a GPU (faults,
-  corrupting a neighbouring allocation) and GPU reduction orders were not observed. The
-  KernelGYM notebook is untested.
+* The allclose checker audit ran only on the CPU interpreter. The KernelGYM audit ran on one
+  GPU (T4) with one Triton version; no OOB mutant faulted there, but corruption of
+  neighbouring allocations was not measured.
 * Labels are proofs only at the listed sizes. Problem sizes are not symbolic.
 * No symbolic executor against a PyTorch spec yet.
 

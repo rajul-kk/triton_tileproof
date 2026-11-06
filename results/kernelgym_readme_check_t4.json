@@ -1,0 +1,26 @@
+{
+ "gpu": "Tesla T4",
+ "torch": "2.11.0+cu130",
+ "triton": "3.6.0",
+ "kernelgym": "3a84417f8c0efaadb215ef638b37d12e71ed20f3",
+ "runs": [
+  {
+   "case": "A_readme_verbatim",
+   "compiled": false,
+   "correctness": false,
+   "error": "Failed to load cases: @jit functions should be defined in a Python file"
+  },
+  {
+   "case": "B_cases_code_no_tolerance",
+   "compiled": true,
+   "correctness": false,
+   "error": ""
+  },
+  {
+   "case": "C_cases_code_with_tolerance",
+   "compiled": true,
+   "correctness": true,
+   "error": ""
+  }
+ ]
+}

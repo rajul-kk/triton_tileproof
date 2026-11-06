@@ -1,0 +1,12 @@
+{
+ "kernelgym_commit": "3a84417f8c0efaadb215ef638b37d12e71ed20f3",
+ "gpu": "Tesla T4",
+ "torch": "2.11.0+cu130",
+ "triton": "3.6.0",
+ "note": "Unpatched run (Kaggle version 1): every control and mutant failed at case loading.",
+ "errors": [
+  "Failed to load cases: @jit functions should be defined in a Python file"
+ ],
+ "n_controls": 48,
+ "n_rows": 288
+}

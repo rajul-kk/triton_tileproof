@@ -1,0 +1,3589 @@
+{
+ "kernelgym_commit": "3a84417f8c0efaadb215ef638b37d12e71ed20f3",
+ "gpu": "Tesla T4",
+ "torch": "2.11.0+cu130",
+ "triton": "3.6.0",
+ "controls": {
+  "vector_add|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "vector_add|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "vector_add|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "vector_add|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "vector_add|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "vector_add|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "row_sum|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "row_sum|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "matmul|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "matmul|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "row_sum_loop|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum_loop|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum_loop|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "row_sum_loop|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum_loop|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "row_sum_loop|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "matmul_fp16|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul_fp16|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul_fp16|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "matmul_fp16|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul_fp16|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "matmul_fp16|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "softmax|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "softmax|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "softmax|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "softmax|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "softmax|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "softmax|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "layernorm|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "layernorm|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "layernorm|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "layernorm|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "layernorm|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "layernorm|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "attention|tile|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "attention|tile|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "attention|tile|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  "attention|odd|explicit_default": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "attention|odd|kernelbench": {
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  "attention|odd|unspecified": {
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  }
+ },
+ "rows": [
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0"
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1"
+   ]
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1"
+   ]
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 7:4:\ndef matmul(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n    ^\nAssertionError(\"Loop-carried variable acc has initial type <['16', '16'], fp16> but is re-assigned to <['16', '16'], fp32> in loop! Please make sure that the type stays consistent.\")",
+   "failed": null
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 7:4:\ndef matmul(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n    ^\nAssertionError(\"Loop-carried variable acc has initial type <['16', '16'], fp16> but is re-assigned to <['16', '16'], fp32> in loop! Please make sure that the type stays consistent.\")",
+   "failed": null
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 7:4:\ndef matmul(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n    ^\nAssertionError(\"Loop-carried variable acc has initial type <['16', '16'], fp16> but is re-assigned to <['16', '16'], fp32> in loop! Please make sure that the type stays consistent.\")",
+   "failed": null
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 7:4:\ndef matmul(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n    ^\nAssertionError(\"Loop-carried variable acc has initial type <['16', '16'], fp16> but is re-assigned to <['16', '16'], fp32> in loop! Please make sure that the type stays consistent.\")",
+   "failed": null
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 11:14:\ndef matmul_fp16(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n        rk = k * BK + tl.arange(0, BK)\n        a = tl.load(a_ptr + rm[:, None] * K + rk[None, :], mask=(rm[:, None] < M) & (rk[None, :] < K), other=0.0)\n        b = tl.load(b_ptr + rk[:, None] * N + rn[None, :], mask=(rk[:, None] < K) & (rn[None, :] < N), other=0.0)\n        acc = tl.dot(a, b, acc)\n              ^",
+   "failed": null
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 11:14:\ndef matmul_fp16(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n        rk = k * BK + tl.arange(0, BK)\n        a = tl.load(a_ptr + rm[:, None] * K + rk[None, :], mask=(rm[:, None] < M) & (rk[None, :] < K), other=0.0)\n        b = tl.load(b_ptr + rk[:, None] * N + rn[None, :], mask=(rk[:, None] < K) & (rn[None, :] < N), other=0.0)\n        acc = tl.dot(a, b, acc)\n              ^",
+   "failed": null
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 11:14:\ndef matmul_fp16(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n        rk = k * BK + tl.arange(0, BK)\n        a = tl.load(a_ptr + rm[:, None] * K + rk[None, :], mask=(rm[:, None] < M) & (rk[None, :] < K), other=0.0)\n        b = tl.load(b_ptr + rk[:, None] * N + rn[None, :], mask=(rk[:, None] < K) & (rn[None, :] < N), other=0.0)\n        acc = tl.dot(a, b, acc)\n              ^",
+   "failed": null
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": "Kernel simple evaluation failed: at 11:14:\ndef matmul_fp16(a_ptr, b_ptr, c_ptr, M, N, K, BM: tl.constexpr, BN: tl.constexpr, BK: tl.constexpr):\n    pid_m = tl.program_id(0)\n    pid_n = tl.program_id(1)\n    rm = pid_m * BM + tl.arange(0, BM)\n    rn = pid_n * BN + tl.arange(0, BN)\n    acc = tl.zeros((BM, BN), dtype=tl.float16)\n    for k in range(0, tl.cdiv(K, BK)):\n        rk = k * BK + tl.arange(0, BK)\n        a = tl.load(a_ptr + rm[:, None] * K + rk[None, :], mask=(rm[:, None] < M) & (rk[None, :] < K), other=0.0)\n        b = tl.load(b_ptr + rk[:, None] * N + rn[None, :], mask=(rk[:, None] < K) & (rn[None, :] < N), other=0.0)\n        acc = tl.dot(a, b, acc)\n              ^",
+   "failed": null
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1"
+   ]
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "oracle": "numerical:reorder",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "oracle": "numerical:precision",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "oracle": "numerical:precision",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "oracle": "oob",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "oracle": "benign:proved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "oracle": "benign:unproved",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "oracle": "benign:unproved",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "explicit_default",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "tile",
+   "policy": "kernelbench",
+   "correctness": true,
+   "compiled": true,
+   "error": null,
+   "failed": []
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "explicit_default",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "oracle": "inequivalent",
+   "size_kind": "odd",
+   "policy": "kernelbench",
+   "correctness": false,
+   "compiled": true,
+   "error": null,
+   "failed": [
+    "seed0",
+    "seed1",
+    "seed2"
+   ]
+  }
+ ]
+}
