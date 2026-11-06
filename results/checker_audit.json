@@ -1,0 +1,956 @@
+{
+ "command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness audit --trials 3",
+ "env": {
+  "python": "3.14.4",
+  "torch": "2.15.0+cpu",
+  "triton": "3.9.0",
+  "TRITON_INTERPRET": "1",
+  "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+ },
+ "tolerances": {
+  "kernelbench": {
+   "float32": [
+    0.01,
+    0.01
+   ],
+   "float16": [
+    0.01,
+    0.01
+   ]
+  },
+  "torch_default": {
+   "float32": [
+    1.3e-06,
+    1e-05
+   ],
+   "float16": [
+    0.001,
+    1e-05
+   ]
+  }
+ },
+ "trials_per_size": 3,
+ "confusion": {
+  "tile/kernelbench": {
+   "reference": {
+    "accept": 5,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 18,
+    "reject": 0
+   },
+   "inequivalent": {
+    "accept": 2,
+    "reject": 7
+   },
+   "numerical:precision": {
+    "accept": 3,
+    "reject": 0
+   },
+   "numerical:reorder": {
+    "accept": 5,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 4,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 4,
+    "reject": 0
+   }
+  },
+  "tile+odd/kernelbench": {
+   "reference": {
+    "accept": 5,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 12,
+    "reject": 6
+   },
+   "inequivalent": {
+    "accept": 0,
+    "reject": 9
+   },
+   "numerical:precision": {
+    "accept": 3,
+    "reject": 0
+   },
+   "numerical:reorder": {
+    "accept": 5,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 4,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 4,
+    "reject": 0
+   }
+  },
+  "tile/torch_default": {
+   "reference": {
+    "accept": 5,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 18,
+    "reject": 0
+   },
+   "inequivalent": {
+    "accept": 2,
+    "reject": 7
+   },
+   "numerical:precision": {
+    "accept": 0,
+    "reject": 3
+   },
+   "numerical:reorder": {
+    "accept": 5,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 4,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 4,
+    "reject": 0
+   }
+  },
+  "tile+odd/torch_default": {
+   "reference": {
+    "accept": 5,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 12,
+    "reject": 6
+   },
+   "inequivalent": {
+    "accept": 0,
+    "reject": 9
+   },
+   "numerical:precision": {
+    "accept": 0,
+    "reject": 3
+   },
+   "numerical:reorder": {
+    "accept": 5,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 4,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 4,
+    "reject": 0
+   }
+  },
+  "tile+odd/kernelbench+canary": {
+   "reference": {
+    "accept": 5,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 8,
+    "reject": 10
+   },
+   "inequivalent": {
+    "accept": 0,
+    "reject": 9
+   },
+   "numerical:precision": {
+    "accept": 3,
+    "reject": 0
+   },
+   "numerical:reorder": {
+    "accept": 5,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 4,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 4,
+    "reject": 0
+   }
+  }
+ },
+ "rows": [
+  {
+   "id": "vector_add:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:reference",
+   "oracle": "reference",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "oracle": "oob",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": true,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "oracle": "inequivalent",
+   "verdict": {
+    "tile": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "reject",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "oracle": "benign:proved",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "accept"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "tile": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    },
+    "odd": {
+     "kernelbench": "accept",
+     "torch_default": "reject"
+    }
+   },
+   "guard_write": false,
+   "errors": []
+  }
+ ],
+ "seconds": 11.0
+}
