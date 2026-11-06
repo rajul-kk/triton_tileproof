@@ -1,73 +1,124 @@
 # Scoop check: prior work on Triton/GPU-kernel equivalence and checker audits
 
-Checked 2026-11-06. **Read-level tags** say what was actually read for each source:
+First checked 2026-11-06 (abstracts and READMEs). Updated the same day after reading two papers
+in full and reading the source of one new competitor (kernel-tv). **Read-level tags** say what
+was actually read for each source:
 
 - `abstract`: the arXiv abstract page or the conference listing page (title, authors, abstract, links)
 - `README`: a repository README read on GitHub
+- `source`: repository files read on GitHub (named in the row). Nothing was cloned, built or run
 - `snippet`: a search-engine result snippet only
-- `full PDF`: the full paper (**none of the sources below were read at this level**)
+- `full PDF`: the full paper. **Only 2609.22220 and 2511.12638 (Volta) were read at this level**
 
 "No code" means no repository link appeared on the abstract or listing page and none turned
 up in a web search. A repo released later, or linked only inside the PDF, would be missed.
-Verify against the full PDFs before making any novelty claim.
 
 ## Summary table
 
 | # | Work | Read level | Code released? | What it covers | Overlap with this repo |
 |---|---|---|---|---|---|
-| 1 | **Tatva**, "Formally Verifying AI-Generated GPU Kernels" (Taneja, St John, Serrino), NeurIPS 2026 ML for Systems workshop | abstract (neurips.cc listing) | No (listing links only an OpenReview forum) | Lowers a PyTorch baseline and an optimized candidate to a common DAG, scalarizes them and checks in Z3. Proves equivalence for **straight-line, loop-free** kernels on KernelBench. Masks are not mentioned. | Same goal at the PyTorch/Triton boundary. Tile **loops**, masks and reduction order are explicitly outside its stated scope, which leaves the gap this repo targets. |
-| 2 | arXiv 2511.12638, "Equivalence Checking of ML GPU Kernels" (Driscoll, Dubey, Wei, Kayal, Sharma, Aiken), OOPSLA 2026 | abstract, plus search snippets for the system name | No repo on the abstract page | Described as the first equivalence checker for GPU kernels. Sound, and complete for a defined kernel class. Handles convolutions, matmul and attention. Snippets say it works on CUDA kernel assembly by symbolic evaluation, and also checks race and deadlock freedom. | The strongest prior work on soundness and completeness. It works at the CUDA/PTX level, not on Triton source. **System name "Volta" is confirmed** by the arXiv abstract page and the search snippets. |
-| 3 | ProofWright, arXiv 2511.12294 (Chatterjee, Zagieboylo, Damani, Hari, Kozyrakis) | abstract | No repo on the abstract page | Agentic formal verification of **CUDA**. Proves safety properties for 74% of KernelBench L1 kernels. Proves semantic equivalence only for element-wise kernels. About 3 minutes per kernel. | CUDA only, and equivalence only for element-wise kernels. Reductions, `tl.dot` and loops are not covered. |
-| 4 | Contract-Grade Verifier, arXiv 2608.12700 (Shah, Shrestha) | abstract | No repo found. A Zenodo archive is cited (doi 10.5281/zenodo.21563213), contents not checked. | Twelve adversarial "gates", several tolerance-free (NaN/inf, determinism, shape robustness, accumulation precision). Audits **2,638 accepted kernels: 39.5% broken** beyond any tolerance argument, 62.1% with at least one violation, 1,487 accepted by the standard test but rejected by the verifier. | A testing-based checker, not a formal one. Its numbers are the baseline our audit must be compared against. Check the Zenodo archive for kernels we could reuse. |
-| 5 | Measuring the Checker, arXiv 2609.22220 (Du, Luu, Huang, Ng) | abstract | **Data released**: KernelBench-M on Hugging Face (`Elfsong/KernelBench-M`). No code repo linked. | **Mutation analysis of benchmark oracles.** 10,303 compilable faults in 188 KernelBench problems (CUDA). The official check misses 16.9% of witnessed faults, and 78.6% of precision faults. Shows a tolerance blind band that grows with reduction size, and audits KernelBench-Verified. | **Largely pre-empts the "mutation audit" half of Plan H.** It targets CUDA, labels mutants with kill witnesses rather than an SMT/fp64 oracle, and does not cover Triton masks/tails or `program_id` axes. Our audit is only new if it is Triton-specific and its labels come from a formal oracle (including proofs that a mutant is benign). |
-| 6 | The Correctness Illusion, arXiv 2606.20128 (Sarkar) | abstract | No repo on the abstract page | 24, later 26, Triton/CPU stand-in kernels with 9 to 10 seeded transcription bugs. Uses seeded fuzzing, an fp64 CPU reference and per-(op, dtype) tolerances. Caught 10 of 10 bugs with 16 of 16 controls clean on five GPUs. | Includes Triton. Fuzzing is the baseline we should compare against. Its corpus is small and hand-seeded. |
-| 7 | KernelBench-Verified, arXiv 2607.16241 (Zhang, Yu, Wang, Fan, Reed, Mirhoseini, Su) | abstract | No repo on the abstract page | Hidden test suite with four input distributions, TF32 baseline and memory metrics. Reports reward hacking via hardcoded bypasses. The best model's speedup falls from 1.43x to 0.88x. | The stronger testing baseline. 2609.22220 reports that its gain splits into +4.0 points from hidden inputs and +4.5 from tighter tolerance. |
-| 8 | TritonRL, arXiv 2510.17891 (Woo, Zhu, Nie, Jia, Wang, Park) | abstract | No repo on the abstract page | 8B Triton-writing LLM trained with RL. A "multi-layered verification system" counters reward hacking. The abstract does not detail the checks. | Its checker would be an audit target. Read the PDF for the exact checks. |
-| 9 | Dr. Kernel / KernelGYM, arXiv 2602.05885 | README (github.com/hkust-nlp/KernelGYM). Paper not read. | **Yes**: environment, training code (`drkernel/`, VERL integration), models and data (HF collection `hkust-nlp/drkernel`). Apache-2.0. | Distributed GPU environment. Correctness is checked by rtol/atol against a reference over configurable test cases. The README mentions "reward hacking detection" and "decoy kernel detection" without details. Requires CUDA 11.8+, Redis and Linux. | The most practical audit target because it is released. Its checks need a GPU, so on this machine they can only run on Kaggle. Checker code to read first: `kernelgym/toolkit/kernel_simple/toolkit.py` and `kernelgym/workflow/kernel_simple.py`. |
-| 10 | triton-verify (github.com/alinamiretai/triton-verify) | README | **Yes** (27 commits, 0 stars, no license stated) | Proves **pointer safety** (no out-of-bounds access) on pre-optimization TTIR with Z3 bit-vectors. Program id is symbolic in [0, grid). Returns SAT with a counterexample pid, or UNSAT. Numerical equivalence is out of scope. README reports 20/20 tests on 10 kernels. | Overlaps with the memory-safety part of the oracle: missing store mask and off-by-one OOB mutants. Equivalence is not covered. Possible reuse or comparison for OOB labels, but there is no license. |
+| 1 | **Tatva**, "Formally Verifying AI-Generated GPU Kernels" (Taneja, St John, Serrino; Gimlet Labs), NeurIPS 2026 ML for Systems workshop | abstract (neurips.cc listing), plus the owner's notes that it goes through TTIR and Z3 | No (listing links only an OpenReview forum) | Lowers a PyTorch baseline and an optimized candidate to a common form (TTIR) and checks in Z3. Proves equivalence for **straight-line, loop-free** kernels on KernelBench. Masks are not mentioned. | Same goal at the PyTorch/Triton boundary. Loops, masks and reduction order are outside its stated scope. |
+| 2 | **Volta**, arXiv 2511.12638, "Equivalence Checking of ML GPU Kernels" (Driscoll, Dubey, Wei, Kayal, Sharma, Aiken), OOPSLA 2026 | **full PDF** | **Yes**: github.com/willtunnels/volta (not inspected) | Equivalence checker for GPU kernels by symbolic evaluation of **PTX**. Values are **reals**, so a reordered reduction counts as equal. Sound, and complete for its kernel class. Problem **sizes are fixed**; partial tiles and tails are not discussed. Also checks race freedom. Evaluated on 4 LLM-generated kernels and found **no** kernel that the tests accepted but that was buggy. | Strongest prior work on soundness. Different level (PTX, not Triton source), real-valued only (no rounding, no precision-loss tier), no tails, no checker audit. Its "no hidden bugs in 4 LLM kernels" result is the opposite of what a mutation audit measures. |
+| 3 | ProofWright, arXiv 2511.12294 (Chatterjee, Zagieboylo, Damani, Hari, Kozyrakis) | abstract | No repo on the abstract page | Agentic formal verification of **CUDA**. Proves safety properties for 74% of KernelBench L1 kernels. Proves semantic equivalence only for element-wise kernels. About 3 minutes per kernel. | CUDA only, and equivalence only for element-wise kernels. |
+| 4 | Contract-Grade Verifier, arXiv 2608.12700 (Shah, Shrestha) | abstract | No repo found. A Zenodo archive is cited (doi 10.5281/zenodo.21563213), contents not checked. | Twelve adversarial "gates", several tolerance-free. Audits **2,638 accepted kernels: 39.5% broken** beyond any tolerance argument. | A testing-based checker. Baseline numbers for any audit. |
+| 5 | **Measuring the Checker**, arXiv 2609.22220 (Du, Luu, Huang, Ng) | **full PDF** | **Data released**: KernelBench-M on Hugging Face (`Elfsong/KernelBench-M`). No code repo linked. | Mutation analysis of benchmark oracles: **124 mutation rules, CUDA only**, 10,303 compilable faults in 188 KernelBench problems. Labels come from **kill witnesses or quarantine; there are no formal proofs**. Its *Boundary* family already shows that aligned shapes hide dropped guards and tails ("remainder blocks never execute", **22.9% escape**). It already reports that the **tolerance blind band grows with reduction size**: an all-zeros softmax passes, and the largest undetectable relative error is 0.39 at d=64 and 2.5e3 at d=393,216. It does not mention KernelGYM. | **Pre-empts** "aligned sizes hide OOB/tail bugs" and "the blind band grows with n". Both must be cited to it, not claimed. Not covered by it: Triton-specific operators (`mask=`/`other=`, `program_id` axis, accumulator dtype), proof-backed labels (proved-benign, real-equivalent-but-rounding-different, precision loss), and the RL reward checkers. |
+| 6 | The Correctness Illusion, arXiv 2606.20128 (Sarkar) | abstract | No repo on the abstract page | 24-26 Triton/CPU stand-in kernels with 9-10 seeded bugs; seeded fuzzing, fp64 CPU reference, per-(op, dtype) tolerances. | Includes Triton. Fuzzing baseline. Small hand-seeded corpus. |
+| 7 | KernelBench-Verified, arXiv 2607.16241 | abstract | No repo on the abstract page | Hidden test suite with four input distributions, TF32 baseline, memory metrics. | Stronger testing baseline. |
+| 8 | TritonRL, arXiv 2510.17891 | abstract | No repo on the abstract page | 8B Triton-writing LLM trained with RL; a "multi-layered verification system" counters reward hacking. | **Audit target** (RL reward checker). Exact checks not yet read. |
+| 9 | Dr. Kernel / KernelGYM, arXiv 2602.05885 | README and `kernelgym/toolkit/kernel_simple/toolkit.py`, `kernelgym/workflow/kernel_simple.py` (source) | **Yes**, Apache-2.0 | Distributed GPU RL environment. Correctness by rtol/atol against a reference over test cases. | **Audit target.** Needs a GPU; our notebook is written but not run. |
+| 10 | triton-verify (github.com/alinamiretai/triton-verify) | README | Yes, no license stated | Proves **pointer safety** on pre-optimization TTIR with Z3 bit-vectors; symbolic pid in [0, grid). Equivalence out of scope. | Overlaps with our `oob` query only. |
+| 11 | **kernel-tv / triton-tv** (github.com/Youngzt998/kernel-tv; fork jaeHbk/kernel-tv) | **source**, read on GitHub 2026-11-06 (see the next section) | **Yes**, **no license** (GitHub reports none; no LICENSE file). 288 commits; created 2026-09-04, last push 2026-09-16. Fork is 2 commits ahead (2026-10). | **Translation validation of the Triton compiler**: proves two TTIR functions (one kernel before and after a pass pipeline) equivalent with Z3. Includes a GPU equivalence fuzzer that compares compilations bitwise. | Different question (miscompiles, not LLM kernels or reward checkers). Today it models **no loops and no `tt.dot`**, no OOB, no tolerance. See below. |
 
-### Additional related work found during the search (not in the original list)
+### kernel-tv in detail (source read, nothing run)
+
+Files read: `README.md`, `doc/ttir-modeling.md`, `doc/roadmap.md`, `doc/kernel-smt-goals.md`,
+`doc/dot-encoding.md`, `paper/noticable.md`, `semantics/AbstractFp.h`, `semantics/Memory.cpp`,
+`semantics/Context.cpp`, `builder/triton/TritonOps.cpp`, `builder/mlir/ArithOps.cpp`,
+`builder/mlir/State.cpp`, `eq_fuzzing/README.md`, `eval/inequal/cases.tsv`; in the fork,
+`doc/ttir-bug-mechanisms.md` and `eval/dot_accumulator_witness.py`. The repo tree lists
+`paper/noticable.md` as the only file in `paper/`: an engineering log about memory encoding,
+not a paper draft.
+
+| Question | What the code does (main branch) |
+|---|---|
+| Purpose | Compiler translation validation: "the same kernel before vs after a compiler pass/pipeline is equivalent". LLM kernels, KernelBench, RL rewards, mutation and tolerances are not mentioned in the goals doc. |
+| Masked `tt.load` with `other=` | `Memory::load` returns `ite(mask_i, load(ptr_i), other_i)`. If `other` is absent, a **zero** tile is synthesized (Triton leaves those lanes undefined; we model them as fresh `undef`). The heap is read at `ptr_i` regardless of the mask. **Unmasked** loads and stores hit an `assert` ("not yet supported"). |
+| Masked `tt.store` | Byte-wise `ite(mask_i && addr == byteAddr, byte, old)` over a lambda array; masked-off lanes leave memory unchanged. |
+| Out-of-bounds | **Not modelled.** Memory is one unbounded `Array(BV64, BV8)` per pointer argument; no allocation sizes, no bounds or UB checks. A dropped guard that only touches memory outside the buffer is invisible. |
+| `scf.for` | Dispatched in `State::interpretOp`, but `interpretFor` (and `interpretIf`, `interpretWhile`) are **unimplemented**. The roadmap lists unrolled loops for milestone M1-MVP and summarized loops for M1-complete; loops "block 197 kernels" of their corpus. |
+| Reductions | `tt.reduce`: single operand, **1-D only** (`axis` ignored), folded left in index order and statically unrolled. The combiner is interpreted from the region. |
+| `tt.dot` | **Not dispatched.** `doc/dot-encoding.md` is a "proposed design note, NOT an adopted decision": an uninterpreted `fp_dot` with optional recurrence axioms and one UF family per `inputPrecision`. Fork notes say a saved TTIR pair "cannot yet be interpreted" because `tt.dot` and `scf.for` are unsupported. |
+| Floating point | Default **Abstract**: each value is an opaque `BitVec(width)` tag, every op an uninterpreted function, with axioms that +0, -0, +inf, -inf and NaN are distinct, `add`/`mul`/`max` commute and `neg` is an involution; associativity withheld. Ops: add, sub, mul, div, max, neg, abs, `math.exp`; no sqrt, no fma. Real and FPA (IEEE) modes are designed; `Real` throws in `load`/`store`. The fork adds IEEE constants and rounded add/sub/mul/div/fma in the core, but the TTIR binary still uses Abstract mode. No error bounds, no precision-loss notion. |
+| Sizes | **Fixed**: tile shapes are compile-time constants and the witness-index `exists` is unfolded statically. `program_id` is a free symbolic `BV32` shared by both sides and **not constrained to a grid**. Problem sizes (`n_elements`) are scalar arguments assumed equal on both sides. |
+| Test corpus | `eval/inequal/`: 6 NEQ pairs (vector add: `sub`, `mul`, `pid*5`; softmax with 8-column tiles: `mul_not_div`, `add_not_sub`, `sum_not_max`). `eval/pairs/` and `eval/compile-options/`: vector add and softmax under pass permutations. Reported: 1024-element add self-equivalence in 0.30 s. |
+
+**Overlap with our claims.** kernel-tv is the closest Triton-level SMT tool, and its Abstract
+FP mode is the same idea as our uninterpreted-function bitwise check (`fporacle`, check 2).
+With commutativity axioms it is slightly stronger than ours, which is purely structural. It does
+**not** currently handle any of what our labels depend on: tails at sizes that are not tile
+multiples, OOB, loops, `tt.dot`, an undefined value for an unmasked lane without `other=`, a
+real-equivalent tier, error bounds, or tolerance checkers. Its softmax NEQ cases are operator
+swaps, not mask or tail bugs. If its M1 milestones land (unrolled loops, `tt.dot`), it could
+produce `inequivalent`/`benign` labels for our matmul mutants, but still not `oob` (no bounds)
+and not precision loss. No license, so its code cannot be reused.
+
+### Additional related work (not in the original list)
 
 | Work | Read level | Code | Note |
 |---|---|---|---|
-| "Red-Teaming the Reward: A Verifier and Benchmark for Triton Kernel Optimization Agents" (Shiri, Hosseini), NeurIPS 2026 | abstract (neurips.cc listing) | None linked | Triton verifier plus KernelQuest (100 tasks). Rejected 813 of 1,800 agent runs and accepted 100 of 100 certified solutions. Targets shortcuts such as reduced precision and CUDA Graph replay. The listing mentions neither mutation analysis nor formal methods. **Another Triton checker we must compare against.** |
-| DRTriton, arXiv 2603.21465 | snippet | Unknown | Triton verifier pipeline: linter, then compile, then output comparison. Monkey-patches kernels with no-ops to check they are actually used. |
-| Verified Lifting, arXiv 2412.20992 | not re-read (cited from the earlier research doc) | Unknown | Earlier notes say masks are excluded and matmul fails. |
-| gpucheck (github.com/Akasxh/gpucheck) | snippet | Yes | pytest-style correctness, benchmarking and shape fuzzing for CUDA and Triton. A possible fuzzing baseline. |
-| ouroboros-kernelsmith (github.com/ymrohit/ouroboros-kernelsmith) | snippet (GitHub search result) | Yes | "Exploit-tested verification for LLM-generated Triton GPU kernels." Not inspected. |
+| "Red-Teaming the Reward: A Verifier and Benchmark for Triton Kernel Optimization Agents" (Shiri, Hosseini), NeurIPS 2026 | abstract | None linked | Triton verifier plus KernelQuest. Rejected 813 of 1,800 agent runs. **Audit target.** |
+| DRTriton, arXiv 2603.21465 | snippet | Unknown | Linter, compile, output comparison, no-op monkey-patching. **Audit target.** |
+| Verified Lifting, arXiv 2412.20992 | not re-read | Unknown | Earlier notes say masks are excluded and matmul fails. |
+| gpucheck (github.com/Akasxh/gpucheck) | snippet | Yes | Shape fuzzing for CUDA and Triton. Possible baseline. |
+| ouroboros-kernelsmith (github.com/ymrohit/ouroboros-kernelsmith) | snippet | Yes | "Exploit-tested verification for LLM-generated Triton GPU kernels." Not inspected. |
 
-## Verdict
+## Verdict (revised)
 
-- **Checker half (formal equivalence for Triton with tile loops): still open, but contested.**
-  Tatva states it is loop-free. Volta works at the CUDA/assembly level. ProofWright is CUDA and
-  element-wise only. triton-verify covers pointer safety only. Based on abstracts and READMEs,
-  none of them claims Triton-source equivalence with **tile loops, masked load/store, `tl.dot`
-  and reduction-order awareness**. Tatva's authors are the most likely group to extend to loops.
-  Volta's completeness result is the bar any soundness claim will be measured against.
-- **Audit half (mutation suite): largely pre-empted for CUDA by 2609.22220** (10k mutants,
-  KernelBench-M released). It is also close to 2608.12700 (twelve gates, 39.5% broken) and
-  2606.20128 (seeded Triton bugs). The audit is still worth doing as an **entry project and
-  benchmark for the checker**, if it differs on three points:
-  1. Triton-specific operators (mask/tail, `program_id` axis, `other=` values, strides),
-  2. labels from a formal oracle that can also *prove* a mutant benign (for example a reduction
-     reorder that is exact over the reals and within fp tolerance), not just kill witnesses,
-  3. an audit of the released KernelGYM checks, run on Kaggle.
-  Do not claim to be the first mutation analysis of kernel oracles.
-- **Before any novelty claim:** read the full PDFs of Tatva (OpenReview `cEh56JC9TB`), 2511.12638
-  (scope: loops and masks?), 2609.22220 (exact operator list, any Triton subset), and the Red-Teaming
-  verifier.
+**Do not claim**, because 2609.22220 already shows them (cite it):
+- that aligned (tile-multiple) sizes hide dropped guards, tails and OOB accesses (its Boundary
+  family, 22.9% escape);
+- that the tolerance blind band grows with reduction size (0.39 relative at d=64 to 2.5e3 at
+  d=393,216; an all-zeros softmax passes);
+- that this is the first mutation analysis of kernel correctness checks.
+
+Our results on these points are **Triton-interpreter replications**, and should be presented that way.
+
+**What remains ours**, in three parts:
+1. **Triton-specific mutants.** Masks (`mask=` comparisons, a dropped store mask), `other=`
+   fill values, `program_id` axis, accumulator dtype, cast changes and reduction-order rewrites,
+   over Triton kernels with tails. 2609.22220 is CUDA only; kernel-tv's mutants are 6 hand-written
+   operator swaps used to test its validator.
+2. **Formal labels.** A Z3 bit-vector oracle gives `oob` and `inequivalent` with witnesses and
+   **proves `benign`** at fixed sizes; a floating-point tier separates real-equivalent mutants into
+   *proved bitwise identical*, *reorderings* and a **precision-loss** tier with fp64 witnesses and
+   Higham error bounds. 2609.22220 labels by kill witness or quarantine only. Volta is real-valued,
+   so reorderings and precision loss are all "equal" to it. kernel-tv has no bounds, loops, `tt.dot`
+   or error analysis.
+3. **An audit of the Triton RL reward checkers**: KernelGYM, TritonRL, DRTriton and Red-Teaming
+   the Reward. None of the papers above audits them, and 2609.22220 does not mention KernelGYM.
+   So far only the KernelGYM notebook exists, and it has **not been run** (no GPU).
+
+**Competitive risk.** kernel-tv is active and Triton-level; once it supports unrolled `scf.for`
+and `tt.dot` it covers the `inequivalent` part of our oracle for compiler-produced pairs. Volta
+has released code and a completeness result. Tatva's group may extend to loops. The parts least
+likely to be scooped are the precision-loss tier, `undef` lanes and OOB at tails, and the reward
+checker audit.
+
+**Still to read before submission:** Tatva full paper (OpenReview `cEh56JC9TB`), TritonRL,
+DRTriton and Red-Teaming full papers (their exact checks), and the Volta repository.
 
 ## Sources
 
 - https://neurips.cc/virtual/2026/178980 (Tatva)
-- https://arxiv.org/abs/2511.12638 ; https://theory.stanford.edu/~aiken/publications/papers/oopsla26c.pdf (not opened)
+- https://arxiv.org/abs/2511.12638 (Volta, full PDF read); https://github.com/willtunnels/volta (not inspected)
 - https://arxiv.org/abs/2511.12294
 - https://arxiv.org/abs/2608.12700
-- https://arxiv.org/abs/2609.22220 ; https://huggingface.co/datasets/Elfsong/KernelBench-M (not opened)
+- https://arxiv.org/abs/2609.22220 (full PDF read); https://huggingface.co/datasets/Elfsong/KernelBench-M (not opened)
 - https://arxiv.org/abs/2606.20128
 - https://arxiv.org/abs/2607.16241
 - https://arxiv.org/abs/2510.17891
 - https://github.com/hkust-nlp/KernelGYM
 - https://github.com/alinamiretai/triton-verify
+- https://github.com/Youngzt998/kernel-tv and https://github.com/jaeHbk/kernel-tv (files listed above, via github.com, raw.githubusercontent.com and api.github.com)
 - https://neurips.cc/virtual/2026/173031 (Red-Teaming the Reward)
 - https://arxiv.org/pdf/2603.21465 (DRTriton, snippet only)
