@@ -9,13 +9,13 @@ description = "Mutation audit and tile-loop-aware equivalence checking for Trito
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-dependencies = []
+# The stage-1 oracle needs only Z3 + numpy and runs on Windows, Linux or WSL.
+dependencies = ["z3-solver>=4.12", "numpy>=1.26"]
 
 [project.optional-dependencies]
-# Kept optional so the skeleton installs anywhere. Triton has no official
-# Windows wheel; use Linux/WSL (TRITON_INTERPRET=1 on CPU) or Kaggle for GPU.
-smt = ["z3-solver>=4.12"]
-triton = ["torch>=2.4", "triton>=3.0", "numpy>=1.26"]
+# Triton has no official Windows wheel; use Linux/WSL (TRITON_INTERPRET=1 on CPU)
+# or Kaggle for GPU.
+triton = ["torch>=2.4", "triton>=3.0"]
 dev = ["pytest>=8"]
 
 [tool.setuptools.packages.find]
