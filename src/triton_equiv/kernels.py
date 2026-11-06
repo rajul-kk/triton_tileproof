@@ -68,6 +68,9 @@ class KernelSpec:
     checker_sizes: dict[str, list[dict]] = field(default_factory=dict)
     # Name of the size parameter that is the reduction length (for the blind-band sweep).
     reduction_dim: str | None = None
+    # Extra sizes for the fp tier only: a loop needs >= 3 iterations before reversing it can
+    # change any rounding ((0 + a) + b == (0 + b) + a in IEEE arithmetic).
+    fp_sizes: list[dict] = field(default_factory=list)
 
 
 def cdiv(a: int, b: int) -> int:
@@ -218,6 +221,7 @@ KERNELS: dict[str, KernelSpec] = {
         oracle_sizes=[{"M": 4, "N": 4, "K": 4}, {"M": 6, "N": 5, "K": 7}, {"M": 9, "N": 5, "K": 7}],
         checker_sizes=_MATMUL_CHECKER_SIZES,
         reduction_dim="K",
+        fp_sizes=[{"M": 4, "N": 4, "K": 16}],
     ),
     "row_sum_loop": KernelSpec(
         "row_sum_loop", "row_sum_loop", ROW_SUM_LOOP_SRC, _row_sum_loop_launch,
@@ -226,12 +230,14 @@ KERNELS: dict[str, KernelSpec] = {
         checker_sizes={"tile": [{"n_rows": 4, "n_cols": 256, "BLOCK": 16}],
                        "odd": [{"n_rows": 4, "n_cols": 250, "BLOCK": 16}]},
         reduction_dim="n_cols",
+        fp_sizes=[{"n_rows": 2, "n_cols": 16}],
     ),
     "matmul_fp16": KernelSpec(
         "matmul_fp16", "matmul_fp16", MATMUL_FP16_SRC, _matmul_fp16_launch,
         oracle_sizes=[{"M": 4, "N": 4, "K": 8}, {"M": 6, "N": 5, "K": 7}, {"M": 9, "N": 5, "K": 7}],
         checker_sizes=_MATMUL_CHECKER_SIZES,
         reduction_dim="K",
+        fp_sizes=[{"M": 4, "N": 4, "K": 16}],
     ),
 }
 

@@ -2,4 +2,4 @@
 
 __version__ = "0.0.1"
 
-__all__ = ["kernels", "mutate", "oracle", "harness", "symexec"]
+__all__ = ["kernels", "mutate", "oracle", "fporacle", "harness", "symexec"]

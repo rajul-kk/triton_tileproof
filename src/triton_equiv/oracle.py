@@ -39,8 +39,8 @@ What it does NOT model (out of scope for stage 1)
   **``tl.dot`` numerics** (only the exact sum-of-products structure is kept) are not modelled.
   Consequence: a BV difference implies the integer polynomials differ, and therefore the
   real-valued kernels differ. A BV *equality* of low-degree polynomials is taken as
-  equivalence, so reduction-order mutants (not in stage 1) would look benign here and need
-  an fp tier.
+  equivalence, so reduction-order, accumulator-dtype and cast mutants all look benign here.
+  ``fporacle`` re-examines every benign verdict over the reals and in floating point.
 * Symbolic problem sizes: sizes are fixed per query, and the label holds only at those sizes.
 * Read-after-write through memory inside one kernel, atomics, ``tl.where`` on pointers,
   and data-dependent control flow (the shim raises ``Unsupported``).

@@ -1,0 +1,2451 @@
+{
+ "command": "PYTHONPATH=src python -m triton_equiv.fporacle --out results/labels.json",
+ "python": "3.10.0",
+ "numpy": "2.2.6",
+ "z3": "5.3.3",
+ "seconds": 34.9,
+ "counts": {
+  "oob": 18,
+  "inequivalent": 9,
+  "benign:proved": 4,
+  "numerical:reorder": 5,
+  "benign": 4,
+  "numerical:precision": 3
+ },
+ "labels": [
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n": 8
+    },
+    {
+     "n": 6
+    },
+    {
+     "n": 9
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n": 6
+    },
+    "access": "load",
+    "buffer": "x",
+    "length": 6,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2
+    ],
+    "address": 6
+   },
+   "trials": 0,
+   "seconds": 0.043,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n": 8
+    },
+    {
+     "n": 6
+    },
+    {
+     "n": 9
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n": 6
+    },
+    "access": "store",
+    "buffer": "out",
+    "length": 6,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2
+    ],
+    "address": 6
+   },
+   "trials": 0,
+   "seconds": 0.044,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n": 8
+    },
+    {
+     "n": 6
+    },
+    {
+     "n": 9
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n": 8
+    },
+    "reason": "output not written",
+    "buffer": "out",
+    "index": 4,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.055,
+   "notes": [
+    "program_id(0) -> program_id(1)"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n": 8
+    },
+    {
+     "n": 6
+    },
+    {
+     "n": 9
+    }
+   ],
+   "fp_proof": "uf",
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 0.096,
+   "notes": [
+    "added other=1.0 to masked tl.load"
+   ]
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n": 8
+    },
+    {
+     "n": 6
+    },
+    {
+     "n": 9
+    }
+   ],
+   "fp_proof": "uf",
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 0.09,
+   "notes": [
+    "added other=1.0 to masked tl.load"
+   ]
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "access": "load",
+    "buffer": "x",
+    "length": 10,
+    "pid": [
+     1
+    ],
+    "lane": [
+     5
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.021,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "reason": "output not written",
+    "buffer": "out",
+    "index": 1,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.023,
+   "notes": [
+    "program_id(0) -> program_id(1)"
+   ]
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 0,
+    "mut_value": 3
+   },
+   "trials": 0,
+   "seconds": 0.02,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": false,
+   "bound_ratio": 0.5714284393779421,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "x": [
+      0.1257302165031433,
+      -0.13210485875606537,
+      0.6404226422309875,
+      0.10490011423826218,
+      -0.5356693863868713,
+      0.3615950644016266,
+      1.3040000200271606,
+      0.9470809698104858,
+      -0.7037352323532104,
+      -1.2654215097427368,
+      -0.6232744455337524,
+      0.04132597893476486,
+      -2.32503080368042,
+      -0.218791663646698,
+      -1.2459110021591187,
+      -0.7322673797607422
+     ]
+    },
+    "buffer": "out",
+    "index": 1,
+    "ref_value": -7.073105812072754,
+    "mut_value": -7.073106288909912,
+    "fp64_value": -7.073106057941914,
+    "ref_err_bound": 2.9856161481137955e-06,
+    "mut_err_bound": 1.6912865976647311e-06
+   },
+   "trials": 60,
+   "seconds": 0.085,
+   "notes": [
+    "tl.sum split: halves added first, then reduced"
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "a",
+    "length": 42,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 42
+   },
+   "trials": 0,
+   "seconds": 0.137,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "a",
+    "length": 42,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     1,
+     3
+    ],
+    "address": 42
+   },
+   "trials": 0,
+   "seconds": 0.154,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "b",
+    "length": 35,
+    "pid": [
+     0,
+     0
+    ],
+    "lane": [
+     3,
+     0
+    ],
+    "address": 35
+   },
+   "trials": 0,
+   "seconds": 0.175,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "b",
+    "length": 35,
+    "pid": [
+     0,
+     1
+    ],
+    "lane": [
+     2,
+     1
+    ],
+    "address": 35
+   },
+   "trials": 0,
+   "seconds": 0.162,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     1
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 34
+   },
+   "trials": 0,
+   "seconds": 0.177,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     1
+    ],
+    "lane": [
+     1,
+     1
+    ],
+    "address": 30
+   },
+   "trials": 0,
+   "seconds": 0.175,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 30
+   },
+   "trials": 0,
+   "seconds": 0.164,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "reason": "output not written",
+    "buffer": "c",
+    "index": 4,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.23,
+   "notes": [
+    "program_id(0) -> program_id(1)"
+   ]
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "reason": "output not written",
+    "buffer": "c",
+    "index": 4,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.233,
+   "notes": [
+    "program_id(1) -> program_id(0)"
+   ]
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": 1.0,
+   "witness": null,
+   "trials": 720,
+   "seconds": 3.693,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": 1.0,
+   "witness": null,
+   "trials": 720,
+   "seconds": 4.093,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": false,
+   "bound_ratio": 1.4999999336978869,
+   "witness": {
+    "size": {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "a": [
+      0.1257302165031433,
+      -0.13210485875606537,
+      0.6404226422309875,
+      0.10490011423826218,
+      -0.5356693863868713,
+      0.3615950644016266,
+      1.3040000200271606,
+      0.9470809698104858,
+      -0.7037352323532104,
+      -1.2654215097427368,
+      -0.6232744455337524,
+      0.04132597893476486,
+      -2.32503080368042,
+      -0.218791663646698,
+      -1.2459110021591187,
+      -0.7322673797607422,
+      -0.5442590117454529,
+      -0.3163001537322998,
+      0.4116305410861969,
+      1.042513370513916,
+      -0.12853465974330902,
+      1.3664634227752686,
+      -0.6651946902275085,
+      0.35151007771492004,
+      0.9034701585769653,
+      0.0940122976899147,
+      -0.7434992790222168,
+      -0.9217253923416138,
+      -0.4577258229255676,
+      0.22019512951374054,
+      -1.0096181631088257,
+      -0.20917557179927826,
+      -0.15922501683235168,
+      0.5408455729484558,
+      0.21465912461280823,
+      0.35537269711494446,
+      -0.6538286209106445,
+      -0.12961363792419434,
+      0.7839754819869995,
+      1.4934310913085938,
+      -1.2590655088424683,
+      1.5139237642288208,
+      1.3458753824234009,
+      0.7813113927841187,
+      0.2644556164741516,
+      -0.31392282247543335,
+      1.4580206871032715,
+      1.9602583646774292,
+      1.8016349077224731,
+      1.3151037693023682,
+      0.3573804199695587,
+      -1.2083185911178589,
+      -0.004454133100807667,
+      0.6564749479293823,
+      -1.2883614301681519,
+      0.39512205123901367,
+      0.42986369132995605,
+      0.6960427165031433,
+      -1.1841179132461548,
+      -0.661702573299408,
+      -0.4364352524280548,
+      -1.169801950454712,
+      1.7393678426742554,
+      -0.49591073393821716
+     ],
+     "b": [
+      0.3289696276187897,
+      -0.2585725486278534,
+      1.5834728479385376,
+      1.3203610181808472,
+      0.6333526372909546,
+      -2.20350980758667,
+      0.052028972655534744,
+      0.6836861968040466,
+      1.0039615631103516,
+      -0.6179070472717285,
+      1.8220113515853882,
+      -1.3204309940338135,
+      -0.6615280508995056,
+      0.9350500106811523,
+      0.04905461519956589,
+      2.002392530441284,
+      0.1885191947221756,
+      -0.633194088935852,
+      -0.3775635063648224,
+      -1.0911461114883423,
+      -1.2776801586151123,
+      0.6304115056991577,
+      0.5811657905578613,
+      1.2945587635040283,
+      -0.754605770111084,
+      1.6891074180603027,
+      -0.2873876988887787,
+      1.5744082927703857,
+      -0.43278583884239197,
+      -0.7354832887649536,
+      0.249785378575325,
+      1.0314531326293945,
+      0.16100957989692688,
+      -0.5855288505554199,
+      -1.3412196636199951,
+      -1.4015202522277832,
+      0.5026828646659851,
+      0.9897130131721497,
+      -0.16429458558559418,
+      -1.0743649005889893,
+      0.8730421662330627,
+      -1.2803939580917358,
+      -0.7130680680274963,
+      0.6210178732872009,
+      -2.250141143798828,
+      0.38636958599090576,
+      -0.5816408395767212,
+      0.10927969962358475,
+      -0.0757015272974968,
+      0.20211438834667206,
+      0.6941719651222229,
+      -0.7583697438240051,
+      1.420982003211975,
+      0.7260937690734863,
+      0.8437326550483704,
+      1.16486394405365,
+      0.7875882387161255,
+      0.8440786600112915,
+      0.07559361308813095,
+      -1.4267739057540894,
+      -0.1350450962781906,
+      -0.7695146203041077,
+      -1.4227417707443237,
+      0.25845280289649963
+     ]
+    },
+    "buffer": "c",
+    "index": 0,
+    "ref_value": -3.829432487487793,
+    "mut_value": -3.829432249069214,
+    "fp64_value": -3.8294325091324466,
+    "ref_err_bound": 2.1744911918124266e-06,
+    "mut_err_bound": 2.3540638081899273e-06
+   },
+   "trials": 120,
+   "seconds": 1.761,
+   "notes": [
+    "loop over k reversed"
+   ]
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 4
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": "uf",
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 1.182,
+   "notes": [
+    "accumulator dtype float32 -> float16"
+   ]
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    "access": "load",
+    "buffer": "x",
+    "length": 12,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2
+    ],
+    "address": 12
+   },
+   "trials": 0,
+   "seconds": 0.085,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "reason": "output not written",
+    "buffer": "out",
+    "index": 1,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.1,
+   "notes": [
+    "program_id(0) -> program_id(1)"
+   ]
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 0,
+    "mut_value": 2
+   },
+   "trials": 0,
+   "seconds": 0.089,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": false,
+   "bound_ratio": 1.3857922733492407,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    "generator": "mixed",
+    "seed": 9,
+    "inputs": {
+     "x": [
+      -4070.0,
+      0.00024247169494628906,
+      30.125,
+      -0.00011676549911499023,
+      -0.0016679763793945312,
+      796.0,
+      0.0300445556640625,
+      8928.0,
+      0.042816162109375,
+      205.5,
+      6052.0,
+      0.02801513671875,
+      9792.0,
+      34.0,
+      9232.0,
+      0.030670166015625,
+      -1.1328125,
+      -78.5,
+      11280.0,
+      -0.0126800537109375,
+      0.89111328125,
+      -138.125
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 11941.6962890625,
+    "mut_value": 11941.697265625,
+    "fp64_value": 11941.69631844759,
+    "ref_err_bound": 0.005856201255481117,
+    "mut_err_bound": 0.006113385234127447
+   },
+   "trials": 120,
+   "seconds": 0.571,
+   "notes": [
+    "loop over k reversed"
+   ]
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": false,
+   "bound_ratio": 0.8714958152439178,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "mixed",
+    "seed": 3,
+    "inputs": {
+     "x": [
+      41.09375,
+      -105.5,
+      -0.00010353326797485352,
+      -0.0006313323974609375,
+      -0.25048828125,
+      0.12335205078125,
+      1330.0,
+      1.314453125,
+      -0.2364501953125,
+      -0.396240234375,
+      -23.546875,
+      -7.09375,
+      0.0010061264038085938,
+      -109.25,
+      -175.875,
+      -4468.0
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 1266.7803955078125,
+    "mut_value": 1266.7802734375,
+    "fp64_value": 1266.7803320288658,
+    "ref_err_bound": 0.00036100922893543357,
+    "mut_err_bound": 0.0002727847066011007
+   },
+   "trials": 120,
+   "seconds": 0.55,
+   "notes": [
+    "tl.sum split: halves added first, then reduced"
+   ]
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 6
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 11
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": true,
+   "bound_ratio": 8203.903832307293,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "x": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 2.81610107421875,
+    "mut_value": 2.81640625,
+    "fp64_value": 2.81610107421875,
+    "ref_err_bound": 9.266770084174992e-07,
+    "mut_err_bound": 0.007599421406463504
+   },
+   "trials": 120,
+   "seconds": 0.53,
+   "notes": [
+    "accumulator dtype float32 -> float16"
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "a",
+    "length": 42,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 42
+   },
+   "trials": 0,
+   "seconds": 0.304,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "a",
+    "length": 42,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     1,
+     3
+    ],
+    "address": 42
+   },
+   "trials": 0,
+   "seconds": 0.336,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "b",
+    "length": 35,
+    "pid": [
+     0,
+     0
+    ],
+    "lane": [
+     3,
+     0
+    ],
+    "address": 35
+   },
+   "trials": 0,
+   "seconds": 0.361,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "load",
+    "buffer": "b",
+    "length": 35,
+    "pid": [
+     0,
+     1
+    ],
+    "lane": [
+     2,
+     1
+    ],
+    "address": 35
+   },
+   "trials": 0,
+   "seconds": 0.37,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     1
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 34
+   },
+   "trials": 0,
+   "seconds": 0.363,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     1
+    ],
+    "lane": [
+     1,
+     1
+    ],
+    "address": 30
+   },
+   "trials": 0,
+   "seconds": 0.377,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "access": "store",
+    "buffer": "c",
+    "length": 30,
+    "pid": [
+     1,
+     0
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 30
+   },
+   "trials": 0,
+   "seconds": 0.33,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "reason": "output not written",
+    "buffer": "c",
+    "index": 4,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.467,
+   "notes": [
+    "program_id(0) -> program_id(1)"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    "reason": "output not written",
+    "buffer": "c",
+    "index": 4,
+    "ref_value": 0,
+    "mut_value": 65535
+   },
+   "trials": 0,
+   "seconds": 0.475,
+   "notes": [
+    "program_id(1) -> program_id(0)"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": 1.0,
+   "witness": null,
+   "trials": 720,
+   "seconds": 4.107,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": null,
+   "bound_ratio": 1.0,
+   "witness": null,
+   "trials": 720,
+   "seconds": 3.933,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": false,
+   "bound_ratio": 1.000365383779813,
+   "witness": {
+    "size": {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    },
+    "generator": "randn",
+    "seed": 279,
+    "inputs": {
+     "a": [
+      0.63134765625,
+      -1.6533203125,
+      -2.37890625,
+      -0.50830078125,
+      -0.83154296875,
+      -1.1845703125,
+      0.327880859375,
+      -0.0830078125,
+      -0.54736328125,
+      -0.3369140625,
+      0.50048828125,
+      1.392578125,
+      1.642578125,
+      -0.28369140625,
+      -2.4921875,
+      0.1490478515625,
+      -0.3974609375,
+      -0.7958984375,
+      -1.3564453125,
+      0.345703125,
+      0.4384765625,
+      0.4912109375,
+      0.93408203125,
+      0.86328125,
+      -1.8173828125,
+      2.146484375,
+      -0.634765625,
+      0.07965087890625,
+      -1.189453125,
+      -0.99072265625,
+      0.85791015625,
+      -0.34130859375,
+      -0.751953125,
+      -0.93896484375,
+      1.1669921875,
+      0.31591796875,
+      -0.50341796875,
+      -2.408203125,
+      2.81640625,
+      -1.0166015625,
+      -0.190673828125,
+      0.96630859375,
+      0.47314453125,
+      -0.1380615234375,
+      1.26171875,
+      -0.787109375,
+      -1.041015625,
+      -0.88818359375,
+      1.2958984375,
+      0.89892578125,
+      0.44921875,
+      0.1939697265625,
+      0.2294921875,
+      0.07568359375,
+      1.51171875,
+      0.1279296875,
+      1.12890625,
+      0.4951171875,
+      0.59716796875,
+      0.77392578125,
+      -0.09912109375,
+      -0.72509765625,
+      0.40673828125,
+      0.048095703125
+     ],
+     "b": [
+      -0.59765625,
+      -1.462890625,
+      0.1898193359375,
+      -0.052215576171875,
+      -0.255859375,
+      0.71044921875,
+      -0.3720703125,
+      1.0703125,
+      -0.276611328125,
+      -1.080078125,
+      -0.4814453125,
+      0.0186767578125,
+      -0.0308380126953125,
+      -0.77685546875,
+      -0.7578125,
+      -0.96044921875,
+      0.70654296875,
+      0.77294921875,
+      0.045440673828125,
+      1.4794921875,
+      0.078857421875,
+      -0.60107421875,
+      0.90283203125,
+      -0.2181396484375,
+      0.62939453125,
+      0.316650390625,
+      0.0987548828125,
+      -1.0322265625,
+      -0.75830078125,
+      0.04620361328125,
+      0.93212890625,
+      0.0247955322265625,
+      -1.4619140625,
+      0.14697265625,
+      -0.65283203125,
+      -1.1611328125,
+      -0.06121826171875,
+      -1.0244140625,
+      0.46923828125,
+      -0.9326171875,
+      -2.91796875,
+      0.1956787109375,
+      -0.69775390625,
+      -0.41357421875,
+      -0.4453125,
+      0.67578125,
+      0.8828125,
+      0.5126953125,
+      0.890625,
+      -0.85302734375,
+      -1.373046875,
+      -0.6005859375,
+      -0.6650390625,
+      -0.317138671875,
+      -1.4091796875,
+      -0.447509765625,
+      -0.286376953125,
+      -1.4013671875,
+      0.427734375,
+      -1.35546875,
+      1.0478515625,
+      0.52197265625,
+      -0.2252197265625,
+      -0.64111328125
+     ]
+    },
+    "buffer": "c",
+    "index": 11,
+    "ref_value": -3.771484375,
+    "mut_value": -3.76953125,
+    "fp64_value": -3.7705077677965164,
+    "ref_err_bound": 0.0018457211236471958,
+    "mut_err_bound": 0.0018443935479292284
+   },
+   "trials": 690,
+   "seconds": 3.844,
+   "notes": [
+    "loop over k reversed"
+   ]
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": true,
+   "bound_ratio": 15.3434109880727,
+   "witness": {
+    "size": {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "a": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875,
+      -0.54443359375,
+      -0.31640625,
+      0.41162109375,
+      1.04296875,
+      -0.1285400390625,
+      1.3662109375,
+      -0.6650390625,
+      0.3515625,
+      0.9033203125,
+      0.093994140625,
+      -0.74365234375,
+      -0.921875,
+      -0.457763671875,
+      0.22021484375,
+      -1.009765625,
+      -0.209228515625
+     ],
+     "b": [
+      -0.1591796875,
+      0.541015625,
+      0.214599609375,
+      0.35546875,
+      -0.65380859375,
+      -0.129638671875,
+      0.7841796875,
+      1.4931640625,
+      -1.2587890625,
+      1.513671875,
+      1.345703125,
+      0.78125,
+      0.264404296875,
+      -0.31396484375,
+      1.4580078125,
+      1.9599609375,
+      1.8017578125,
+      1.3154296875,
+      0.357421875,
+      -1.2080078125,
+      -0.00445556640625,
+      0.65625,
+      -1.2880859375,
+      0.39501953125,
+      0.429931640625,
+      0.69580078125,
+      -1.1845703125,
+      -0.66162109375,
+      -0.4365234375,
+      -1.169921875,
+      1.7392578125,
+      -0.495849609375
+     ]
+    },
+    "buffer": "c",
+    "index": 1,
+    "ref_value": 0.353515625,
+    "mut_value": 0.35302734375,
+    "fp64_value": 0.35347631573677063,
+    "ref_err_bound": 0.00017374576353914039,
+    "mut_err_bound": 0.008587361358902274
+   },
+   "trials": 120,
+   "seconds": 1.659,
+   "notes": [
+    "accumulator dtype float32 -> float16"
+   ]
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": "uf",
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 1.281,
+   "notes": [
+    "dropped .to(tl.float16)"
+   ]
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    {
+     "M": 6,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 9,
+     "N": 5,
+     "K": 7
+    },
+    {
+     "M": 4,
+     "N": 4,
+     "K": 16
+    }
+   ],
+   "fp_proof": null,
+   "precision_loss": true,
+   "bound_ratio": 17.107621756677922,
+   "witness": {
+    "size": {
+     "M": 4,
+     "N": 4,
+     "K": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "a": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875,
+      -0.54443359375,
+      -0.31640625,
+      0.41162109375,
+      1.04296875,
+      -0.1285400390625,
+      1.3662109375,
+      -0.6650390625,
+      0.3515625,
+      0.9033203125,
+      0.093994140625,
+      -0.74365234375,
+      -0.921875,
+      -0.457763671875,
+      0.22021484375,
+      -1.009765625,
+      -0.209228515625
+     ],
+     "b": [
+      -0.1591796875,
+      0.541015625,
+      0.214599609375,
+      0.35546875,
+      -0.65380859375,
+      -0.129638671875,
+      0.7841796875,
+      1.4931640625,
+      -1.2587890625,
+      1.513671875,
+      1.345703125,
+      0.78125,
+      0.264404296875,
+      -0.31396484375,
+      1.4580078125,
+      1.9599609375,
+      1.8017578125,
+      1.3154296875,
+      0.357421875,
+      -1.2080078125,
+      -0.00445556640625,
+      0.65625,
+      -1.2880859375,
+      0.39501953125,
+      0.429931640625,
+      0.69580078125,
+      -1.1845703125,
+      -0.66162109375,
+      -0.4365234375,
+      -1.169921875,
+      1.7392578125,
+      -0.495849609375
+     ]
+    },
+    "buffer": "c",
+    "index": 0,
+    "ref_value": -1.5322265625,
+    "mut_value": -1.53125,
+    "fp64_value": -1.5320393443107605,
+    "ref_err_bound": 0.0007493437082852661,
+    "mut_err_bound": 0.012805953252355905
+   },
+   "trials": 120,
+   "seconds": 1.767,
+   "notes": [
+    ".to(tl.float16) -> .to(tl.bfloat16)"
+   ]
+  }
+ ]
+}
