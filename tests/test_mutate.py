@@ -54,4 +54,18 @@ def test_fp_operator_site_counts():
         "matmul": [1, 0, 1, 0, 0],
         "row_sum_loop": [1, 1, 1, 0, 0],
         "matmul_fp16": [1, 0, 1, 1, 1],
+        "softmax": [0, 1, 0, 0, 0],
+        "layernorm": [0, 2, 0, 2, 2],
+        "attention": [0, 0, 0, 0, 0],
     }
+
+
+def test_mask_operators_for_rowwise_kernels():
+    def one(kernel, op, site=0):
+        return next(m for m in mutants(kernel, KERNELS[kernel].source, [op]) if m.site == site).source
+
+    assert "other=0.0" in one("softmax", "wrong_other") and "inf" not in one("softmax", "wrong_other")
+    assert "diff = x - mean\n" in one("layernorm", "drop_where_mask")
+    assert "mean = tl.sum(x, axis=0) / BLOCK" in one("layernorm", "divisor_block_size", 0)
+    assert "var = tl.sum(diff * diff, axis=0) / BLOCK" in one("layernorm", "divisor_block_size", 1)
+    assert "s = s\n" in one("attention", "drop_where_mask")

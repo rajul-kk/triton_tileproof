@@ -60,9 +60,11 @@ REPLAY = textwrap.dedent('''
     DT = {"float16": torch.float16, "float32": torch.float32}
     out = []
     for kname, op in [("row_sum", "split_sum"), ("row_sum_loop", "reverse_reduction_loop"),
-                      ("row_sum_loop", "acc_dtype_downgrade"), ("matmul_fp16", "change_cast")]:
+                      ("row_sum_loop", "acc_dtype_downgrade"), ("matmul_fp16", "change_cast"),
+                      ("softmax", "split_sum"), ("layernorm", "drop_cast"), ("layernorm", "change_cast#1")]:
+        op, _, site = op.partition("#")
         spec = KERNELS[kname]
-        m = next(mutants(kname, spec.source, [op]))
+        m = list(mutants(kname, spec.source, [op]))[int(site or 0)]
         w = fporacle.label(spec, m.source, m.id).witness
         L = spec.make_launch(**w["size"])
         got = []

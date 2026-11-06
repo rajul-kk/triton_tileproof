@@ -1,12 +1,19 @@
 """Source-level (AST) mutation operators for Triton kernels.
 
-Stage-1 operators (all Triton-specific; see docs/scoop_check.md, differentiator 1):
+Index and mask operators (all Triton-specific; see docs/scoop_check.md, Verdict, point 1):
 
 ``mask_off_by_one``    flip one strict/non-strict comparison: ``<`` <-> ``<=``, ``>`` <-> ``>=``.
 ``missing_store_mask`` drop the ``mask=`` keyword from one ``tl.store``.
 ``wrong_pid_axis``     ``tl.program_id(0)`` <-> ``tl.program_id(1)`` at one call site.
-``wrong_other``        on one masked ``tl.load``: ``other=c`` -> ``other=c+1``; if no
-                       ``other=`` is given, add ``other=1.0``.
+``wrong_other``        on one masked ``tl.load``: ``other=c`` -> ``other=c+1``; ``other=-float('inf')``
+                       -> ``other=0.0`` (the softmax fill bug); if no ``other=`` is given, add
+                       ``other=1.0``.
+``drop_where_mask``    ``tl.where(c, a, b)`` -> ``a`` at one site: the masked lanes keep their
+                       computed value instead of the neutral fill (layernorm's ``x - mean`` on
+                       padding lanes, attention's padded keys).
+``divisor_block_size`` ``e / n`` -> ``e / BLOCK`` where ``n`` is a runtime size argument and
+                       ``BLOCK`` the first ``tl.constexpr`` parameter: a mean over the tile instead of
+                       over the valid elements. Identical whenever ``n == BLOCK``.
 
 Floating-point operators (labelled by ``fporacle``; exact over the reals except where noted):
 
@@ -48,7 +55,8 @@ import copy
 from dataclasses import dataclass
 from typing import Callable, Iterator
 
-OPERATORS = ("mask_off_by_one", "missing_store_mask", "wrong_pid_axis", "wrong_other")
+OPERATORS = ("mask_off_by_one", "missing_store_mask", "wrong_pid_axis", "wrong_other",
+             "drop_where_mask", "divisor_block_size")
 FP_OPERATORS = ("reverse_reduction_loop", "split_sum", "acc_dtype_downgrade", "drop_cast", "change_cast")
 ALL_OPERATORS = OPERATORS + FP_OPERATORS
 
@@ -120,13 +128,21 @@ def _apply_wrong_pid_axis(node: ast.Call) -> str:
     return f"program_id({old}) -> program_id({1 - old})"
 
 
+def _is_neg_inf(node: ast.AST) -> bool:
+    """``-float('inf')``"""
+    return (isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub)
+            and isinstance(node.operand, ast.Call) and isinstance(node.operand.func, ast.Name)
+            and node.operand.func.id == "float" and len(node.operand.args) == 1
+            and isinstance(node.operand.args[0], ast.Constant) and node.operand.args[0].value == "inf")
+
+
 def _sites_wrong_other(tree):
     out = []
     for n in ast.walk(tree):
         if _is_tl_call(n, "load") and _kw(n, "mask") is not None:
             other = _kw(n, "other")
-            if other is None or (isinstance(other.value, ast.Constant)
-                                 and isinstance(other.value.value, (int, float))):
+            if other is None or _is_neg_inf(other.value) or (
+                    isinstance(other.value, ast.Constant) and isinstance(other.value.value, (int, float))):
                 out.append(n)
     return out
 
@@ -136,9 +152,53 @@ def _apply_wrong_other(node: ast.Call) -> str:
     if other is None:
         node.keywords.append(ast.keyword(arg="other", value=ast.Constant(1.0)))
         return "added other=1.0 to masked tl.load"
+    if _is_neg_inf(other.value):
+        other.value = ast.Constant(0.0)
+        return "other=-inf -> other=0.0"
     old = other.value.value
     other.value = ast.Constant(old + 1)
     return f"other={old!r} -> other={old + 1!r}"
+
+
+def _sites_drop_where_mask(tree):
+    return [n for n in ast.walk(tree) if _is_tl_call(n, "where") and len(n.args) == 3]
+
+
+class _Replace(ast.NodeTransformer):
+    """Replace one node (by identity) with another expression."""
+
+    def __init__(self, target, new):
+        self.target, self.new = target, new
+
+    def visit(self, node):
+        if node is self.target:
+            return self.new
+        return super().visit(node)
+
+
+def _constexpr_params(fn: ast.FunctionDef) -> list[str]:
+    return [a.arg for a in fn.args.args
+            if isinstance(a.annotation, ast.Attribute) and a.annotation.attr == "constexpr"]
+
+
+def _sites_divisor_block_size(tree):
+    out = []
+    for fn in (n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)):
+        const = _constexpr_params(fn)
+        runtime = {a.arg for a in fn.args.args} - set(const)
+        if not const:
+            continue
+        out += [n for n in ast.walk(fn) if isinstance(n, ast.BinOp) and isinstance(n.op, ast.Div)
+                and isinstance(n.right, ast.Name) and n.right.id in runtime]
+    return out
+
+
+def _apply_divisor_block_size(node: ast.BinOp, tree) -> str:
+    fn = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
+    block = _constexpr_params(fn)[0]
+    old = node.right.id
+    node.right = ast.Name(block, ast.Load())
+    return f"/ {old} -> / {block}"
 
 
 def _is_range_from_zero(it: ast.AST) -> bool:
@@ -237,6 +297,8 @@ _OPS: dict[str, tuple[Callable, Callable | None]] = {
     "missing_store_mask": (_sites_missing_store_mask, _apply_missing_store_mask),
     "wrong_pid_axis": (_sites_wrong_pid_axis, _apply_wrong_pid_axis),
     "wrong_other": (_sites_wrong_other, _apply_wrong_other),
+    "drop_where_mask": (_sites_drop_where_mask, None),  # replaces the node: handled in mutants()
+    "divisor_block_size": (_sites_divisor_block_size, None),
     "reverse_reduction_loop": (_sites_reverse_reduction_loop, _apply_reverse_reduction_loop),
     "split_sum": (_sites_split_sum, _apply_split_sum),
     "acc_dtype_downgrade": (_sites_acc_dtype_downgrade, _apply_acc_dtype_downgrade),
@@ -262,9 +324,14 @@ def mutants(kernel: str, source: str, operators=ALL_OPERATORS) -> Iterator[Mutan
             tree = copy.deepcopy(base)
             node = _ordered(find(tree))[i]
             lineno = node.lineno
-            if apply is None:  # drop_cast
+            if op == "drop_cast":
                 desc = f"dropped .to(tl.{node.args[0].attr})"
                 tree = _DropCast(node).visit(tree)
+            elif op == "drop_where_mask":
+                desc = f"tl.where({ast.unparse(node.args[0])}, a, b) -> a"
+                tree = _Replace(node, node.args[1]).visit(tree)
+            elif op == "divisor_block_size":
+                desc = _apply_divisor_block_size(node, tree)
             else:
                 desc = apply(node)
             ast.fix_missing_locations(tree)

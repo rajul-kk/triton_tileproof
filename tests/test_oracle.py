@@ -20,8 +20,10 @@ def test_reference_is_benign_against_itself(kernel):
 
 
 def test_site_counts():
-    assert [count_sites(KERNELS["matmul"].source, op) for op in OPERATORS] == [6, 1, 2, 2]
-    assert [count_sites(KERNELS["row_sum"].source, op) for op in OPERATORS] == [1, 0, 1, 1]
+    assert [count_sites(KERNELS["matmul"].source, op) for op in OPERATORS] == [6, 1, 2, 2, 0, 0]
+    assert [count_sites(KERNELS["row_sum"].source, op) for op in OPERATORS] == [1, 0, 1, 1, 0, 0]
+    assert [count_sites(KERNELS["layernorm"].source, op) for op in OPERATORS] == [1, 1, 1, 1, 1, 2]
+    assert [count_sites(KERNELS["attention"].source, op) for op in OPERATORS] == [5, 1, 1, 3, 1, 0]
 
 
 def test_missing_store_mask_oob_only_on_non_multiple_size():

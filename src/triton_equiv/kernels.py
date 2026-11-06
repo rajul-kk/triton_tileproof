@@ -1,4 +1,4 @@
-"""Reference Triton kernels for the stage-1 mutation audit.
+"""Reference Triton kernels for the mutation audit.
 
 Each kernel is stored as *source text* (no imports, ``@triton.jit`` decorator kept)
 rather than as an imported function. One string then feeds three consumers:
@@ -25,6 +25,17 @@ Both are written so that each fp bug is one source edit. With ``acc += x`` (impl
 promotion) an fp16 ``tl.zeros`` really accumulates in fp16; with ``acc = tl.dot(a, b, acc)``
 the accumulator dtype sets ``out_dtype``. (``acc += tl.dot(a, b)`` with an fp16 ``acc``
 would instead be promoted back to fp32 by the interpreter.)
+
+The kernels with exp, sqrt, max and division (one program per row; ``BLOCK >= n_cols``):
+
+``softmax``    fp32, row-wise, masked load with ``other=-float('inf')``, max subtraction,
+               ``tl.exp``, ``tl.sum``, division.
+``layernorm``  fp16 in and out, fp32 compute (``.to(tl.float32)`` after the load), mean,
+               variance of ``tl.where(mask, x - mean, 0.0)``, ``1.0 / tl.sqrt(var + eps)``.
+               No affine weight or bias.
+``attention``  fp32 single head, no scaling, one program per ``BM`` query rows, all ``N`` keys
+               in one ``BN`` tile: ``tl.dot(q, tl.trans(k))``, key tail masked to ``-inf`` with
+               ``tl.where``, row softmax, ``tl.dot(p, v)``. No K/V loop (no online softmax).
 
 Tile sizes in ``oracle_sizes`` are deliberately tiny (BLOCK=4). The symbolic oracle
 does not care, but real Triton requires ``tl.dot`` tiles >= 16, so the matmuls only run
@@ -196,6 +207,89 @@ def _matmul_fp16_launch(M: int, N: int, K: int, BM: int = 4, BN: int = 4, BK: in
                   dtypes={"a": "float16", "b": "float16", "c": "float16"}, outputs=("c",))
 
 
+# --------------------------------------------------------------------------- softmax
+SOFTMAX_SRC = '''
+@triton.jit
+def softmax(x_ptr, out_ptr, n_cols, BLOCK: tl.constexpr):
+    row = tl.program_id(0)
+    cols = tl.arange(0, BLOCK)
+    mask = cols < n_cols
+    x = tl.load(x_ptr + row * n_cols + cols, mask=mask, other=-float('inf'))
+    z = x - tl.max(x, axis=0)
+    num = tl.exp(z)
+    den = tl.sum(num, axis=0)
+    tl.store(out_ptr + row * n_cols + cols, num / den, mask=mask)
+'''
+
+
+def _rowwise_launch(n_rows: int, n_cols: int, BLOCK: int = 8, dtype: str = "float32", **extra) -> Launch:
+    assert n_cols <= BLOCK, "row-wise kernels load a whole row in one tile"
+    return Launch(
+        grid=(n_rows,),
+        args={"x_ptr": "x", "out_ptr": "out", "n_cols": n_cols, **extra, "BLOCK": BLOCK},
+        buffers={"x": n_rows * n_cols, "out": n_rows * n_cols},
+        dtypes={"x": dtype, "out": dtype},
+        outputs=("out",),
+    )
+
+
+def _softmax_launch(n_rows: int, n_cols: int, BLOCK: int = 8) -> Launch:
+    return _rowwise_launch(n_rows, n_cols, BLOCK)
+
+
+# --------------------------------------------------------------------------- layernorm
+LAYERNORM_SRC = '''
+@triton.jit
+def layernorm(x_ptr, out_ptr, n_cols, eps, BLOCK: tl.constexpr):
+    row = tl.program_id(0)
+    cols = tl.arange(0, BLOCK)
+    mask = cols < n_cols
+    x = tl.load(x_ptr + row * n_cols + cols, mask=mask, other=0.0).to(tl.float32)
+    mean = tl.sum(x, axis=0) / n_cols
+    diff = tl.where(mask, x - mean, 0.0)
+    var = tl.sum(diff * diff, axis=0) / n_cols
+    rstd = 1.0 / tl.sqrt(var + eps)
+    tl.store(out_ptr + row * n_cols + cols, (diff * rstd).to(tl.float16), mask=mask)
+'''
+
+LAYERNORM_EPS = 1e-5
+
+
+def _layernorm_launch(n_rows: int, n_cols: int, BLOCK: int = 8) -> Launch:
+    return _rowwise_launch(n_rows, n_cols, BLOCK, "float16", eps=LAYERNORM_EPS)
+
+
+# --------------------------------------------------------------------------- attention
+ATTENTION_SRC = '''
+@triton.jit
+def attention(q_ptr, k_ptr, v_ptr, o_ptr, M, N, D: tl.constexpr, BM: tl.constexpr, BN: tl.constexpr):
+    pid = tl.program_id(0)
+    rm = pid * BM + tl.arange(0, BM)
+    rn = tl.arange(0, BN)
+    rd = tl.arange(0, D)
+    q = tl.load(q_ptr + rm[:, None] * D + rd[None, :], mask=rm[:, None] < M, other=0.0)
+    k = tl.load(k_ptr + rn[:, None] * D + rd[None, :], mask=rn[:, None] < N, other=0.0)
+    v = tl.load(v_ptr + rn[:, None] * D + rd[None, :], mask=rn[:, None] < N, other=0.0)
+    s = tl.dot(q, tl.trans(k))
+    s = tl.where(rn[None, :] < N, s, -float('inf'))
+    p = tl.exp(s - tl.max(s, axis=1)[:, None])
+    l = tl.sum(p, axis=1)
+    o = tl.dot(p, v) / l[:, None]
+    tl.store(o_ptr + rm[:, None] * D + rd[None, :], o, mask=rm[:, None] < M)
+'''
+
+
+def _attention_launch(M: int, N: int, D: int = 2, BM: int = 4, BN: int = 8) -> Launch:
+    assert N <= BN, "attention loads all keys in one tile"
+    return Launch(
+        grid=(cdiv(M, BM),),
+        args={"q_ptr": "q", "k_ptr": "k", "v_ptr": "v", "o_ptr": "o", "M": M, "N": N,
+              "D": D, "BM": BM, "BN": BN},
+        buffers={"q": M * D, "k": N * D, "v": N * D, "o": M * D},
+        outputs=("o",),
+    )
+
+
 _T16 = {"BM": 16, "BN": 16, "BK": 16}
 _MATMUL_CHECKER_SIZES = {"tile": [{"M": 32, "N": 32, "K": 64, **_T16}],
                          "odd": [{"M": 36, "N": 20, "K": 70, **_T16}]}
@@ -238,6 +332,30 @@ KERNELS: dict[str, KernelSpec] = {
         checker_sizes=_MATMUL_CHECKER_SIZES,
         reduction_dim="K",
         fp_sizes=[{"M": 4, "N": 4, "K": 16}],
+    ),
+    "softmax": KernelSpec(
+        "softmax", "softmax", SOFTMAX_SRC, _softmax_launch,
+        # n_cols == BLOCK: no masked lanes; n_cols=5 < BLOCK=8: three -inf lanes per row.
+        oracle_sizes=[{"n_rows": 2, "n_cols": 8}, {"n_rows": 2, "n_cols": 5}],
+        checker_sizes={"tile": [{"n_rows": 4, "n_cols": 64, "BLOCK": 64}],
+                       "odd": [{"n_rows": 4, "n_cols": 50, "BLOCK": 64}]},
+        reduction_dim="n_cols",
+        fp_sizes=[{"n_rows": 2, "n_cols": 16, "BLOCK": 16}],
+    ),
+    "layernorm": KernelSpec(
+        "layernorm", "layernorm", LAYERNORM_SRC, _layernorm_launch,
+        oracle_sizes=[{"n_rows": 2, "n_cols": 8}, {"n_rows": 2, "n_cols": 5}],
+        checker_sizes={"tile": [{"n_rows": 4, "n_cols": 64, "BLOCK": 64}],
+                       "odd": [{"n_rows": 4, "n_cols": 50, "BLOCK": 64}]},
+        reduction_dim="n_cols",
+        fp_sizes=[{"n_rows": 2, "n_cols": 16, "BLOCK": 16}],
+    ),
+    "attention": KernelSpec(
+        "attention", "attention", ATTENTION_SRC, _attention_launch,
+        # (4, 8): one query tile, no masked keys; (6, 5): two query tiles, 3 masked keys.
+        oracle_sizes=[{"M": 4, "N": 8}, {"M": 6, "N": 5}],
+        checker_sizes={"tile": [{"M": 32, "N": 16, "D": 16, "BM": 16, "BN": 16}],
+                       "odd": [{"M": 20, "N": 13, "D": 16, "BM": 16, "BN": 16}]},
     ),
 }
 

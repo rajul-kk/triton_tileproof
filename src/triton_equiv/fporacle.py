@@ -42,6 +42,25 @@ Three checks, run on every mutant the bit-vector tier calls benign:
    ``u`` is 2^-11 for fp16, 2^-24 for fp32, and 2^-7 for bf16 (the interpreter truncates, so we
    take the truncation bound, which also covers round-to-nearest).
 
+exp, sqrt, max, division and ``tl.where`` (softmax, layernorm, attention)
+------------------------------------------------------------------------
+* Real tier: ``/`` is Z3 real division, ``max`` is ``If(a >= b, a, b)``, ``tl.where`` is ``If``,
+  and ``exp``/``sqrt`` are **uninterpreted** (Z3 reals have no exp). ``-inf`` and other
+  non-finite constants are named uninterpreted reals. "Equal" is still a proof (congruence);
+  ``sat`` or ``unknown`` is not a real counterexample, so for these kernels it is confirmed by
+  the fp64 emulator before a mutant is called ``inequivalent`` (``confirm_fp64``). An unconfirmed
+  real difference is recorded in ``notes`` and the mutant goes on to the witness search with
+  ``real_proof=False``.
+* Uninterpreted-function tier: ``fdiv_<dt>``, ``fmax_<dt>_<n>``, ``fexp_<dt>``, ``fsqrt_<dt>``.
+* Emulator and error bounds: ``max`` is 1-Lipschitz, so its bound is the max of the operand
+  bounds; ``exp(x)`` gets ``|r| (expm1(e) + 2u) / (1 - 2u)`` (numpy's exp is not correctly rounded;
+  2u allows one ulp); ``sqrt`` gets ``e / sqrt(x) + u|r|``; ``a / b`` gets
+  ``(|a| e_b + |b| e_a) / (|b| (|b| - e_b)) + u|r|`` (infinite if ``|b| <= e_b``). An infinite
+  result of an operation on an infinite operand (``-inf`` padding) is carried with bound 0.
+* Dtypes follow the interpreter, checked by a probe: a 0-d tensor or scalar operand takes the
+  tensor operand's dtype (fp16 tile + fp32 0-d mean stays fp16), and ``/`` on fp16/bf16
+  returns fp32.
+
 Why not Z3 floating-point theory at a small format: (a) bit-blasted fp add/mul makes even a
 4x4x4 fp16 matmul slow, and the audit needs reduction sizes in the thousands; (b) a proof or
 witness in a toy format (say 4-bit exponent, 4-bit mantissa) says nothing about fp32 at
@@ -101,6 +120,21 @@ def promote(a: str, b: str) -> str:
     return a if _WIDTH[a] > _WIDTH[b] else b
 
 
+def result_dtype(a_dt: str, a_scalar: bool, b_dt: str, b_scalar: bool, op: str) -> str:
+    """Interpreter dtype of a binary fp op (checked with a probe under TRITON_INTERPRET=1).
+
+    A 0-d operand (scalar argument, Python constant or reduced tile) next to a tile does not
+    take part in promotion; ``/`` on fp16 or bf16 yields fp32.
+    """
+    if a_scalar != b_scalar:
+        dt = b_dt if a_scalar else a_dt
+    else:
+        dt = promote(a_dt, b_dt)
+    if op == "div" and dt in ("float16", "bfloat16"):
+        dt = "float32"
+    return dt
+
+
 def gamma(k: int, u: float) -> float:
     return math.inf if k * u >= 1 else k * u / (1 - k * u)
 
@@ -116,13 +150,43 @@ def _dtype_name(d) -> str:
 
 
 # ===================================================================== symbolic (real | uf)
+def _const_real(c):
+    if math.isfinite(c):
+        return z3.RealVal(c)
+    return z3.Real(f"fconst_{c!r}")  # -inf etc.: a named uninterpreted constant
+
+
 class _RealDom:
-    """Exact real arithmetic: casts are the identity."""
+    """Exact real arithmetic: casts are the identity; exp and sqrt are uninterpreted."""
 
     name = "real"
 
+    def __init__(self):
+        self._fns: dict = {}
+        self.abstract = False
+
     def const(self, c):
-        return z3.RealVal(c)
+        if not math.isfinite(c):
+            self.abstract = True
+        return _const_real(c)
+
+    def _f(self, name):
+        self.abstract = True
+        if name not in self._fns:
+            self._fns[name] = z3.Function(name, z3.RealSort(), z3.RealSort())
+        return self._fns[name]
+
+    def div(self, a, b, dt): return a / b
+
+    def exp(self, a, dt): return self._f("exp")(a)
+
+    def sqrt(self, a, dt): return self._f("sqrt")(a)
+
+    def max(self, xs, dt):
+        acc = xs[0]
+        for v in xs[1:]:
+            acc = z3.If(acc >= v, acc, v)
+        return acc
 
     def cvt(self, x, src, dst):
         return x
@@ -153,7 +217,14 @@ class _UFDom:
         return self._fns[key]
 
     def const(self, c):
-        return z3.RealVal(c)
+        return _const_real(c)
+
+    def div(self, a, b, dt): return self._f(f"fdiv_{dt}", 2)(a, b)
+    def exp(self, a, dt): return self._f(f"fexp_{dt}", 1)(a)
+    def sqrt(self, a, dt): return self._f(f"fsqrt_{dt}", 1)(a)
+
+    def max(self, xs, dt):
+        return xs[0] if len(xs) == 1 else self._f(f"fmax_{dt}_{len(xs)}", len(xs))(*xs)
 
     def cvt(self, x, src, dst):
         if src == dst or (src, dst) in _EXACT_WIDEN:
@@ -196,7 +267,7 @@ class FT:
 
     def _bin(self, o, op, rev=False):
         o = self._lift(o)
-        dt = promote(self.dtype, o.dtype)
+        dt = result_dtype(self.dtype, self.arr.ndim == 0, o.dtype, o.arr.ndim == 0, op)
         a, b = self._conv(dt), o._conv(dt)
         if rev:
             a, b = b, a
@@ -209,6 +280,12 @@ class FT:
     def __rsub__(self, o): return self._bin(o, "sub", rev=True)
     def __mul__(self, o): return self._bin(o, "mul")
     def __rmul__(self, o): return self._bin(o, "mul", rev=True)
+    def __truediv__(self, o): return self._bin(o, "div")
+    def __rtruediv__(self, o): return self._bin(o, "div", rev=True)
+
+    def _unary(self, op):
+        f = getattr(self.dom, op)
+        return FT(np.frompyfunc(lambda x: f(x, self.dtype), 1, 1)(self.arr), self.dtype, self.dom)
 
     def __getitem__(self, key):
         return FT(self.arr[key], self.dtype, self.dom)
@@ -287,8 +364,35 @@ class _FpSymTL(oracle._SymTL):
     def reshape(x, shape, *_a, **_kw):
         return FT(np.reshape(x.arr, tuple(shape)), x.dtype, x.dom)
 
+    @staticmethod
+    def trans(x, *_a, **_kw):
+        return FT(x.arr.T, x.dtype, x.dom)
+
+    @staticmethod
+    def exp(x):
+        return x._unary("exp")
+
+    @staticmethod
+    def sqrt(x):
+        return x._unary("sqrt")
+
+    def max(self, x, axis=None, **_kw):
+        if axis is None:
+            return FT(self._dom.max(list(x.arr.reshape(-1)), x.dtype), x.dtype, self._dom)
+        moved = np.moveaxis(x.arr, axis, -1)
+        out = np.empty(moved.shape[:-1], dtype=object)
+        for i in np.ndindex(out.shape):
+            out[i] = self._dom.max(list(moved[i]), x.dtype)
+        return FT(out, x.dtype, self._dom)
+
     def where(self, c, x, y):
-        raise Unsupported("tl.where in the fp tier")
+        ref = x if isinstance(x, FT) else y
+        x, y = ref._lift(x), ref._lift(y)
+        dt = result_dtype(x.dtype, x.arr.ndim == 0, y.dtype, y.arr.ndim == 0, "where")
+        shape = np.broadcast_shapes(c.shape, x.shape, y.shape)
+        cond = np.broadcast_to(c.arr, shape)
+        xa, ya = np.broadcast_to(x._conv(dt), shape), np.broadcast_to(y._conv(dt), shape)
+        return FT(np.frompyfunc(z3.If, 3, 1)(cond, xa, ya), dt, self._dom)
 
 
 def _real_memory(launch: Launch) -> dict:
@@ -304,6 +408,7 @@ def trace_fp(source: str, fn_name: str, launch: Launch, mem: dict, tag: str, dom
     args = {k: (Ptr(v, T(z3.BitVecVal(0, IDX_BITS), "idx")) if isinstance(v, str) else v)
             for k, v in launch.args.items()}
     ns[fn_name](**args)
+    tr.abstract = getattr(dom, "abstract", False)
     return tr
 
 
@@ -325,6 +430,9 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
             r, u = ref.get((buf, i), init), mut.get((buf, i), init)
             if z3.eq(r, u) or z3.is_true(z3.simplify(r == u)):
                 continue
+            if dom.abstract and z3.eq(z3.simplify(r, som=True, arith_lhs=True),
+                                      z3.simplify(u, som=True, arith_lhs=True)):
+                continue
             if z3.simplify(r - u, som=True).eq(z3.RealVal(0)):
                 continue
             s = z3.Solver()
@@ -334,6 +442,8 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
             if res == z3.unsat:
                 continue
             w = {"buffer": buf, "index": i, "solver": str(res)}
+            if dom.abstract:
+                w["abstract"] = True
             if res == z3.sat:
                 mdl = s.model()
                 w.update(ref_value=str(mdl.eval(r, model_completion=True)),
@@ -414,22 +524,30 @@ class NV:
 
     def _bin(self, o, op, rev=False):
         o = self._lift(o)
-        dt = promote(self.dtype, o.dtype)
+        dt = result_dtype(self.dtype, self.arr.ndim == 0, o.dtype, o.arr.ndim == 0, op)
         if dt == "bfloat16" and not self.emu.exact:
             raise Unsupported("bf16 arithmetic (the interpreter stores bf16 as uint16)")
         a, b = self.to(dt), o.to(dt)
         if rev:
             a, b = b, a
         ea, eb = a.err, b.err
+        fa, fb = np.abs(a.arr.astype(np.float64)), np.abs(b.arr.astype(np.float64))
         if op == "add":
             r, e = a.arr + b.arr, ea + eb
         elif op == "sub":
             r, e = a.arr - b.arr, ea + eb
-        else:
+        elif op == "mul":
             r = a.arr * b.arr
-            fa, fb = np.abs(a.arr.astype(np.float64)), np.abs(b.arr.astype(np.float64))
             e = fa * eb + fb * ea + ea * eb
-        return self._round(np.asarray(r), dt, e)
+        else:  # div
+            r = a.arr / b.arr
+            den = fb * (fb - eb)
+            e = np.where(fb > eb, (fa * eb + fb * ea) / np.where(den > 0, den, 1.0), np.inf)
+        out = self._round(np.asarray(r), dt, e)
+        # -inf padding: inf (op) finite is exactly inf in both the computed and the exact run.
+        inf_in = np.isinf(np.broadcast_to(fa, out.shape)) | np.isinf(np.broadcast_to(fb, out.shape))
+        out.err = np.where(np.isinf(out.arr) & inf_in, 0.0, out.err)
+        return out
 
     def __add__(self, o): return self._bin(o, "add")
     def __radd__(self, o): return self._bin(o, "add", rev=True)
@@ -437,6 +555,8 @@ class NV:
     def __rsub__(self, o): return self._bin(o, "sub", rev=True)
     def __mul__(self, o): return self._bin(o, "mul")
     def __rmul__(self, o): return self._bin(o, "mul", rev=True)
+    def __truediv__(self, o): return self._bin(o, "div")
+    def __rtruediv__(self, o): return self._bin(o, "div", rev=True)
 
     def __getitem__(self, key):
         return NV(self.arr[key], self.dtype, self.err[key], self.emu)
@@ -533,8 +653,46 @@ class _NumTL:
     def reshape(x, shape, *_a, **_kw):
         return NV(np.reshape(x.arr, tuple(shape)), x.dtype, np.reshape(x.err, tuple(shape)), x.emu)
 
+    @staticmethod
+    def trans(x, *_a, **_kw):
+        return NV(x.arr.T, x.dtype, x.err.T, x.emu)
+
+    def _check_fp32(self, x, name):
+        if x.dtype in ("float16", "bfloat16"):  # the interpreter raises the same way
+            raise Unsupported(f"tl.{name} of {x.dtype} (Triton accepts fp32/fp64 only)")
+
+    def exp(self, x):
+        self._check_fp32(x, "exp")
+        r = np.asarray(np.exp(x.arr))
+        u = 0.0 if self.exact else 2 * UNIT_ROUNDOFF[x.dtype]
+        fr = np.abs(r.astype(np.float64))
+        with np.errstate(invalid="ignore", over="ignore"):
+            e = np.where(fr == 0, 0.0, fr * (np.expm1(x.err) + u) / (1 - u))
+        e = np.where(np.isinf(x.arr) & (x.err == 0), 0.0, e)
+        return NV(r, x.dtype, e, self)
+
+    def sqrt(self, x):
+        self._check_fp32(x, "sqrt")
+        r = np.asarray(np.sqrt(x.arr))
+        u = 0.0 if self.exact else UNIT_ROUNDOFF[x.dtype]
+        fx = x.arr.astype(np.float64)
+        root = np.sqrt(np.maximum(fx, 0.0))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            e = np.where(root > 0, x.err / np.where(root > 0, root, 1.0), np.inf)
+        e = np.where(x.err == 0, 0.0, e) + (u / (1 - u)) * np.abs(r.astype(np.float64))
+        return NV(r, x.dtype, e, self)
+
+    def max(self, x, axis=None, **_kw):
+        # 1-Lipschitz in the max norm: |max(xhat) - max(x)| <= max |xhat_i - x_i|. No rounding.
+        return NV(np.asarray(np.max(x.arr, axis=axis)), x.dtype, np.max(x.err, axis=axis), self)
+
     def where(self, c, x, y):
-        raise Unsupported("tl.where in the fp tier")
+        ref = x if isinstance(x, NV) else y
+        x, y = ref._lift(x), ref._lift(y)
+        dt = result_dtype(x.dtype, x.arr.ndim == 0, y.dtype, y.arr.ndim == 0, "where")
+        x, y = x.to(dt), y.to(dt)
+        c = np.asarray(c)
+        return NV(np.where(c, x.arr, y.arr), dt, np.where(c, x.err, y.err), self)
 
 
 class _NumTriton:
@@ -601,6 +759,7 @@ class FpLabel:
     bv_label: str
     sizes: list
     fp_proof: str | None = None  # "uf" when bitwise identity is proved structurally
+    real_proof: bool = True  # False: real equivalence not proved (uninterpreted exp/sqrt), only not refuted
     precision_loss: bool | None = None
     bound_ratio: float | None = None  # max over trials of mutant bound / reference bound
     witness: dict | None = None
@@ -649,6 +808,35 @@ def search_witness(spec: KernelSpec, mut_src: str, size: dict, trials: int = 10,
     return witness, ratio, tried
 
 
+CONFIRM_RTOL = 1e-6  # fp64 outputs further apart than this are a confirmed real difference
+
+
+def confirm_fp64(spec: KernelSpec, mut_src: str, sizes, trials: int = 5) -> dict | None:
+    """Concrete fp64 witness that ``mut`` computes a different real function, or None.
+
+    Used when a symbolic tier reported a difference only under uninterpreted exp/sqrt/max/div or
+    a named constant. fp64 rounding (relative ~1e-16) cannot reach ``CONFIRM_RTOL``.
+    """
+    for size in sizes:
+        launch = spec.make_launch(**size)
+        for kind in ("randn", "rand"):
+            for seed in range(trials):
+                inputs = make_inputs(launch, kind, seed)
+                try:
+                    ref, _ = emulate(spec.source, spec.fn_name, launch, inputs, exact=True)
+                    mut, _ = emulate(mut_src, spec.fn_name, launch, inputs, exact=True)
+                except Unsupported:
+                    continue
+                for buf in launch.outputs:
+                    r, m = ref[buf], mut[buf]
+                    bad = ~(np.isclose(r, m, rtol=CONFIRM_RTOL, atol=CONFIRM_RTOL) | (np.isnan(r) & np.isnan(m)))
+                    if bad.any():
+                        i = int(np.flatnonzero(bad)[0])
+                        return {"size": size, "theory": "fp64", "generator": kind, "seed": seed,
+                                "buffer": buf, "index": i, "ref_value": float(r[i]), "mut_value": float(m[i])}
+    return None
+
+
 EXTENDED_TRIALS = 300  # extra "mixed" seeds, only for mutants neither proved nor witnessed
 
 
@@ -657,13 +845,29 @@ def label(spec: KernelSpec, mutant_source: str, mutant_id: str = "", trials: int
     bv = oracle.label(spec, mutant_source)
     sizes = list(spec.oracle_sizes) + list(spec.fp_sizes)
     out = FpLabel(mutant_id, bv.label, bv.label, sizes)
-    if bv.label != "benign":
-        w = bv.witness
+    w = bv.witness
+    if bv.label != "benign" and not (bv.label == "inequivalent" and w.witness.get("abstract")):
         out.witness = {"size": w.size, **w.witness} if w else None
         out.seconds = round(time.time() - t0, 3)
         return out
+    if bv.label == "inequivalent":  # difference only under uninterpreted functions: confirm
+        conf = confirm_fp64(spec, mutant_source, [w.size] + [s for s in sizes if s != w.size])
+        if conf is not None:
+            out.witness = {"size": w.size, **w.witness, "fp64": conf}
+            out.notes.append("bit-vector difference under uninterpreted functions, confirmed in fp64")
+            out.seconds = round(time.time() - t0, 3)
+            return out
+        out.notes.append("bit-vector difference only under uninterpreted functions; not confirmed in fp64")
     for size in sizes:
         if (cx := real_counterexample(spec, mutant_source, size)) is not None:
+            if cx.get("abstract"):
+                conf = confirm_fp64(spec, mutant_source, [size])
+                if conf is None:
+                    out.real_proof = False
+                    out.notes.append(f"real tier not proved at {size} (uninterpreted exp/sqrt); "
+                                     "no fp64 difference found")
+                    continue
+                cx = {**cx, "fp64": conf}
             out.label, out.witness = "inequivalent", {"size": size, "theory": "real", **cx}
             out.notes.append("bit-vector benign but real-inequivalent")
             out.seconds = round(time.time() - t0, 3)

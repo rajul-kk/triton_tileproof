@@ -3,14 +3,14 @@
  "python": "3.10.0",
  "numpy": "2.2.6",
  "z3": "5.3.3",
- "seconds": 34.9,
+ "seconds": 126.7,
  "counts": {
-  "oob": 18,
-  "inequivalent": 9,
-  "benign:proved": 4,
-  "numerical:reorder": 5,
-  "benign": 4,
-  "numerical:precision": 3
+  "oob": 27,
+  "inequivalent": 19,
+  "benign:proved": 7,
+  "numerical:reorder": 6,
+  "benign": 7,
+  "numerical:precision": 6
  },
  "labels": [
   {
@@ -29,6 +29,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -47,7 +48,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.043,
+   "seconds": 0.09,
    "notes": [
     "< -> <="
    ]
@@ -68,6 +69,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -86,7 +88,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.044,
+   "seconds": 0.088,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -107,6 +109,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -120,7 +123,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.055,
+   "seconds": 0.109,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -141,11 +144,12 @@
     }
    ],
    "fp_proof": "uf",
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.096,
+   "seconds": 0.209,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -166,11 +170,12 @@
     }
    ],
    "fp_proof": "uf",
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.09,
+   "seconds": 0.206,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -190,6 +195,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -209,7 +215,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.021,
+   "seconds": 0.042,
    "notes": [
     "< -> <="
    ]
@@ -229,6 +235,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -243,7 +250,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.023,
+   "seconds": 0.057,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -263,6 +270,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -277,7 +285,7 @@
     "mut_value": 3
    },
    "trials": 0,
-   "seconds": 0.02,
+   "seconds": 0.057,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -297,6 +305,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": false,
    "bound_ratio": 0.5714284393779421,
    "witness": {
@@ -335,7 +344,7 @@
     "mut_err_bound": 1.6912865976647311e-06
    },
    "trials": 60,
-   "seconds": 0.085,
+   "seconds": 0.228,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -367,6 +376,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -389,7 +399,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.137,
+   "seconds": 0.373,
    "notes": [
     "< -> <="
    ]
@@ -421,6 +431,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -443,7 +454,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.154,
+   "seconds": 0.465,
    "notes": [
     "< -> <="
    ]
@@ -475,6 +486,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -497,7 +509,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.175,
+   "seconds": 0.459,
    "notes": [
     "< -> <="
    ]
@@ -529,6 +541,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -551,7 +564,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.162,
+   "seconds": 1.014,
    "notes": [
     "< -> <="
    ]
@@ -583,6 +596,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -605,7 +619,7 @@
     "address": 34
    },
    "trials": 0,
-   "seconds": 0.177,
+   "seconds": 0.991,
    "notes": [
     "< -> <="
    ]
@@ -637,6 +651,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -659,7 +674,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.175,
+   "seconds": 0.915,
    "notes": [
     "< -> <="
    ]
@@ -691,6 +706,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -713,7 +729,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.164,
+   "seconds": 1.142,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -745,6 +761,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -760,7 +777,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.23,
+   "seconds": 1.188,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -792,6 +809,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -807,7 +825,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.233,
+   "seconds": 1.198,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -839,11 +857,12 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": 1.0,
    "witness": null,
    "trials": 720,
-   "seconds": 3.693,
+   "seconds": 13.826,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -875,11 +894,12 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": 1.0,
    "witness": null,
    "trials": 720,
-   "seconds": 4.093,
+   "seconds": 15.712,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -911,6 +931,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": false,
    "bound_ratio": 1.4999999336978869,
    "witness": {
@@ -1064,7 +1085,7 @@
     "mut_err_bound": 2.3540638081899273e-06
    },
    "trials": 120,
-   "seconds": 1.761,
+   "seconds": 4.336,
    "notes": [
     "loop over k reversed"
    ]
@@ -1096,11 +1117,12 @@
     }
    ],
    "fp_proof": "uf",
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 1.182,
+   "seconds": 2.211,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1128,6 +1150,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1147,7 +1170,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.085,
+   "seconds": 0.154,
    "notes": [
     "< -> <="
    ]
@@ -1175,6 +1198,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1189,7 +1213,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.1,
+   "seconds": 0.191,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1217,6 +1241,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1231,7 +1256,7 @@
     "mut_value": 2
    },
    "trials": 0,
-   "seconds": 0.089,
+   "seconds": 0.177,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -1259,6 +1284,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": false,
    "bound_ratio": 1.3857922733492407,
    "witness": {
@@ -1303,7 +1329,7 @@
     "mut_err_bound": 0.006113385234127447
    },
    "trials": 120,
-   "seconds": 0.571,
+   "seconds": 1.135,
    "notes": [
     "loop over k reversed"
    ]
@@ -1331,6 +1357,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": false,
    "bound_ratio": 0.8714958152439178,
    "witness": {
@@ -1369,7 +1396,7 @@
     "mut_err_bound": 0.0002727847066011007
    },
    "trials": 120,
-   "seconds": 0.55,
+   "seconds": 1.243,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -1397,6 +1424,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": true,
    "bound_ratio": 8203.903832307293,
    "witness": {
@@ -1435,7 +1463,7 @@
     "mut_err_bound": 0.007599421406463504
    },
    "trials": 120,
-   "seconds": 0.53,
+   "seconds": 1.118,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1467,6 +1495,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1489,7 +1518,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.304,
+   "seconds": 0.517,
    "notes": [
     "< -> <="
    ]
@@ -1521,6 +1550,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1543,7 +1573,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.336,
+   "seconds": 0.631,
    "notes": [
     "< -> <="
    ]
@@ -1575,6 +1605,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1597,7 +1628,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.361,
+   "seconds": 0.631,
    "notes": [
     "< -> <="
    ]
@@ -1629,6 +1660,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1651,7 +1683,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.37,
+   "seconds": 0.695,
    "notes": [
     "< -> <="
    ]
@@ -1683,6 +1715,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1705,7 +1738,7 @@
     "address": 34
    },
    "trials": 0,
-   "seconds": 0.363,
+   "seconds": 0.739,
    "notes": [
     "< -> <="
    ]
@@ -1737,6 +1770,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1759,7 +1793,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.377,
+   "seconds": 0.689,
    "notes": [
     "< -> <="
    ]
@@ -1791,6 +1825,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1813,7 +1848,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.33,
+   "seconds": 0.669,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -1845,6 +1880,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1860,7 +1896,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.467,
+   "seconds": 0.826,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1892,6 +1928,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": {
@@ -1907,7 +1944,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.475,
+   "seconds": 0.895,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -1939,11 +1976,12 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": 1.0,
    "witness": null,
    "trials": 720,
-   "seconds": 4.107,
+   "seconds": 7.682,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -1975,11 +2013,12 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": 1.0,
    "witness": null,
    "trials": 720,
-   "seconds": 3.933,
+   "seconds": 7.856,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -2011,6 +2050,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": false,
    "bound_ratio": 1.000365383779813,
    "witness": {
@@ -2164,7 +2204,7 @@
     "mut_err_bound": 0.0018443935479292284
    },
    "trials": 690,
-   "seconds": 3.844,
+   "seconds": 7.115,
    "notes": [
     "loop over k reversed"
    ]
@@ -2196,6 +2236,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": true,
    "bound_ratio": 15.3434109880727,
    "witness": {
@@ -2285,7 +2326,7 @@
     "mut_err_bound": 0.008587361358902274
    },
    "trials": 120,
-   "seconds": 1.659,
+   "seconds": 2.786,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -2317,11 +2358,12 @@
     }
    ],
    "fp_proof": "uf",
+   "real_proof": true,
    "precision_loss": null,
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 1.281,
+   "seconds": 2.426,
    "notes": [
     "dropped .to(tl.float16)"
    ]
@@ -2353,6 +2395,7 @@
     }
    ],
    "fp_proof": null,
+   "real_proof": true,
    "precision_loss": true,
    "bound_ratio": 17.107621756677922,
    "witness": {
@@ -2442,9 +2485,1352 @@
     "mut_err_bound": 0.012805953252355905
    },
    "trials": 120,
-   "seconds": 1.767,
+   "seconds": 3.131,
    "notes": [
     ".to(tl.float16) -> .to(tl.bfloat16)"
+   ]
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "access": "load",
+    "buffer": "x",
+    "length": 10,
+    "pid": [
+     1
+    ],
+    "lane": [
+     5
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.108,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "access": "store",
+    "buffer": "out",
+    "length": 10,
+    "pid": [
+     1
+    ],
+    "lane": [
+     5
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.14,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "reason": "output not written",
+    "buffer": "out",
+    "index": 8,
+    "ref_value": 0,
+    "mut_value": 65535,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 8
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 8,
+     "ref_value": 0.12291532583437619,
+     "mut_value": 0.0
+    }
+   },
+   "trials": 0,
+   "seconds": 0.159,
+   "notes": [
+    "program_id(0) -> program_id(1)",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 65535,
+    "mut_value": 0,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 0,
+     "ref_value": 0.20237342438491185,
+     "mut_value": 0.13180581905087005
+    }
+   },
+   "trials": 0,
+   "seconds": 0.338,
+   "notes": [
+    "other=-inf -> other=0.0",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": false,
+   "bound_ratio": 0.7670276564531319,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 2,
+    "inputs": {
+     "x": [
+      0.18905338644981384,
+      -0.5227484703063965,
+      -0.41306355595588684,
+      -2.44146728515625,
+      1.7997074127197266,
+      1.1441658735275269,
+      -0.32542282342910767,
+      0.7738065719604492,
+      0.28121066093444824,
+      -0.5538228154182434,
+      0.9775674343109131,
+      -0.310556560754776,
+      -0.32882389426231384,
+      -0.7921467423439026,
+      0.45495808124542236,
+      -0.09919805079698563
+     ]
+    },
+    "buffer": "out",
+    "index": 9,
+    "ref_value": 0.06425493210554123,
+    "mut_value": 0.06425492465496063,
+    "fp64_value": 0.06425493151835285,
+    "ref_err_bound": 5.451589047628597e-08,
+    "mut_err_bound": 4.302618585872711e-08
+   },
+   "trials": 90,
+   "seconds": 1.232,
+   "notes": [
+    "tl.sum split: halves added first, then reduced"
+   ]
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "access": "load",
+    "buffer": "x",
+    "length": 10,
+    "pid": [
+     1
+    ],
+    "lane": [
+     5
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.109,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "access": "store",
+    "buffer": "out",
+    "length": 10,
+    "pid": [
+     1
+    ],
+    "lane": [
+     5
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.125,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "reason": "output not written",
+    "buffer": "out",
+    "index": 8,
+    "ref_value": 0,
+    "mut_value": 65535,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 8
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 8,
+     "ref_value": 0.2627334798019728,
+     "mut_value": 0.0
+    }
+   },
+   "trials": 0,
+   "seconds": 0.166,
+   "notes": [
+    "program_id(0) -> program_id(1)",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 19326,
+    "mut_value": 27518,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 0,
+     "ref_value": 0.22200528146088053,
+     "mut_value": -0.723480628966056
+    }
+   },
+   "trials": 0,
+   "seconds": 0.479,
+   "notes": [
+    "other=0.0 -> other=1.0",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 14945,
+    "mut_value": 31479,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 0,
+     "ref_value": 0.22200528146088053,
+     "mut_value": 0.2212564931320847
+    }
+   },
+   "trials": 0,
+   "seconds": 0.649,
+   "notes": [
+    "tl.where(mask, a, b) -> a",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 6712,
+    "mut_value": 11575,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 0,
+     "ref_value": 0.22200528146088053,
+     "mut_value": 0.2616604046086388
+    }
+   },
+   "trials": 0,
+   "seconds": 0.867,
+   "notes": [
+    "/ n_cols -> / BLOCK",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    "reason": "output differs",
+    "buffer": "out",
+    "index": 0,
+    "ref_value": 2302,
+    "mut_value": 60678,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "n_rows": 2,
+      "n_cols": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "out",
+     "index": 0,
+     "ref_value": 0.22200528146088053,
+     "mut_value": 0.2808111930518157
+    }
+   },
+   "trials": 0,
+   "seconds": 0.643,
+   "notes": [
+    "/ n_cols -> / BLOCK",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": 0.9997636279298256,
+   "witness": null,
+   "trials": 690,
+   "seconds": 9.371,
+   "notes": [
+    "tl.sum split: halves added first, then reduced"
+   ]
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": 0.9996374571011186,
+   "witness": null,
+   "trials": 690,
+   "seconds": 9.204,
+   "notes": [
+    "tl.sum split: halves added first, then reduced"
+   ]
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": true,
+   "bound_ratio": Infinity,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "x": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": -0.406494140625,
+    "mut_value": -0.40673828125,
+    "fp64_value": -0.40657006130643963,
+    "ref_err_bound": 0.00019968248261358158,
+    "mut_err_bound": 0.008551760733002824
+   },
+   "trials": 90,
+   "seconds": 1.419,
+   "notes": [
+    "dropped .to(tl.float32)"
+   ]
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": "uf",
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 0.556,
+   "notes": [
+    "dropped .to(tl.float16)"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": true,
+   "bound_ratio": Infinity,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "x": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": -0.406494140625,
+    "mut_value": -0.40673828125,
+    "fp64_value": -0.40657006130643963,
+    "ref_err_bound": 0.00019968248261358158,
+    "mut_err_bound": 0.008551760733002824
+   },
+   "trials": 90,
+   "seconds": 1.561,
+   "notes": [
+    ".to(tl.float32) -> .to(tl.float16)"
+   ]
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "label": "numerical",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 5
+    },
+    {
+     "n_rows": 2,
+     "n_cols": 16,
+     "BLOCK": 16
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": true,
+   "bound_ratio": 17.07026799492325,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "randn",
+    "seed": 0,
+    "inputs": {
+     "x": [
+      0.125732421875,
+      -0.132080078125,
+      0.640625,
+      0.10491943359375,
+      -0.53564453125,
+      0.361572265625,
+      1.3037109375,
+      0.947265625,
+      -0.70361328125,
+      -1.265625,
+      -0.623046875,
+      0.04132080078125,
+      -2.32421875,
+      -0.21875,
+      -1.24609375,
+      -0.732421875
+     ]
+    },
+    "buffer": "out",
+    "index": 0,
+    "ref_value": -0.406494140625,
+    "mut_value": -0.40625,
+    "fp64_value": -0.40657006130643963,
+    "ref_err_bound": 0.00019968248261358158,
+    "mut_err_bound": 0.0033983821127257295
+   },
+   "trials": 90,
+   "seconds": 1.453,
+   "notes": [
+    ".to(tl.float16) -> .to(tl.bfloat16)"
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "access": "load",
+    "buffer": "q",
+    "length": 12,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 12
+   },
+   "trials": 0,
+   "seconds": 0.274,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "access": "load",
+    "buffer": "k",
+    "length": 10,
+    "pid": [
+     0
+    ],
+    "lane": [
+     5,
+     0
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.266,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "access": "load",
+    "buffer": "v",
+    "length": 10,
+    "pid": [
+     0
+    ],
+    "lane": [
+     5,
+     0
+    ],
+    "address": 10
+   },
+   "trials": 0,
+   "seconds": 0.267,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "reason": "output differs",
+    "buffer": "o",
+    "index": 0,
+    "ref_value": 16384,
+    "mut_value": 0,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "M": 6,
+      "N": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "o",
+     "index": 0,
+     "ref_value": -0.3693250985736702,
+     "mut_value": -0.3012222718672537
+    }
+   },
+   "trials": 0,
+   "seconds": 1.045,
+   "notes": [
+    "< -> <=",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "access": "store",
+    "buffer": "o",
+    "length": 12,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 12
+   },
+   "trials": 0,
+   "seconds": 0.291,
+   "notes": [
+    "< -> <="
+   ]
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "label": "oob",
+   "bv_label": "oob",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "access": "store",
+    "buffer": "o",
+    "length": 12,
+    "pid": [
+     1
+    ],
+    "lane": [
+     2,
+     0
+    ],
+    "address": 12
+   },
+   "trials": 0,
+   "seconds": 0.29,
+   "notes": [
+    "removed mask= from tl.store"
+   ]
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "reason": "output not written",
+    "buffer": "o",
+    "index": 8,
+    "ref_value": 0,
+    "mut_value": 65535,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "M": 6,
+      "N": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "o",
+     "index": 8,
+     "ref_value": -0.060702318486866864,
+     "mut_value": 0.0
+    }
+   },
+   "trials": 0,
+   "seconds": 0.322,
+   "notes": [
+    "program_id(0) -> program_id(1)",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
+   ]
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": "uf",
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 0.732,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "label": "benign",
+   "bv_label": "benign",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": "uf",
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": null,
+   "trials": 0,
+   "seconds": 0.775,
+   "notes": [
+    "other=0.0 -> other=1.0"
+   ]
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "label": "benign",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": false,
+   "precision_loss": null,
+   "bound_ratio": 1.0,
+   "witness": null,
+   "trials": 660,
+   "seconds": 6.072,
+   "notes": [
+    "other=0.0 -> other=1.0",
+    "bit-vector difference only under uninterpreted functions; not confirmed in fp64",
+    "real tier not proved at {'M': 6, 'N': 5} (uninterpreted exp/sqrt); no fp64 difference found"
+   ]
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "label": "inequivalent",
+   "bv_label": "inequivalent",
+   "sizes": [
+    {
+     "M": 4,
+     "N": 8
+    },
+    {
+     "M": 6,
+     "N": 5
+    }
+   ],
+   "fp_proof": null,
+   "real_proof": true,
+   "precision_loss": null,
+   "bound_ratio": null,
+   "witness": {
+    "size": {
+     "M": 6,
+     "N": 5
+    },
+    "reason": "output differs",
+    "buffer": "o",
+    "index": 0,
+    "ref_value": 16384,
+    "mut_value": 0,
+    "abstract": true,
+    "fp64": {
+     "size": {
+      "M": 6,
+      "N": 5
+     },
+     "theory": "fp64",
+     "generator": "randn",
+     "seed": 0,
+     "buffer": "o",
+     "index": 0,
+     "ref_value": -0.3693250985736702,
+     "mut_value": -0.22006365550028598
+    }
+   },
+   "trials": 0,
+   "seconds": 1.051,
+   "notes": [
+    "tl.where(rn[None, :] < N, a, b) -> a",
+    "bit-vector difference under uninterpreted functions, confirmed in fp64"
    ]
   }
  ]

@@ -35,6 +35,13 @@ How (architecture)
 What it does NOT model (out of scope for stage 1)
 -------------------------------------------------
 * **Floating point.** Values are 16-bit bit-vectors with wrap-around ``+``/``*``.
+  ``exp``, ``sqrt``, ``max`` and ``/`` (softmax, layernorm, attention) have no exact
+  bit-vector meaning, so they are **uninterpreted functions** (``fexp``, ``fsqrt``, ``fmax``,
+  ``fdiv``), and a non-integral or infinite float constant (``eps``, ``-inf``) is a named
+  uninterpreted constant. Equal terms under uninterpreted functions are equal under any
+  interpretation, so ``benign`` stays a proof. A difference is only a difference *for some*
+  interpretation, so ``inequivalent`` from such a trace is provisional: the witness carries
+  ``"abstract": True`` and ``fporacle`` keeps the label only if an fp64 run confirms it.
   Float rounding, NaN/inf, accumulator dtype (``.to``/``dtype=`` are ignored) and
   **``tl.dot`` numerics** (only the exact sum-of-products structure is kept) are not modelled.
   Consequence: a BV difference implies the integer polynomials differ, and therefore the
@@ -63,7 +70,21 @@ SEVERITY = {"benign": 0, "inequivalent": 1, "oob": 2}
 
 
 class Unsupported(Exception):
-    """The kernel uses a construct the stage-1 shim does not model."""
+    """The kernel uses a construct the bit-vector shim does not model."""
+
+
+# Uninterpreted functions for exp/sqrt/max/div. ``_ABSTRACT[0]`` is set whenever one (or a
+# named float constant) is used during a trace, so that inequivalence can be marked provisional.
+_UFS: dict = {}
+_ABSTRACT = [False]
+
+
+def _uf(name: str, arity: int):
+    _ABSTRACT[0] = True
+    key = (name, arity)
+    if key not in _UFS:
+        _UFS[key] = z3.Function(name, *([z3.BitVecSort(VAL_BITS)] * (arity + 1)))
+    return _UFS[key]
 
 
 # --------------------------------------------------------------------------- tensors
@@ -79,8 +100,11 @@ def _const(x, kind: str):
     if kind == "bool":
         return z3.BoolVal(bool(x))
     if isinstance(x, float):
-        if not x.is_integer():
-            raise Unsupported(f"non-integral constant {x} (fp is out of scope)")
+        if not x.is_integer():  # eps, -inf, ...: a named uninterpreted constant
+            if kind != "val":
+                raise Unsupported(f"non-integral index constant {x}")
+            _ABSTRACT[0] = True
+            return z3.BitVec(f"fconst_{x!r}", VAL_BITS)
         x = int(x)
     return z3.BitVecVal(int(x), VAL_BITS if kind == "val" else IDX_BITS)
 
@@ -123,6 +147,16 @@ class T:
     def __mul__(self, o): return self._bin(o, lambda a, b: a * b)
     def __rmul__(self, o): return self._bin(o, lambda a, b: a * b, rev=True)
     def __floordiv__(self, o): return self._bin(o, lambda a, b: a / b)  # indices are non-negative
+
+    def __truediv__(self, o):
+        if self.kind != "val":
+            raise Unsupported("true division of an index tile")
+        return self._bin(o, lambda a, b: _uf("fdiv", 2)(a, b))
+
+    def __rtruediv__(self, o):
+        if self.kind != "val":
+            raise Unsupported("true division of an index tile")
+        return self._bin(o, lambda a, b: _uf("fdiv", 2)(a, b), rev=True)
     def __mod__(self, o): return self._bin(o, lambda a, b: z3.SRem(a, b))
     def __neg__(self): return T(np.frompyfunc(lambda a: -a, 1, 1)(self.arr), self.kind)
     def __lt__(self, o): return self._bin(o, lambda a, b: a < b, "bool")
@@ -178,6 +212,7 @@ class Trace:
     pids: list
     grid: tuple[int, int, int]
     accesses: list[Access] = field(default_factory=list)
+    abstract: bool = False  # used an uninterpreted function or named float constant
 
 
 class _SymTL:
@@ -258,6 +293,34 @@ class _SymTL:
         y = y if isinstance(y, T) else T(_const(y, "val"), "val")
         return T(np.frompyfunc(z3.If, 3, 1)(c.arr, x.arr, y.arr), x.kind)
 
+    @staticmethod
+    def trans(x, *_a, **_kw):
+        return T(x.arr.T, x.kind)
+
+    @staticmethod
+    def exp(x):
+        return T(np.frompyfunc(lambda a: _uf("fexp", 1)(a), 1, 1)(x.arr), "val")
+
+    @staticmethod
+    def sqrt(x):
+        return T(np.frompyfunc(lambda a: _uf("fsqrt", 1)(a), 1, 1)(x.arr), "val")
+
+    @staticmethod
+    def max(x, axis=None, **_kw):
+        """Left fold of an uninterpreted binary ``fmax`` in index order."""
+        def fold(xs):
+            acc = xs[0]
+            for v in xs[1:]:
+                acc = _uf("fmax", 2)(acc, v)
+            return acc
+        if axis is None:
+            return T(fold(list(x.arr.reshape(-1))), "val")
+        moved = np.moveaxis(x.arr, axis, -1)
+        out = np.empty(moved.shape[:-1], dtype=object)
+        for i in np.ndindex(out.shape):
+            out[i] = fold(list(moved[i]))
+        return T(out, "val")
+
 
 class _SymTriton:
     @staticmethod
@@ -280,7 +343,9 @@ def trace(source: str, fn_name: str, launch: Launch, mem: dict, tag: str) -> Tra
     exec(compile(source, f"<{fn_name}:{tag}>", "exec"), ns)
     args = {k: (Ptr(v, T(z3.BitVecVal(0, IDX_BITS), "idx")) if isinstance(v, str) else v)
             for k, v in launch.args.items()}
+    _ABSTRACT[0] = False
     ns[fn_name](**args)
+    tr.abstract = _ABSTRACT[0]
     return tr
 
 
@@ -379,6 +444,8 @@ def label_at(spec: KernelSpec, mutant_source: str, size: dict) -> Verdict:
     if (w := find_oob(mut, launch)) is not None:
         return Verdict("oob", size, w)
     if (w := compare(ref, mut, launch, mem)) is not None:
+        if ref.abstract or mut.abstract:
+            w["abstract"] = True  # provisional: a difference for *some* interpretation of the UFs
         return Verdict("inequivalent", size, w)
     return Verdict("benign", size)
 
