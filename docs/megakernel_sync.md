@@ -141,3 +141,47 @@ Reading:
 
 Caveat: `amk_rules` is our re-implementation from AMK's `docs/IR_SPEC.md` and a summary of
 `schedule/ir.py`; it is not AMK's code. Part 2 exists to replace it with the real validator.
+
+## Part 2: the real AutoMegaKernel (code written, results pending)
+
+Pinned commit: `884534c4d2dbed4381576f81a79ae97feca53c34`. AMK is not a dependency;
+both scripts read `AMK_ROOT`.
+
+**What reading AMK's code confirmed.** `schedule/ir.py` `validate()` checks
+SM queue order only on direct producer-to-consumer edges. It never reads `Counter.init`.
+It never compares a GEMV tile's `n_off + N_tile` with the output buffer's shape.
+`simulate_counters()` and `simulate_adversarial()` fire any ready task in any order and
+ignore the per-SM queues. Correctness is decided by the CPU `ReferenceVM`, which also
+ignores SMs and sweeps the task list in order, with `logit_equivalence` (allclose and
+top-1 ≥ 0.99). A GPU mismatch in `harness._evaluate_program` adds a note but does not
+change `correct`.
+
+**`msync/amk_bridge.py`** translates part-1 programs into AMK's `MegakernelProgram`
+(see the module docstring) and runs AMK's `validate()` and both of its simulators on them.
+It adds `queue_sim`, a simulator that lets each SM start only the head of its own queue.
+Programs that use `reset`, `ticket` or an early signal are skipped.
+
+**`msync/amk_e2e.py`** lowers AMK's own toy Llama (`make_toy(n_layers=1)`, fp32, one
+decode step) with AMK's lowerer. It then plants four kinds of bug in that real schedule:
+a stale counter init, the last GEMV tile overrunning its buffer, the last tile one column
+short (a control), and a transitive same-SM queue inversion that `validate()` accepts.
+It records the four schedule checks above and AMK's authoritative gate for each mutant,
+and writes `results/amk_toy_mutants.json`.
+
+**Tests**: `tests/test_msync_amk.py` is skipped unless `AMK_ROOT` is set.
+
+Expected, from the code but **not yet run**:
+
+* the queue inversion passes `validate()`, both AMK simulators and the ReferenceVM gate,
+  and `queue_sim` reports it stuck, so it would hang on a GPU;
+* the stale counter init passes `validate()`;
+* the overrunning tile passes `validate()`, and the ReferenceVM truncates it through
+  torch slicing.
+
+The GPU half of part 2 (running AMK's CUDA `MegakernelVM` on a T4 for the mutants the
+gate accepts) is still to do.
+
+Run:
+
+    AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m triton_equiv.msync.amk_e2e
+    AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m pytest tests/test_msync_amk.py
