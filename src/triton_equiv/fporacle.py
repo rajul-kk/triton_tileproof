@@ -408,6 +408,8 @@ def trace_fp(source: str, fn_name: str, launch: Launch, mem: dict, tag: str, dom
     exec(compile(source, f"<{fn_name}:{tag}:{dom.name}>", "exec"), ns)
     args = {k: (Ptr(v, T(z3.BitVecVal(0, IDX_BITS), "idx")) if isinstance(v, str) else v)
             for k, v in launch.args.items()}
+    if hasattr(dom, "abstract"):
+        dom.abstract = False  # per trace: a domain object may be reused for the next trace
     ns[fn_name](**args)
     tr.abstract = getattr(dom, "abstract", False)
     return tr
@@ -422,16 +424,18 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
     """None if ref and mutant compute the same real-valued outputs at ``size`` (a proof)."""
     launch = spec.make_launch(**size)
     mem = _real_memory(launch)
-    dom = _RealDom()
-    ref = _final_values(trace_fp(spec.source, spec.fn_name, launch, mem, "ref", dom), launch)
-    mut = _final_values(trace_fp(mut_src, spec.fn_name, launch, mem, "mut", dom), launch)
+    dom = _RealDom()  # one domain, so both traces share the same exp/sqrt functions
+    ref_tr = trace_fp(spec.source, spec.fn_name, launch, mem, "ref", dom)
+    mut_tr = trace_fp(mut_src, spec.fn_name, launch, mem, "mut", dom)
+    abstract = ref_tr.abstract or mut_tr.abstract
+    ref, mut = _final_values(ref_tr, launch), _final_values(mut_tr, launch)
     for buf in launch.outputs:
         for i in range(launch.buffers[buf]):
             init = z3.Select(mem[buf], z3.BitVecVal(i, IDX_BITS))
             r, u = ref.get((buf, i), init), mut.get((buf, i), init)
             if z3.eq(r, u) or z3.is_true(z3.simplify(r == u)):
                 continue
-            if dom.abstract and z3.eq(z3.simplify(r, som=True, arith_lhs=True),
+            if abstract and z3.eq(z3.simplify(r, som=True, arith_lhs=True),
                                       z3.simplify(u, som=True, arith_lhs=True)):
                 continue
             if z3.simplify(r - u, som=True).eq(z3.RealVal(0)):
@@ -443,7 +447,7 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
             if res == z3.unsat:
                 continue
             w = {"buffer": buf, "index": i, "solver": str(res)}
-            if dom.abstract:
+            if abstract:
                 w["abstract"] = True
             if res == z3.sat:
                 mdl = s.model()

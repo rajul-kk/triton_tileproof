@@ -109,3 +109,12 @@ def test_promotion_and_bf16_truncation():
     # bf16 keeps 7 mantissa bits. Round-to-nearest would give 1 + 2^-6 here; truncation gives 1 + 2^-7.
     x = np.array([1.0 + 2**-7 + 2**-8 + 2**-10], dtype=np.float32)
     assert fporacle._to_bf16(x)[0] == 1.0 + 2**-7
+
+
+def test_real_domain_abstract_flag_is_per_trace():
+    from triton_equiv.fporacle import _RealDom, _real_memory, trace_fp
+    sm, va = KERNELS["softmax"], KERNELS["vector_add"]
+    dom = _RealDom()  # reused across traces, as real_counterexample does
+    ls, lv = sm.make_launch(**sm.oracle_sizes[0]), va.make_launch(**va.oracle_sizes[0])
+    assert trace_fp(sm.source, sm.fn_name, ls, _real_memory(ls), "a", dom).abstract
+    assert not trace_fp(va.source, va.fn_name, lv, _real_memory(lv), "b", dom).abstract
