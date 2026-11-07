@@ -69,3 +69,13 @@ def test_allclose_checker_misses_precision_loss_and_silent_oob_store():
     # Unmasked store at n=70: correct output, so both tolerances accept; only the guard sees it.
     st = out["vector_add:missing_store_mask:0"]
     assert st["kernelbench"] is True and st["torch_default"] is True and st["guard"] is True
+
+
+def test_label_counts_use_audit_families():
+    import json
+    from collections import Counter
+
+    from triton_equiv.families import FAMILIES, family
+    doc = json.load(open("results/labels.json"))
+    assert doc["counts"] == dict(Counter(family(lab) for lab in doc["labels"]))
+    assert set(doc["counts"]) <= set(FAMILIES)

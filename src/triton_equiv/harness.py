@@ -38,6 +38,9 @@ import platform
 import sys
 import time
 
+from .families import FAMILIES
+from .families import family as _family
+
 GUARD = 4096  # elements on each side of every buffer
 TOLERANCES = {
     "kernelbench": {"float32": (1e-2, 1e-2), "float16": (1e-2, 1e-2)},
@@ -142,18 +145,6 @@ def close(out, ref, dtype: str, policy: str) -> bool:
 
 
 # ------------------------------------------------------------------ audit
-FAMILIES = ("reference", "oob", "inequivalent", "numerical:precision", "numerical:reorder",
-            "benign:proved", "benign:unproved")
-
-
-def _family(lab) -> str:
-    if lab is None:
-        return "reference"
-    if lab["label"] == "numerical":
-        return "numerical:precision" if lab["precision_loss"] else "numerical:reorder"
-    if lab["label"] == "benign":
-        return "benign:proved" if lab["fp_proof"] else "benign:unproved"
-    return lab["label"]
 
 
 def audit(labels_path: str, trials: int, kernels=None):

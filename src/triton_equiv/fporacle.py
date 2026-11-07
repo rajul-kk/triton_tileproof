@@ -98,6 +98,7 @@ import numpy as np
 import z3
 
 from . import oracle
+from .families import family
 from .kernels import KERNELS, KernelSpec, Launch
 from .oracle import IDX_BITS, Ptr, T, Trace, Unsupported, _bcast, _obj
 
@@ -921,8 +922,7 @@ def main(argv=None):
     labs = label_all(args.trials)
     counts: dict = {}
     for lab in labs:
-        key = lab.label + (":precision" if lab.precision_loss else ":reorder" if lab.label == "numerical"
-                           else ":proved" if lab.fp_proof else "")
+        key = family(lab)
         counts[key] = counts.get(key, 0) + 1
     doc = {
         "command": "PYTHONPATH=src python -m triton_equiv.fporacle "

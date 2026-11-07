@@ -9,7 +9,7 @@
   "inequivalent": 19,
   "benign:proved": 7,
   "numerical:reorder": 6,
-  "benign": 7,
+  "benign:unproved": 7,
   "numerical:precision": 6
  },
  "labels": [
