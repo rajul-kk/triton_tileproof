@@ -85,3 +85,12 @@ def test_fp_mutants_are_invisible_to_the_bit_vector_oracle():
     for name, spec in KERNELS.items():
         for m in mutants(name, spec.source, FP_OPERATORS):
             assert oracle.label(spec, m.source).label == "benign", m.id
+
+
+def test_abstract_flag_marks_only_the_trace_that_used_an_uninterpreted_function():
+    sm, va = KERNELS["softmax"], KERNELS["vector_add"]
+    launch_sm, launch_va = sm.make_launch(**sm.oracle_sizes[0]), va.make_launch(**va.oracle_sizes[0])
+    assert oracle.trace(sm.source, sm.fn_name, launch_sm, oracle._memory(launch_sm), "a").abstract
+    # A trace after an abstract one starts clean, and nothing leaks outside a trace.
+    assert not oracle.trace(va.source, va.fn_name, launch_va, oracle._memory(launch_va), "b").abstract
+    assert oracle._CURRENT_TRACE.get() is None

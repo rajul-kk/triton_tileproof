@@ -56,6 +56,7 @@ What it does NOT model (out of scope for stage 1)
 
 from __future__ import annotations
 
+import contextvars
 import itertools
 from dataclasses import dataclass, field
 
@@ -73,14 +74,23 @@ class Unsupported(Exception):
     """The kernel uses a construct the bit-vector shim does not model."""
 
 
-# Uninterpreted functions for exp/sqrt/max/div. ``_ABSTRACT[0]`` is set whenever one (or a
-# named float constant) is used during a trace, so that inequivalence can be marked provisional.
+# Uninterpreted functions for exp/sqrt/max/div. Using one (or a named float constant) marks
+# the trace being built as ``abstract``, so that inequivalence can be marked provisional.
+# The trace is found through a context variable rather than passed down, because tile
+# arithmetic (``T.__truediv__``) has no trace to hand; ``trace()`` sets and restores it,
+# so nested or concurrent traces each mark only themselves.
 _UFS: dict = {}
-_ABSTRACT = [False]
+_CURRENT_TRACE: contextvars.ContextVar = contextvars.ContextVar("current_trace", default=None)
+
+
+def _mark_abstract():
+    tr = _CURRENT_TRACE.get()
+    if tr is not None:
+        tr.abstract = True
 
 
 def _uf(name: str, arity: int):
-    _ABSTRACT[0] = True
+    _mark_abstract()
     key = (name, arity)
     if key not in _UFS:
         _UFS[key] = z3.Function(name, *([z3.BitVecSort(VAL_BITS)] * (arity + 1)))
@@ -103,7 +113,7 @@ def _const(x, kind: str):
         if not x.is_integer():  # eps, -inf, ...: a named uninterpreted constant
             if kind != "val":
                 raise Unsupported(f"non-integral index constant {x}")
-            _ABSTRACT[0] = True
+            _mark_abstract()
             return z3.BitVec(f"fconst_{x!r}", VAL_BITS)
         x = int(x)
     return z3.BitVecVal(int(x), VAL_BITS if kind == "val" else IDX_BITS)
@@ -343,9 +353,11 @@ def trace(source: str, fn_name: str, launch: Launch, mem: dict, tag: str) -> Tra
     exec(compile(source, f"<{fn_name}:{tag}>", "exec"), ns)
     args = {k: (Ptr(v, T(z3.BitVecVal(0, IDX_BITS), "idx")) if isinstance(v, str) else v)
             for k, v in launch.args.items()}
-    _ABSTRACT[0] = False
-    ns[fn_name](**args)
-    tr.abstract = _ABSTRACT[0]
+    token = _CURRENT_TRACE.set(tr)
+    try:
+        ns[fn_name](**args)
+    finally:
+        _CURRENT_TRACE.reset(token)
     return tr
 
 
