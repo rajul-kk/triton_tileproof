@@ -353,7 +353,7 @@ class _FpSymTL(oracle._SymTL):
 
     def dot(self, a, b, acc=None, out_dtype=None, **_kw):
         dt = acc.dtype if acc is not None else _dtype_name(out_dtype or "float32")
-        (m, k), (_, n) = a.shape, b.shape
+        (m, _), (_, n) = a.shape, b.shape
         out = np.empty((m, n), dtype=object)
         for i in range(m):
             for j in range(n):
