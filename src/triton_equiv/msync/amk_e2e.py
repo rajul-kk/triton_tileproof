@@ -15,11 +15,13 @@ path ``tests/test_lower.py`` exercises) it builds these mutants of the AMK progr
                         written (a control the gate should catch).
 ``queue_inversion``     a chain ``a -> b -> c`` (counter edges, no direct ``a -> c`` edge) is
                         put on SMs ``s, t, s`` and ``c`` is moved ahead of ``a`` in the task
-                        list. SM ``s`` then blocks on ``c`` before it can run ``a``: a deadlock
-                        on the GPU's serial SM queues, with no direct same-SM edge out of order.
+                        list. If SM queues followed task-list order, SM ``s`` would block on
+                        ``c`` before running ``a``. AMK's CUDA loader builds queues in
+                        topological order instead, so ``loader_queue_stuck`` should be empty.
 
 and records, for the reference and every mutant: AMK's ``validate()``, its two simulators,
-our SM-queue-aware simulator (``amk_bridge.queue_sim``), and AMK's authoritative
+our SM-queue simulator in task-list order and in the loader's topological order, and
+AMK's authoritative
 correctness gate (``ReferenceVM`` on CPU against eager PyTorch through
 ``eval.oracle.logit_equivalence``, as in ``harness._evaluate_program``).
 """
@@ -35,6 +37,8 @@ from pathlib import Path
 from .amk_bridge import AMK_COMMIT, load_amk_ir, queue_sim
 
 N_EACH = 3  # mutants per operator
+N_SMS = 4   # AMK's lowerer leaves Task.sm unset; we assign round robin over the topo order,
+            # as vm/loader.py's sm_round_robin ablation does, so queue mutants have SMs to move
 
 
 def _amk():
@@ -90,7 +94,6 @@ def queue_inversion(prog, ir):
     succ = {}
     for a, b in edges:
         succ.setdefault(a, []).append(b)
-    n_sms = max((t.sm or 0) for t in prog.tasks) + 1
     for a in sorted(succ):
         for b in succ[a]:
             for c in succ.get(b, []):
@@ -99,7 +102,7 @@ def queue_inversion(prog, ir):
                 p = copy.deepcopy(prog)
                 s = p.tasks[a].sm
                 p.tasks[c].sm = s
-                p.tasks[b].sm = (s + 1) % max(2, n_sms)
+                p.tasks[b].sm = (s + 1) % N_SMS
                 tc = p.tasks.pop(c)
                 p.tasks.insert(a, tc)
                 _renumber(p)
@@ -116,7 +119,10 @@ OPERATORS = {"counter_init_stale": counter_init_stale, "tile_oob": tile_oob, "ti
 
 
 def gate(p, model, mods, torch, tok=7):
-    """AMK's authoritative correctness verdict for one program, or why it never ran."""
+    """AMK's authoritative correctness verdict for one program.
+
+    ``outcome`` is one of ``refused`` (the ReferenceVM's own ``validate()`` rejected it),
+    ``crashed`` (it raised, e.g. ``DeadlockError``), ``correct`` or ``wrong``."""
     lower = mods["schedule.lower"]
     inputs = {lower.TOKEN_NAME: torch.tensor([tok], dtype=torch.int32),
               lower.POS_NAME: torch.tensor([0], dtype=torch.int32),
@@ -124,13 +130,13 @@ def gate(p, model, mods, torch, tok=7):
     try:
         out = mods["vm.reference_vm"].ReferenceVM(p, model.weights_dict(), device="cpu").run(inputs, kv={})
     except ValueError as e:
-        return {"ran": False, "why": "refused (validate)", "detail": str(e)[:300]}
+        return {"outcome": "refused", "detail": str(e)[:300]}
     except Exception as e:  # DeadlockError, index errors from out-of-range tiles, ...
-        return {"ran": False, "why": type(e).__name__, "detail": str(e)[:300]}
+        return {"outcome": "crashed", "detail": f"{type(e).__name__}: {str(e)[:300]}"}
     with torch.no_grad():
         eager = model.forward(torch.tensor([tok]))[-1].view(1, -1)
     v = mods["eval.oracle"].logit_equivalence(out["logits"], eager, dtype=torch.float32)
-    return {"ran": True, "correct": bool(v.correct), "max_abs_err": float(v.max_abs_err),
+    return {"outcome": "correct" if v.correct else "wrong", "max_abs_err": float(v.max_abs_err),
             "top1_agreement": float(v.top1_agreement)}
 
 
@@ -139,7 +145,10 @@ def checks(p, ir):
     _, stuck = p.simulate_counters()
     return {"amk_validate": bool(res.ok), "amk_errors": list(res.errors)[:3],
             "amk_sim_counters": not stuck, "amk_sim_adv": not p.simulate_adversarial(seeds=96),
-            "queue_sim_stuck": queue_sim(p)[:8]}
+            "queue_sim_stuck": queue_sim(p)[:8],
+            # None when validate() rejects: the loader refuses those programs (and a cyclic
+            # one has no topological order to build queues from).
+            "loader_queue_stuck": (queue_sim(p, p.topological_order()) if res.ok else None)}
 
 
 def main(argv=None):
@@ -149,6 +158,8 @@ def main(argv=None):
     model = mods["models.toy"].make_toy(seed=0, dtype=torch.float32, n_layers=1)
     graph = mods["schedule.graph"].from_toy(model)
     ref = mods["schedule.lower"].lower(graph, target=ir.TARGETS["rtx5090"], pos=0, dtype=ir.DType.F32)
+    for i, tid in enumerate(ref.topological_order()):
+        ref.tasks[tid].sm = i % N_SMS
     rows = [{"id": "reference", "operator": None, "site": None, "tasks": len(ref.tasks),
              **checks(ref, ir), "gate": gate(ref, model, mods, torch)}]
     for op, fn in OPERATORS.items():
@@ -163,10 +174,10 @@ def main(argv=None):
     path = Path(argv[0] if argv else "results/amk_toy_mutants.json")
     path.write_text(json.dumps(res, indent=1))
     for r in rows:
-        g = r["gate"]
+        lq = r["loader_queue_stuck"]
         print(f"{r['id']:<22} validate={r['amk_validate']!s:<5} sim_counters={r['amk_sim_counters']!s:<5} "
               f"sim_adv={r['amk_sim_adv']!s:<5} queue_stuck={len(r['queue_sim_stuck'])} "
-              f"gate={'correct' if g.get('correct') else g.get('why', 'WRONG')}  {r['site'] or ''}")
+              f"loader_stuck={'-' if lq is None else len(lq)} gate={r['gate']['outcome']}  {r['site'] or ''}")
     return res
 
 

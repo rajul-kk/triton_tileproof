@@ -30,7 +30,9 @@ def test_transitive_inversion_passes_validate_but_hangs(ir):
     m = next(m for m in mutants(prog) if m.id.endswith("swap_same_sm:2"))
     r = amk_bridge.amk_checks(m.program, ir)
     assert r["amk_sim_counters"]          # AMK's simulator ignores SM queues
-    assert not r["queue_sim"]             # serial SM queues deadlock
+    assert not r["queue_sim"]             # task-list-order SM queues deadlock
+    p = amk_bridge.to_amk(m.program, ir)
+    assert amk_bridge.queue_sim(p, p.topological_order()) == []  # AMK's loader order does not
 
 
 def test_queue_sim_on_amk_lowering(ir):
@@ -41,7 +43,9 @@ def test_queue_sim_on_amk_lowering(ir):
     model = mods["models.toy"].make_toy(seed=0, dtype=torch.float32, n_layers=1)
     ref = mods["schedule.lower"].lower(mods["schedule.graph"].from_toy(model),
                                        target=ir.TARGETS["rtx5090"], pos=0, dtype=ir.DType.F32)
+    for i, tid in enumerate(ref.topological_order()):
+        ref.tasks[tid].sm = i % amk_e2e.N_SMS
     assert ir.validate(ref).ok
     assert amk_bridge.queue_sim(ref) == []
     g = amk_e2e.gate(ref, model, mods, torch)
-    assert g["ran"] and g["correct"], g
+    assert g["outcome"] == "correct", g

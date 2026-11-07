@@ -95,13 +95,20 @@ def to_amk(prog: Program, ir):
     return p
 
 
-def queue_sim(p) -> list:
-    """Stuck task ids when each SM runs its own queue (task-list order) to completion, firing
-    only queue heads whose waits hold. Empty means no deadlock under any schedule: firing a
-    ready head never disables another SM's head, so one greedy run decides it."""
+def queue_sim(p, order=None) -> list:
+    """Stuck task ids when each SM runs its own queue to completion, firing only queue heads
+    whose waits hold. Empty means no deadlock under any schedule: firing a ready head never
+    disables another SM's head, so one greedy run decides it. That needs counters that only
+    go up, which holds for every AMK program (AMK has no ``reset``; part-1 programs with
+    ``reset`` or ``ticket`` are not ``expressible`` and never reach here).
+
+    ``order`` is the sequence the queues are built from: task-list order by default (what
+    ``validate()`` assumes and part 1 models), or ``p.topological_order()``, which is what
+    AMK's CUDA loader (``vm/loader.py`` ``_assign_sms``) actually uses."""
     cval = {c.id: c.init for c in p.counters}
     queues = {}
-    for t in p.tasks:
+    for tid in (range(len(p.tasks)) if order is None else order):
+        t = p.tasks[tid]
         queues.setdefault(t.sm, []).append(t)
     progress = True
     while progress:
