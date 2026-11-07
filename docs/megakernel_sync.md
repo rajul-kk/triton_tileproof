@@ -194,3 +194,73 @@ Run:
 
     AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m triton_equiv.msync.amk_e2e
     AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m pytest tests/test_msync_amk.py
+
+## Part 3: the same programs on a GPU (code written, results pending)
+
+`msync/gpu.py` runs a schedule program as one persistent Triton kernel. Each launched
+program plays one SM and walks its queue in task-list order (the order `machine` and
+part 1 use). Programs synchronise through the program's counters in global memory:
+
+* a wait is an `atomic_add(c, 0, sem="acquire")` poll, then a block barrier;
+* a signal is a block barrier, then an `atomic_add(c, 1, sem="release")`;
+* `signal_first` signals before the writes, which is the missing fence the mutant models;
+* `ticket` takes its slot with an atomic fetch-and-add, and `reset` is an `atomic_xchg`.
+
+All buffers live in one float32 arena laid out as in `ir.Program`. An off-by-one region
+therefore reads or writes the neighbouring buffer, as on real hardware. A region outside
+the arena is a fault.
+
+Every program's state is explicit, in `ProgState`:
+
+    RUNNING -> DONE | TIMED_OUT | FAULTED     (all three final)
+
+A wait gives up after `max_spin` polls, so a deadlock ends the launch as `TIMED_OUT`
+instead of hanging the GPU. `RunOutcome` folds the programs' states for one launch, and
+`races.Obs` compares a launch with the reference output.
+
+Delays can be injected at three points of every task: before its waits, between its
+reads and its write (a slow producer), and between write and signal. Each delay is a
+spin of volatile loads.
+
+Modes:
+
+* `parallel`: the megakernel.
+* `dynamic`: programs pull tasks from an atomic head over a topological order.
+* `per_task`: one launch per task, the eager baseline.
+* `serial`: one program in list order, for the CPU interpreter.
+
+**Tests**: `tests/test_msync_gpu.py` runs under `TRITON_INTERPRET=1` (Triton 3.9 in
+WSL, no GPU needed). It checks that serial mode gives `machine`'s outcome and output on
+all 6 reference programs and all 106 of their mutants (the 99 audited ones, plus
+the 7 of `moe_dispatch`, which the audit skips because that reference is racy).
+It also checks `per_task` and `dynamic` on the references, and that delays do not change
+a serial run. The interpreter runs
+launched programs one after another, so it cannot test spin-waits between programs:
+only the GPU run can.
+
+Two experiments, in `notebooks/msync_gpu.ipynb` (Kaggle T4, **not yet run**):
+
+1. `python -m triton_equiv.msync.races` runs every reference and mutant 100 times in
+   `parallel` mode, once with no delays and once with random delays (each delay point,
+   with probability 1/2, gets up to 1000 spins). Each launch is recorded as `match`,
+   `differs`, `timed_out` or `faulted`. Grouped by oracle label, this gives how many
+   mutants a GPU test would ever catch, and how often. Any non-`match` launch of a
+   benign program counts as a false alarm and is listed. There should be none.
+2. `python -m triton_equiv.msync.latency` times 100k launches of each benign reference
+   as `static` (`parallel`), `dynamic` and `per_task`, using CUDA events around the
+   launches only. Each series goes through tinytail's `analyse()` (fit on the first
+   third, hold-out on the rest, origin `hardware`).
+
+What to expect, stated before the run:
+
+* Deadlock mutants should time out on every launch, because waits that can never be
+  met do not depend on timing. The exception is deadlocks that depend on the
+  interleaving, such as the barrier-reuse ones.
+* Without delays, races should rarely show. The programs are tiny and the GPU runs its
+  SMs nearly in lockstep, which is the point RESOLVE makes about sanitizers.
+* Random delays should expose many more races. Some should still never show: the oracle
+  can prove an interleaving exists that hardware timing almost never produces.
+* `per_task` should be slowest, by roughly one launch overhead per task.
+* `dynamic` timings should be less i.i.d. than `static` ones, because the order in which
+  programs win the atomic head changes from launch to launch. Whether the gates actually
+  separate the two schedules is the open question.

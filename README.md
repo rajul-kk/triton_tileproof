@@ -79,6 +79,7 @@ targets the same failures as our precision-loss tier, but by a rule rather than 
 | `results/kernelgym_audit_t4.json`, `results/kernelgym_audit_t4_unpatched.json`, `results/kernelgym_readme_check_t4.json` | KernelGYM GPU results |
 | `src/triton_equiv/msync/` | Megakernel synchronisation: a schedule IR cut down from AutoMegaKernel's, an oracle that explores every SM interleaving, 12 schedule mutation operators and a checker audit. See `docs/megakernel_sync.md` |
 | `src/triton_equiv/msync/amk_bridge.py`, `amk_e2e.py` | Run AutoMegaKernel's own validator, simulators and correctness gate on our mutants and on bugs planted in its toy-Llama lowering (needs `AMK_ROOT`) |
+| `src/triton_equiv/msync/gpu.py`, `races.py`, `latency.py` | The same schedule programs as one persistent Triton kernel on a GPU: how often each mutant shows with and without injected delays, and launch-latency tails checked with tinytail (`notebooks/msync_gpu.ipynb`, not yet run) |
 | `src/triton_equiv/kgym_table.py` | KernelGYM accepted-by-label table from `results/kernelgym_audit_t4.json`, with mutants that do not compile on GPU counted separately |
 | `results/msync_audit.json` | 99 labelled schedule mutants and six checkers' verdicts (`python -m triton_equiv.msync.audit`) |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
