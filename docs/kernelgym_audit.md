@@ -44,16 +44,19 @@ take no init inputs). Without the patch, all 48 controls and 288 mutant runs sto
 Controls: the 8 reference kernels at tile and odd sizes (16 configurations) **all pass** with explicit tolerances
 (`1e-4/1e-5` and `1e-2/1e-2`) and **all fail** when the case omits them (problem 2).
 
-Accepted by KernelGYM (`correctness == True`), by oracle label. Counts are mutants out of the number with that label:
+Accepted by KernelGYM (`correctness == True`), by oracle label. Counts are mutants out of the number with that label.
+The two mutants that do not compile on GPU Triton (below) are left out of their labels' rows
+(`python -m triton_equiv.kgym_table`):
 
 | Oracle label | n | tile sizes, 1e-4/1e-5 | tile sizes, 1e-2 | odd sizes, 1e-4/1e-5 | odd sizes, 1e-2 |
 |---|---|---|---|---|---|
 | oob | 27 | **27** | **27** | 17 | 17 |
 | inequivalent | 19 | 9 | 9 | 0 | 0 |
-| numerical: precision loss | 6 | 0 | 5 | 0 | 5 |
+| numerical: precision loss | 5 | 0 | 5 | 0 | 5 |
 | numerical: reorder | 6 | 5 | 6 | 5 | 6 |
-| benign (proved) | 7 | 6 | 6 | 6 | 6 |
+| benign (proved) | 6 | 6 | 6 | 6 | 6 |
 | benign (unproved) | 7 | 7 | 7 | 7 | 7 |
+| does not compile | 2 | – | – | – | – |
 
 Reading:
 
@@ -63,12 +66,13 @@ Reading:
 - 9 of the 19 output-changing mutants pass at tile sizes; all of them are tail bugs, and odd sizes catch every one.
   This is the aligned-shape effect reported by arXiv 2609.22220 for CUDA, reproduced here for Triton.
 - KernelGYM's fallback tolerance (1e-4/1e-5) rejects every precision-loss mutant, while a KernelBench-style 1e-2
-  accepts 5 of 6.
+  accepts all 5 that compile.
 - **Two mutants do not compile on GPU Triton**: `matmul:acc_dtype_downgrade:0` (labelled benign) and
   `matmul_fp16:acc_dtype_downgrade:0` (labelled precision loss). Triton 3.6 rejects a loop-carried accumulator whose
   dtype changes inside the loop. The CPU interpreter ran both. Their labels describe programs the compiler would
-  never accept, so they should be marked "does not compile" and dropped from the accepted/rejected counts. That
-  explains the one rejected "benign (proved)" mutant and the one rejected precision-loss mutant at 1e-2 above.
+  never accept, so the table above lists them as "does not compile" instead of under their labels. Their
+  rejection was the compile error, not a wrong output. KernelGYM still reports `compiled: True` for them,
+  because Triton compiles on the first launch, inside the correctness run.
 
 Not covered: other GPUs, other Triton versions, KernelGYM's performance and decoy checks, and the KernelBench
 workflow.

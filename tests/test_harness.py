@@ -79,3 +79,12 @@ def test_label_counts_use_audit_families():
     doc = json.load(open("results/labels.json"))
     assert doc["counts"] == dict(Counter(family(lab) for lab in doc["labels"]))
     assert set(doc["counts"]) <= set(FAMILIES)
+
+
+def test_kernelgym_table_sets_apart_mutants_that_do_not_compile():
+    from triton_equiv import kgym_table
+    t = kgym_table.table(json.load(open("results/kernelgym_audit_t4.json"))["rows"])
+    assert t["does not compile"]["ids"] == ["matmul:acc_dtype_downgrade:0", "matmul_fp16:acc_dtype_downgrade:0"]
+    assert t["numerical:precision"] == {"n": 5, "tile/explicit_default": 0, "tile/kernelbench": 5,
+                                        "odd/explicit_default": 0, "odd/kernelbench": 5}
+    assert t["benign:proved"]["n"] == 6 and t["oob"]["tile/kernelbench"] == 27
