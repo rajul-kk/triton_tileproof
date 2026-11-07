@@ -129,13 +129,15 @@ Reading:
   every run-and-compare checker: one writes a row into the next buffer, which the norm
   overwrites before anyone reads it, the other into the allocation's rounding padding.
   This is the same tile/tail blind spot as in KernelGYM's check, one level up.
-* **Two rule gaps, to confirm against AMK's code in part 2:**
-  1. *Transitive same-SM inversion* (`mlp_rms_*:swap_same_sm:2`). `h0` runs before `g1`
-     on SM 1, and `h0` depends on `g1` only through the norm on SM 0. That deadlocks on
-     every schedule, but there is no direct edge between `g1` and `h0`, so a queue-order
-     rule that checks direct edges (as AMK's spec states it) passes it.
+* **Two possible rule gaps, checked against AMK's code in part 2:**
+  1. *Transitive same-SM inversion* (`mlp_rms_*:swap_same_sm:2`). `h0` comes before `g1`
+     in SM 1's task list, and `h0` depends on `g1` only through the norm on SM 0. With SM
+     queues in task-list order that deadlocks on every schedule, and a queue-order rule
+     that checks only direct edges passes it. **Not a gap in AMK** (part 2): its CUDA
+     loader builds each SM's queue from the topological order, not the task list, so this
+     schedule cannot hang there.
   2. *Counters not zeroed* (8 racy mutants). The rules never look at a counter's initial
-     value; AMK leaves zeroing to the host.
+     value; AMK leaves zeroing to the host. Confirmed in AMK's code (part 2).
 * **False rejections:** 4 of 9 benign mutants fail the happens-before rule because it uses
   counter edges only and ignores ordering that the SM queue already guarantees.
 
@@ -148,7 +150,11 @@ Pinned commit: `884534c4d2dbed4381576f81a79ae97feca53c34`. AMK is not a dependen
 both scripts read `AMK_ROOT`.
 
 **What reading AMK's code confirmed.** `schedule/ir.py` `validate()` checks
-SM queue order only on direct producer-to-consumer edges. It never reads `Counter.init`.
+SM queue order, in task-list order, only on direct producer-to-consumer edges. That is not
+a hole: `lower()` leaves `Task.sm` unset, and the CUDA loader (`vm/loader.py`
+`_assign_sms`) builds every SM's queue as a subsequence of `topological_order()`, which
+cannot deadlock on an acyclic graph. The transitive inversion from part 1 therefore does
+not exist on AMK's GPU path. `validate()` never reads `Counter.init`.
 It never compares a GEMV tile's `n_off + N_tile` with the output buffer's shape.
 `simulate_counters()` and `simulate_adversarial()` fire any ready task in any order and
 ignore the per-SM queues. Correctness is decided by the CPU `ReferenceVM`, which also
@@ -164,7 +170,9 @@ Programs that use `reset`, `ticket` or an early signal are skipped.
 **`msync/amk_e2e.py`** lowers AMK's own toy Llama (`make_toy(n_layers=1)`, fp32, one
 decode step) with AMK's lowerer. It then plants four kinds of bug in that real schedule:
 a stale counter init, the last GEMV tile overrunning its buffer, the last tile one column
-short (a control), and a transitive same-SM queue inversion that `validate()` accepts.
+short (a control), and the transitive queue inversion from part 1. `lower()` leaves SMs
+unassigned, so the script assigns 4 SMs round robin over the topological order, as the
+loader's `sm_round_robin` mode does.
 It records the four schedule checks above and AMK's authoritative gate for each mutant,
 and writes `results/amk_toy_mutants.json`.
 
@@ -172,8 +180,9 @@ and writes `results/amk_toy_mutants.json`.
 
 Expected, from the code but **not yet run**:
 
-* the queue inversion passes `validate()`, both AMK simulators and the ReferenceVM gate,
-  and `queue_sim` reports it stuck, so it would hang on a GPU;
+* the queue inversion passes `validate()`, both AMK simulators and the ReferenceVM gate;
+  `queue_sim` in task-list order reports it stuck, and in the loader's order it does not
+  (`loader_queue_stuck` empty), so it does not hang AMK;
 * the stale counter init passes `validate()`;
 * the overrunning tile passes `validate()`, and the ReferenceVM truncates it through
   torch slicing.

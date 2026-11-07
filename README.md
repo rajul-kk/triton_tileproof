@@ -280,9 +280,9 @@ Accepted by six checkers (details and the three-part plan in `docs/megakernel_sy
 A single launch on memory left by a previous launch misses almost every race; schedule
 perturbation catches all of them in this model; static rules catch most synchronisation
 bugs but no out-of-bounds tile. The "AMK-style rules" are our reading of AutoMegaKernel's
-validator from its docs, not its code, and two possible gaps (a deadlock through a
-transitive same-SM inversion, and counters not zeroed) still have to be checked against the
-real validator. This is a model with sequential consistency at step granularity, not a GPU.
+validator from its docs, not its code. Reading its code since: counters not zeroed is a
+real gap in its validator; the transitive same-SM inversion is not, because AMK's GPU loader
+orders each SM's queue topologically rather than by task list. This is a model with sequential consistency at step granularity, not a GPU.
 
 ## Scope limits
 
