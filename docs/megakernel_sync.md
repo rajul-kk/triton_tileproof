@@ -264,3 +264,34 @@ What to expect, stated before the run:
 * `dynamic` timings should be less i.i.d. than `static` ones, because the order in which
   programs win the atomic head changes from launch to launch. Whether the gates actually
   separate the two schedules is the open question.
+
+### A second backend in CUDA C++
+
+`csrc/msync_vm.h` is the same VM as the Triton kernel, written once over a hardware
+policy. It reads the same task tables and queues, and gives the same `ProgState`,
+`StopStep` and `RunOutcome`. `msync/cuda_vm.py` runs it (`CudaRunner`, with the same
+interface as `gpu.Runner`), and `races`/`latency` take `--backend cuda`. Against the
+Triton kernel it adds:
+
+* waits as `ld.acquire.gpu` polls and signals as `atom.add.release.gpu`, written in PTX;
+* a timeout in nanoseconds of `%globaltimer`, and delays of `__nanosleep` in nanoseconds;
+* a time stamp at every task's start (after its waits) and end (after its signal).
+  `latency --backend cuda` adds a `static_in_kernel` series, first task start to last
+  task end, with no launch overhead or host jitter in it;
+* the warp-level `no_barrier` mutant, which Triton cannot express. A task's output
+  elements are dealt over the block's 4 warps. With `no_barrier`, thread 0 signals once
+  warp 0 has written, without the block barrier, while the other warps' writers first
+  wait out the D_POST delay. The step machine has no warps, so these rows are labelled
+  `unmodelled`. `races --backend cuda` plants one at every `cuda_vm.no_barrier_sites`
+  site: tasks that signal a waited-on counter and write more than one element.
+
+`csrc/msync_vm_cpu.cpp` builds the header for one host thread.
+`tests/test_msync_cuda_vm.py` checks that build in WSL:
+
+* serial mode gives `machine`'s outcome and output on all 6 references and 106 mutants;
+* `per_task` and `dynamic` match on the references;
+* the C++ enum values equal `gpu.KERNEL_LITERALS`;
+* `no_barrier` cannot show on a single thread.
+
+The CUDA build has not been compiled yet (there is no nvcc here). It is built in
+`notebooks/msync_gpu.ipynb`, section 3.
