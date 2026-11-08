@@ -4,8 +4,6 @@ The interpreter runs launched programs one after another, so spin-waits between 
 cannot be tested here; ``serial`` mode runs every task on one program in list order and is
 compared with ``machine`` on the same program moved onto one SM. Skipped without triton."""
 
-import dataclasses
-import math
 import os
 
 import pytest
@@ -14,35 +12,17 @@ os.environ.setdefault("TRITON_INTERPRET", "1")
 pytest.importorskip("torch")
 pytest.importorskip("triton")
 
+from msync_helpers import EXPECT, one_sm, programs  # noqa: E402
+from msync_helpers import same as _same  # noqa: E402
+
 from triton_equiv.msync import gpu, machine  # noqa: E402
 from triton_equiv.msync.ir import reference_programs  # noqa: E402
-from triton_equiv.msync.mutate import mutants  # noqa: E402
 
 pytestmark = pytest.mark.skipif(os.environ.get("TRITON_INTERPRET") != "1",
                                 reason="these tests need the CPU interpreter")
 
 
-def one_sm(prog):
-    return prog.copy(n_sms=1, tasks=[dataclasses.replace(t, sm=0) for t in prog.tasks])
-
-
-def _programs():
-    for ref in reference_programs():
-        yield ref.name, ref
-        for m in mutants(ref):
-            yield m.id, m.program
-
-
-EXPECT = {"ok": gpu.RunOutcome.COMPLETED, "deadlock": gpu.RunOutcome.TIMED_OUT,
-          "fault": gpu.RunOutcome.FAULTED}
-
-
-def _same(a, b):
-    return all((math.isnan(x) and math.isnan(y)) or math.isclose(x, y, rel_tol=1e-4, abs_tol=1e-5)
-               for x, y in zip(a, b)) and len(a) == len(b)
-
-
-@pytest.mark.parametrize("name,prog", list(_programs()), ids=lambda v: v if isinstance(v, str) else "")
+@pytest.mark.parametrize("name,prog", list(programs()), ids=lambda v: v if isinstance(v, str) else "")
 def test_serial_kernel_matches_machine(name, prog):
     arena = machine.num_arena(prog, machine.num_inputs(prog, 0), "nan")
     status, m = machine.run(one_sm(prog), arena)
