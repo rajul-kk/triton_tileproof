@@ -1,0 +1,1704 @@
+{
+ "command": "python -m triton_equiv.msync.latency --backend cuda --n 100000 --out /kaggle/working/msync_gpu_latency_cuda.json",
+ "backend": "cuda",
+ "gpu": "Tesla T4",
+ "torch": "2.11.0+cu130",
+ "triton": null,
+ "pwcet": "0.0.1",
+ "n": 100000,
+ "seconds": 261.7,
+ "rows": [
+  {
+   "program": "mlp_rms_aligned",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static",
+   "median_us": 27.424000203609467,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 909,
+     "cv": 0.2536827489559584,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -110.44503614155609,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 3942.3365325097493,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 25.952579441014436,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.6118444737789512,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 19.039999693632126,
+     "median": 23.455999791622162,
+     "mean": 24.235222543906975,
+     "std": 6.148150100363164,
+     "q0.999": 74.96742361783643,
+     "q0.9999": 129.13396210370115,
+     "max": 727.0399928092957,
+     "distinct": 909
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 24.09599907696247,
+     "median": 28.704000636935234,
+     "mean": 29.307863880511277,
+     "std": 4.562130926760417,
+     "q0.999": 78.37868876755246,
+     "q0.9999": 100.32004624307369,
+     "max": 182.68799781799316,
+     "distinct": 1115
+    },
+    "baseline_max_plus_margin": {
+     "bound": 872.4479913711548,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_aligned",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "dynamic",
+   "median_us": 32.15999901294708,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 782,
+     "cv": 0.12038540492212095,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -37.62200935147719,
+       "pvalue": 9.3886278832875e-310,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 13268.310765222494,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.8781266707754287,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.055262210488419505,
+       "pvalue": 1.4672777557792917e-22,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 29.600000008940697,
+     "median": 32.127998769283295,
+     "mean": 32.80423172268649,
+     "std": 3.9492099582807616,
+     "q0.999": 77.85599678754807,
+     "q0.9999": 116.03227067291546,
+     "max": 124.09599870443344,
+     "distinct": 782
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 28.991999104619026,
+     "median": 32.19199925661087,
+     "mean": 32.75391686496121,
+     "std": 4.658953557837509,
+     "q0.999": 77.84582567215155,
+     "q0.9999": 121.5152142003438,
+     "max": 729.0880084037781,
+     "distinct": 927
+    },
+    "baseline_max_plus_margin": {
+     "bound": 148.91519844532013,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 5
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_aligned",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "per_task",
+   "median_us": 45.60000076889992,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 1398,
+     "cv": 0.18426511284622282,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -98.42880429888169,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 38062.517862159206,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 2.2588842099205664,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.10800432017280692,
+       "pvalue": 4.1826603832405324e-85,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 41.34399816393852,
+     "median": 47.00800031423569,
+     "mean": 49.52360824020061,
+     "std": 9.12561014748043,
+     "q0.999": 132.53388637304215,
+     "q0.9999": 160.48041216134735,
+     "max": 224.41600263118744,
+     "distinct": 1398
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 41.21600091457367,
+     "median": 45.08800059556961,
+     "mean": 48.44484742459451,
+     "std": 9.464087626971539,
+     "q0.999": 128.9387503266338,
+     "q0.9999": 224.58816536374064,
+     "max": 771.7440128326416,
+     "distinct": 1692
+    },
+    "baseline_max_plus_margin": {
+     "bound": 269.2992031574249,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 3
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_aligned",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static_in_kernel",
+   "median_us": 15.936,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 195,
+     "cv": 0.12199121344580109,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -153.37086213249944,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 557201.2194139936,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 29.79771386266227,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.8810752430097204,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 10.208,
+     "median": 13.568,
+     "mean": 13.378517145171452,
+     "std": 1.6320860223636873,
+     "q0.999": 16.416,
+     "q0.9999": 16.416,
+     "max": 16.416,
+     "distinct": 195
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 14.88,
+     "median": 16.032,
+     "mean": 15.945184274078631,
+     "std": 0.454668759345418,
+     "q0.999": 16.416,
+     "q0.9999": 16.416,
+     "max": 16.416,
+     "distinct": 34
+    },
+    "baseline_max_plus_margin": {
+     "bound": 19.6992,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_odd",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static",
+   "median_us": 29.120000079274178,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box"
+     ],
+     "n_distinct": 871,
+     "cv": 0.14454628186543814,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -50.11961986720481,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 18923.966417873125,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.31593376288750313,
+       "pvalue": 0.1,
+       "alpha": 0.0125,
+       "reject": false
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.016140645625825012,
+       "pvalue": 0.02574318420442212,
+       "alpha": 0.0125,
+       "reject": false
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 26.59199945628643,
+     "median": 29.08799983561039,
+     "mean": 30.271176394858927,
+     "std": 4.375651631492779,
+     "q0.999": 80.28838440775809,
+     "q0.9999": 111.78728894888914,
+     "max": 148.83199334144592,
+     "distinct": 871
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 26.688000187277794,
+     "median": 29.120000079274178,
+     "mean": 30.230086689291422,
+     "std": 4.31521257043655,
+     "q0.999": 75.75469113886365,
+     "q0.9999": 117.4188056975668,
+     "max": 252.19199061393738,
+     "distinct": 1066
+    },
+    "baseline_max_plus_margin": {
+     "bound": 178.5983920097351,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 2
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_odd",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "dynamic",
+   "median_us": 30.751999467611313,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 800,
+     "cv": 0.11963826537313772,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -46.3460307926238,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 2737.3573091871704,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.7316855163051984,
+       "pvalue": 0.010664953063163781,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.04008160326413057,
+       "pvalue": 4.545194752232836e-12,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 28.64000014960766,
+     "median": 30.751999467611313,
+     "mean": 31.813964459041383,
+     "std": 3.8062246168907725,
+     "q0.999": 77.70688310265507,
+     "q0.9999": 95.07216513454796,
+     "max": 102.62399911880493,
+     "distinct": 800
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 28.64000014960766,
+     "median": 30.751999467611313,
+     "mean": 31.800008922584432,
+     "std": 4.848074762747069,
+     "q0.999": 75.93599706888199,
+     "q0.9999": 106.7413382679226,
+     "max": 718.4960246086121,
+     "distinct": 1021
+    },
+    "baseline_max_plus_margin": {
+     "bound": 123.14879894256592,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 3
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_odd",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "per_task",
+   "median_us": 45.1200008392334,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 1256,
+     "cv": 0.16307628040121658,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -88.97167008602538,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 12140.554284982169,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 7.03074988142772,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.15582623304932203,
+       "pvalue": 3.538965108011413e-177,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 41.02399945259094,
+     "median": 45.75999826192856,
+     "mean": 48.574483210017924,
+     "std": 7.921464868353523,
+     "q0.999": 122.32678660750155,
+     "q0.9999": 154.16545695066367,
+     "max": 305.1519989967346,
+     "distinct": 1256
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 40.95999896526337,
+     "median": 45.05600035190582,
+     "mean": 48.18539719862734,
+     "std": 8.938260327660137,
+     "q0.999": 129.2375735640535,
+     "q0.9999": 196.12840544881382,
+     "max": 307.16800689697266,
+     "distinct": 1696
+    },
+    "baseline_max_plus_margin": {
+     "bound": 366.18239879608154,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "mlp_rms_odd",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static_in_kernel",
+   "median_us": 14.432,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 162,
+     "cv": 0.12363327230185017,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -162.6102080801158,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 555690.7951359514,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 29.97870866134184,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.8972158886355454,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 9.056,
+     "median": 12.288,
+     "mean": 12.500064200642008,
+     "std": 1.5454470232196191,
+     "q0.999": 15.648,
+     "q0.9999": 15.68,
+     "max": 15.68,
+     "distinct": 162
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 14.304,
+     "median": 14.624,
+     "mean": 14.767459762701186,
+     "std": 0.467209257899614,
+     "q0.999": 15.68,
+     "q0.9999": 15.68,
+     "max": 15.68,
+     "distinct": 18
+    },
+    "baseline_max_plus_margin": {
+     "bound": 18.816,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_aligned",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "static",
+   "median_us": 22.463999688625336,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 923,
+     "cv": 0.21995690558421704,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -60.014493050339524,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 8951.795962621056,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.761372029322892,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.04266170646825873,
+       "pvalue": 1.2896264177122287e-13,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 20.287999883294106,
+     "median": 22.431999444961548,
+     "mean": 23.705861730493737,
+     "std": 5.214346207008615,
+     "q0.999": 79.8719972372055,
+     "q0.9999": 121.34461201726955,
+     "max": 201.82399451732635,
+     "distinct": 923
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 19.45599913597107,
+     "median": 22.463999688625336,
+     "mean": 23.818186063493844,
+     "std": 5.389450291165987,
+     "q0.999": 77.62137845158594,
+     "q0.9999": 115.01914400758619,
+     "max": 197.02400267124176,
+     "distinct": 1183
+    },
+    "baseline_max_plus_margin": {
+     "bound": 242.18879342079163,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_aligned",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "dynamic",
+   "median_us": 23.840000852942467,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box"
+     ],
+     "n_distinct": 842,
+     "cv": 0.18591554216332848,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -37.13540628966593,
+       "pvalue": 7.541430513244101e-302,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 3671.632080622988,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.11067744598204723,
+       "pvalue": 0.1,
+       "alpha": 0.0125,
+       "reject": false
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.01422056882275291,
+       "pvalue": 0.06810467013736932,
+       "alpha": 0.0125,
+       "reject": false
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 21.15200087428093,
+     "median": 23.840000852942467,
+     "mean": 24.736944692601583,
+     "std": 4.599051470968635,
+     "q0.999": 72.57651329040445,
+     "q0.9999": 121.77126486599023,
+     "max": 231.55200481414795,
+     "distinct": 842
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 21.056000143289566,
+     "median": 23.840000852942467,
+     "mean": 24.904228639631135,
+     "std": 5.2010092437093,
+     "q0.999": 74.22937497496622,
+     "q0.9999": 142.61481414444336,
+     "max": 339.9359881877899,
+     "distinct": 1136
+    },
+    "baseline_max_plus_margin": {
+     "bound": 277.86240577697754,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 1
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_aligned",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "per_task",
+   "median_us": 34.01599824428558,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 1077,
+     "cv": 0.2021320482138403,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -63.85374788177061,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 4780.047883663684,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.881990570489811,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.14400576023040923,
+       "pvalue": 2.9205561084207702e-151,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 30.848000198602676,
+     "median": 34.07999873161316,
+     "mean": 36.1228937522492,
+     "std": 7.301704029030237,
+     "q0.999": 101.98527672886642,
+     "q0.9999": 247.76650936006664,
+     "max": 374.81600046157837,
+     "distinct": 1077
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 30.719999223947525,
+     "median": 33.952001482248306,
+     "mean": 36.16276242903205,
+     "std": 7.126851332280601,
+     "q0.999": 104.45868618786344,
+     "q0.9999": 157.56838177444374,
+     "max": 238.17600309848785,
+     "distinct": 1449
+    },
+    "baseline_max_plus_margin": {
+     "bound": 449.77920055389404,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_aligned",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "static_in_kernel",
+   "median_us": 7.712,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 47,
+     "cv": 0.06319807298406606,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -2.2906379312811302,
+       "pvalue": 0.021984363206493506,
+       "alpha": 0.0125,
+       "reject": false
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 117.73532576587793,
+       "pvalue": 7.477987206547127e-16,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 7.821244937763265,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.056642265690627636,
+       "pvalue": 1.1137651638478299e-23,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 6.496,
+     "median": 7.712,
+     "mean": 7.654560705607056,
+     "std": 0.48376074267204877,
+     "q0.999": 8.224,
+     "q0.9999": 8.224,
+     "max": 8.224,
+     "distinct": 47
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 6.656,
+     "median": 7.712,
+     "mean": 7.674512667436662,
+     "std": 0.4719181809789497,
+     "q0.999": 8.224,
+     "q0.9999": 8.224,
+     "max": 8.224,
+     "distinct": 36
+    },
+    "baseline_max_plus_margin": {
+     "bound": 9.8688,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_odd",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "static",
+   "median_us": 22.39999920129776,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 944,
+     "cv": 0.21660894356228166,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -71.98948912647212,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 7161.35423353186,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 1.878590939961589,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.10848433937357493,
+       "pvalue": 7.331954698878524e-86,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 20.160000771284103,
+     "median": 22.52800017595291,
+     "mean": 23.82857400339575,
+     "std": 5.161559666221133,
+     "q0.999": 74.30502602457835,
+     "q0.9999": 106.7951370745864,
+     "max": 249.82400238513947,
+     "distinct": 944
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 19.200000911951065,
+     "median": 22.336000576615334,
+     "mean": 23.518004199095415,
+     "std": 5.04535767864554,
+     "q0.999": 74.7201307117944,
+     "q0.9999": 100.14935694337002,
+     "max": 223.26399385929108,
+     "distinct": 1130
+    },
+    "baseline_max_plus_margin": {
+     "bound": 299.78880286216736,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_odd",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "dynamic",
+   "median_us": 23.871999233961105,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box"
+     ],
+     "n_distinct": 843,
+     "cv": 0.1792049413412796,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -38.02765783959115,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 2850.1119510668013,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.1915424870456788,
+       "pvalue": 0.1,
+       "alpha": 0.0125,
+       "reject": false
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.015360614424577035,
+       "pvalue": 0.038792833614980315,
+       "alpha": 0.0125,
+       "reject": false
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 21.183999255299568,
+     "median": 23.871999233961105,
+     "mean": 24.794378224656917,
+     "std": 4.4433417466357445,
+     "q0.999": 73.80288317799534,
+     "q0.9999": 100.72601556181425,
+     "max": 146.08000218868256,
+     "distinct": 843
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 20.800000056624413,
+     "median": 23.871999233961105,
+     "mean": 24.870787203822207,
+     "std": 4.849955082776274,
+     "q0.999": 78.11206273734594,
+     "q0.9999": 104.35229425878731,
+     "max": 245.7599937915802,
+     "distinct": 1075
+    },
+    "baseline_max_plus_margin": {
+     "bound": 175.29600262641907,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 1
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_odd",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "per_task",
+   "median_us": 34.143999218940735,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "ks_halves"
+     ],
+     "n_distinct": 1061,
+     "cv": 0.16694876380512372,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -68.86864480146141,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 5184.542183611659,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 0.7066389384231619,
+       "pvalue": 0.01294191468880346,
+       "alpha": 0.0125,
+       "reject": false
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.10722428897155883,
+       "pvalue": 6.967948123329168e-84,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 30.719999223947525,
+     "median": 34.07999873161316,
+     "mean": 35.973414508809434,
+     "std": 6.005807170779155,
+     "q0.999": 95.84089809655998,
+     "q0.9999": 122.32560403942868,
+     "max": 132.4159950017929,
+     "distinct": 1061
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 30.688000842928886,
+     "median": 34.20799970626831,
+     "mean": 36.301664139874894,
+     "std": 7.041385127509389,
+     "q0.999": 101.8773768842222,
+     "q0.9999": 135.4773705273884,
+     "max": 260.2880001068115,
+     "distinct": 1474
+    },
+    "baseline_max_plus_margin": {
+     "bound": 158.8991940021515,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 3
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "split_reduce_odd",
+   "tasks": 3,
+   "sms": 2,
+   "schedule": "static_in_kernel",
+   "median_us": 7.712,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 58,
+     "cv": 0.07020232311630718,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -10.761797677052748,
+       "pvalue": 5.2142927371784925e-27,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 4657.652705553202,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 24.558116466736056,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.2593903756150246,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 6.304,
+     "median": 7.712,
+     "mean": 7.561180571805719,
+     "std": 0.530820404088054,
+     "q0.999": 8.224,
+     "q0.9999": 8.224,
+     "max": 8.224,
+     "distinct": 58
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 6.656,
+     "median": 7.712,
+     "mean": 7.672702116489417,
+     "std": 0.4739472915950914,
+     "q0.999": 8.224,
+     "q0.9999": 8.224,
+     "max": 8.224,
+     "distinct": 36
+    },
+    "baseline_max_plus_margin": {
+     "bound": 9.8688,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "barrier2",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static",
+   "median_us": 30.239999294281006,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 742,
+     "cv": 0.11814536276351767,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -44.426118177454185,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 3084.7284695045605,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 1.0250123291032618,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.06726269050762024,
+       "pvalue": 3.1838698391005806e-33,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 27.51999907195568,
+     "median": 30.30399978160858,
+     "mean": 30.87270198428389,
+     "std": 3.647521289200024,
+     "q0.999": 72.25651085376657,
+     "q0.9999": 97.21727767585803,
+     "max": 176.41599476337433,
+     "distinct": 742
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 27.135999873280525,
+     "median": 30.208000913262367,
+     "mean": 30.893271917169272,
+     "std": 4.412533605121694,
+     "q0.999": 73.7600028514862,
+     "q0.9999": 120.52345729772026,
+     "max": 477.56800055503845,
+     "distinct": 978
+    },
+    "baseline_max_plus_margin": {
+     "bound": 211.6991937160492,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 2
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "barrier2",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "dynamic",
+   "median_us": 31.55200183391571,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 729,
+     "cv": 0.11428885119560872,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -28.385438673574605,
+       "pvalue": 3.0590126255677683e-177,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 1753.6712743319918,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 1.5955181965843295,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.07566302652106083,
+       "pvalue": 6.177475882126659e-42,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 29.184000566601753,
+     "median": 31.42400085926056,
+     "mean": 32.21863925904487,
+     "std": 3.6822865032661456,
+     "q0.999": 70.43225586414296,
+     "q0.9999": 126.2414849281206,
+     "max": 225.2800017595291,
+     "distinct": 729
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 29.24799919128418,
+     "median": 31.615998595952988,
+     "mean": 32.4304003629962,
+     "std": 4.18892080583926,
+     "q0.999": 73.77069093287,
+     "q0.9999": 143.89467172331,
+     "max": 305.34398555755615,
+     "distinct": 995
+    },
+    "baseline_max_plus_margin": {
+     "bound": 270.33600211143494,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 1
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "barrier2",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "per_task",
+   "median_us": 45.24800181388855,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 1363,
+     "cv": 0.23544845241150167,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -87.93992818735947,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 13131.795908050675,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 1.8616366381689713,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.16002640105604227,
+       "pvalue": 6.873048423529897e-187,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 41.18400067090988,
+     "median": 45.56800052523613,
+     "mean": 48.918674511786534,
+     "std": 11.517998980830361,
+     "q0.999": 132.51212620735149,
+     "q0.9999": 228.52445104716944,
+     "max": 1316.7040348052979,
+     "distinct": 1363
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 40.95999896526337,
+     "median": 45.152001082897186,
+     "mean": 48.36139263610384,
+     "std": 8.90090282308229,
+     "q0.999": 134.93350327014988,
+     "q0.9999": 213.48286356926917,
+     "max": 350.5919873714447,
+     "distinct": 1683
+    },
+    "baseline_max_plus_margin": {
+     "bound": 1580.0448417663574,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  },
+  {
+   "program": "barrier2",
+   "tasks": 5,
+   "sms": 2,
+   "schedule": "static_in_kernel",
+   "median_us": 15.168,
+   "gate_verdict": "EVT-invalid-dependent",
+   "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+   "report": {
+    "gates": {
+     "verdict": "EVT-invalid-dependent",
+     "passed": false,
+     "failed": [
+      "runs",
+      "ljung_box",
+      "kpss",
+      "ks_halves"
+     ],
+     "n_distinct": 154,
+     "cv": 0.14659908697860227,
+     "tests": [
+      {
+       "name": "runs",
+       "statistic": -154.73855669936566,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ljung_box",
+       "statistic": 602281.0181044611,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "kpss",
+       "statistic": 29.432856753804355,
+       "pvalue": 0.01,
+       "alpha": 0.0125,
+       "reject": true
+      },
+      {
+       "name": "ks_halves",
+       "statistic": 0.9096963878555142,
+       "pvalue": 0.0,
+       "alpha": 0.0125,
+       "reject": true
+      }
+     ]
+    },
+    "verdict": "EVT-invalid-dependent",
+    "primary_outcome": "not-applicable (gate failed: no EVT or MBPTA bound computed)",
+    "fit_set": {
+     "n": 33333,
+     "min": 10.208,
+     "median": 13.568,
+     "mean": 13.141770137701377,
+     "std": 1.9266004029814698,
+     "q0.999": 16.384,
+     "q0.9999": 16.416,
+     "max": 16.416,
+     "distinct": 154
+    },
+    "holdout_set": {
+     "n": 66667,
+     "min": 14.464,
+     "median": 15.552,
+     "mean": 15.500277378613106,
+     "std": 0.5462052258832829,
+     "q0.999": 16.416,
+     "q0.9999": 16.416,
+     "max": 16.416,
+     "distinct": 59
+    },
+    "baseline_max_plus_margin": {
+     "bound": 19.6992,
+     "margin": 0.2,
+     "probabilistic": false,
+     "holdout_exceed": 0
+    },
+    "estimates": {},
+    "validation": {}
+   }
+  }
+ ]
+}

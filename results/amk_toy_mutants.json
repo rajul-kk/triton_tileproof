@@ -1,0 +1,244 @@
+{
+ "command": "AMK_ROOT=... python -m triton_equiv.msync.amk_e2e",
+ "amk_commit": "884534c4d2dbed4381576f81a79ae97feca53c34",
+ "torch": "2.10.0+cpu",
+ "model": "models.toy.make_toy(seed=0, n_layers=1), fp32, pos=0, token 7",
+ "rows": [
+  {
+   "id": "reference",
+   "operator": null,
+   "site": null,
+   "tasks": 38,
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "counter_init_stale:0",
+   "operator": "counter_init_stale",
+   "site": "counter 2 (2 producers)",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "counter_init_stale:1",
+   "operator": "counter_init_stale",
+   "site": "counter 12 (2 producers)",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "counter_init_stale:2",
+   "operator": "counter_init_stale",
+   "site": "counter 15 (4 producers)",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_oob:0",
+   "operator": "tile_oob",
+   "site": "L0.q_proj[t1] N_tile+4 (buffer L0.q (1, 64))",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_oob:1",
+   "operator": "tile_oob",
+   "site": "L0.o_proj[t1] N_tile+4 (buffer L0.o (1, 64))",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_oob:2",
+   "operator": "tile_oob",
+   "site": "L0.gate_proj[t3] N_tile+4 (buffer L0.gate (1, 128))",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_gap:0",
+   "operator": "tile_gap",
+   "site": "L0.q_proj[t1] N_tile-1",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_gap:1",
+   "operator": "tile_gap",
+   "site": "L0.o_proj[t1] N_tile-1",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "wrong",
+    "max_abs_err": 0.005415618419647217,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "tile_gap:2",
+   "operator": "tile_gap",
+   "site": "L0.gate_proj[t3] N_tile-1",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "wrong",
+    "max_abs_err": 0.00956273078918457,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "queue_inversion:0",
+   "operator": "queue_inversion",
+   "site": "embed -> L0.input_norm -> L0.q_proj[t1]",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [
+    0,
+    1,
+    4,
+    11,
+    12,
+    16,
+    20,
+    24
+   ],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "queue_inversion:1",
+   "operator": "queue_inversion",
+   "site": "L0.input_norm -> L0.q_proj[t1] -> L0.rope_q.reshape",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [
+    5,
+    11,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+   ],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  },
+  {
+   "id": "queue_inversion:2",
+   "operator": "queue_inversion",
+   "site": "L0.q_proj[t0] -> L0.rope_q.reshape -> L0.rope_q",
+   "amk_validate": true,
+   "amk_errors": [],
+   "amk_sim_counters": true,
+   "amk_sim_adv": false,
+   "queue_sim_stuck": [
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    13
+   ],
+   "loader_queue_stuck": [],
+   "gate": {
+    "outcome": "correct",
+    "max_abs_err": 0.0,
+    "top1_agreement": 1.0
+   }
+  }
+ ]
+}

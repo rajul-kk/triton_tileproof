@@ -144,7 +144,7 @@ Reading:
 Caveat: `amk_rules` is our re-implementation from AMK's `docs/IR_SPEC.md` and a summary of
 `schedule/ir.py`; it is not AMK's code. Part 2 exists to replace it with the real validator.
 
-## Part 2: the real AutoMegaKernel (code written, results pending)
+## Part 2: the real AutoMegaKernel
 
 Pinned commit: `884534c4d2dbed4381576f81a79ae97feca53c34`. AMK is not a dependency;
 both scripts read `AMK_ROOT`.
@@ -178,7 +178,7 @@ and writes `results/amk_toy_mutants.json`.
 
 **Tests**: `tests/test_msync_amk.py` is skipped unless `AMK_ROOT` is set.
 
-Expected, from the code but **not yet run**:
+Expected, from the code, before the run:
 
 * the queue inversion passes `validate()`, both AMK simulators and the ReferenceVM gate;
   `queue_sim` in task-list order reports it stuck, and in the loader's order it does not
@@ -187,15 +187,47 @@ Expected, from the code but **not yet run**:
 * the overrunning tile passes `validate()`, and the ReferenceVM truncates it through
   torch slicing.
 
-The GPU half of part 2 (running AMK's CUDA `MegakernelVM` on a T4 for the mutants the
-gate accepts) is still to do.
+### Part 2 results
+
+`results/amk_toy_mutants.json` (AMK `884534c`, torch 2.10 CPU, 38 tasks, 12 mutants).
+Every prediction held.
+
+| mutant | sites | `validate()` | `simulate_counters` | `queue_sim` stuck | loader stuck | gate |
+|---|---|---|---|---|---|---|
+| counter_init_stale | 3 | pass | pass | 0 | 0 | correct (err 0) |
+| tile_oob | 3 | pass | pass | 0 | 0 | correct (err 0) |
+| tile_gap (control) | 3 | pass | pass | 0 | 0 | 1 correct, 2 wrong (err 5e-3, 1e-2) |
+| queue_inversion | 3 | pass | pass | 8 tasks | 0 | correct (err 0) |
+
+* **`validate()` passes all 12 mutants.** That includes three stale counter inits, which
+  would let a consumer start early on a GPU, and three tiles that write 4 elements past
+  their buffer. AMK's gate calls all six `correct` with zero error. The ReferenceVM
+  ignores the counters, and torch slicing silently clips the overrun.
+* **The queue inversion is real in task-list order but unreachable in AMK.** `queue_sim`
+  in task-list order leaves 8 tasks stuck. In the loader's topological order it leaves
+  none. Part 1's transitive inversion is a hazard of the IR, not of AMK's GPU path.
+* **The control behaves as a control should, with one exception.** `tile_gap` drops the
+  last column of a tile, and AMK catches it in `o_proj` and `gate_proj` (allclose fails;
+  top-1 still agrees). It does not catch it in `q_proj`, and that is correct: at `pos=0`
+  attention has one key, so the softmax weight is 1 whatever `q` is, and `q` cannot
+  change the output. A one-step decode cannot test the query path.
+* **AMK's own race hunt flags its own reference.** `simulate_adversarial(seeds=96)` reports
+  two read-before-write races on the unmutated schedule. `L0.k_append` and `L0.v_append`
+  read `kcache`/`vcache`, which the same pass also writes, so AMK's
+  `kv_written_this_pass` rule counts them as unwritten. The caches exist before the step,
+  so these are false alarms. The `amk_sim_adv` column is therefore `False` on every row
+  and does not separate mutants from the reference.
+
+Not done yet: running AMK's CUDA `MegakernelVM` on a GPU (AMK lists a `t4` target) for the
+ten mutants the gate accepts. It is the run that would show whether the stale counters
+and overrunning tiles do damage on real hardware.
 
 Run:
 
     AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m triton_equiv.msync.amk_e2e
     AMK_ROOT=/path/to/AutoMegaKernel PYTHONPATH=src python -m pytest tests/test_msync_amk.py
 
-## Part 3: the same programs on a GPU (code written, results pending)
+## Part 3: the same programs on a GPU
 
 `msync/gpu.py` runs a schedule program as one persistent Triton kernel. Each launched
 program plays one SM and walks its queue in task-list order (the order `machine` and
@@ -238,7 +270,7 @@ a serial run. The interpreter runs
 launched programs one after another, so it cannot test spin-waits between programs:
 only the GPU run can.
 
-Two experiments, in `notebooks/msync_gpu.ipynb` (Kaggle T4, **not yet run**):
+Two experiments, in `notebooks/msync_gpu.ipynb` (Kaggle T4; results below):
 
 1. `python -m triton_equiv.msync.races` runs every reference and mutant 100 times in
    `parallel` mode, once with no delays and once with random delays (each delay point,
@@ -293,5 +325,91 @@ Triton kernel it adds:
 * the C++ enum values equal `gpu.KERNEL_LITERALS`;
 * `no_barrier` cannot show on a single thread.
 
-The CUDA build has not been compiled yet (there is no nvcc here). It is built in
-`notebooks/msync_gpu.ipynb`, section 3.
+The CUDA build is compiled on Kaggle by `notebooks/msync_gpu.ipynb`, section 3 (there is
+no nvcc here).
+
+## Part 3 results: Tesla T4
+
+Kaggle T4, torch 2.11.0+cu130, Triton 3.6.0, tinytail 0.0.1. Both backends compiled and ran;
+the control (every reference matches with and without delays) passed on both. Results are
+in `results/msync_gpu_races.json`, `results/msync_gpu_races_cuda.json`,
+`results/msync_gpu_latency.json` and `results/msync_gpu_latency_cuda.json`, with the raw
+samples in `.samples.json.gz`.
+
+### Races
+
+100 launches per program, without delays (`none`) and with random delays (`random`).
+Triton: delays up to 1000 spins. CUDA: delays up to 20 µs of `__nanosleep`. "Seen" counts
+mutants with at least one non-`match` launch. The rate is the mean fraction of
+non-`match` launches.
+
+| label | mutants | Triton seen, none | Triton seen, random (rate) | CUDA seen, none | CUDA seen, random (rate) |
+|---|---|---|---|---|---|
+| racy | 39 | 9 | 39 (0.40) | 11 | 39 (0.43) |
+| deadlock | 27 | 27 | 27 (0.99) | 26 | 27 (0.98) |
+| inequivalent | 8 | 8 | 8 (1.00) | 8 | 8 (1.00) |
+| oob | 11 | 9 | 9 (0.82) | 9 | 9 (0.82) |
+| benign | 14 | 0 | 0 | 0 | 0 |
+| unmodelled (`no_barrier`) | 9 | - | - | 0 | 6 (0.18) |
+
+* **No false alarms.** No launch of a benign reference or benign mutant ever timed out,
+  faulted or differed, on either backend. The bounded spins, release/acquire counters and
+  outcome folding hold up on real hardware.
+* **Without delays, most races do not show.** That matches the prediction. Only 9 (Triton)
+  or 11 (CUDA) of 39 racy mutants show at all. They are the ones whose race does not need
+  a slow producer: `scratch_no_offset` (always), `wrong_wait_counter`, and some `drop_wait`
+  and `counter_not_zeroed` sites. No `partial_wait` or `barrier_reuse_no_reset` mutant
+  shows on either backend. `signal_before_write` shows only on CUDA (2 of 9).
+* **With random delays, every racy mutant shows.** This was against the prediction: no
+  oracle-racy mutant stayed hidden. Rates range from 0.22 (`partial_wait`) to 1.0
+  (`scratch_no_offset`). Under delay injection, a test catches everything the oracle calls
+  racy, but a run without it misses about three quarters.
+* **Deadlocks time out on every launch** except `barrier2:barrier_reuse_reset:0`. That
+  one depends on the interleaving, as predicted. On CUDA it never deadlocked without
+  delays and timed out on 46% of delayed launches. On Triton it timed out on every
+  undelayed launch.
+* **Out-of-bounds mutants never fault.** The arena is contiguous, so an off-by-one region
+  lands in the neighbouring buffer and shows as `differs`, as designed. 2 of 11
+  (`mlp_rms_odd:tile_unclamped:0/1`) never show at all. Their stray elements fall where
+  they do not change the compared output. Only the oracle sees them.
+* **`moe_dispatch`**, the racy reference, gave a different output from the list-order
+  interleaving on 100% of undelayed launches and 77% of delayed ones.
+* **`no_barrier`**, the warp-level mutant the step machine cannot express, never showed
+  without delays. With delays it showed at 6 of 9 sites, at a mean rate of 0.18. This is
+  a real bug class, invisible to the part-1 oracle, that delay injection finds.
+
+### Latency
+
+100k launches per series. tinytail fits on the first third and checks the rest. Medians
+(µs) of the held-out two thirds:
+
+| program | tasks | Triton static | dynamic | per_task | CUDA static | dynamic | per_task | in-kernel |
+|---|---|---|---|---|---|---|---|---|
+| mlp_rms_aligned | 5 | 50.9 | 55.6 | 155.1 | 28.7 | 32.2 | 45.1 | 16.0 |
+| mlp_rms_odd | 5 | 49.5 | 55.3 | 153.6 | 29.1 | 30.8 | 45.1 | 14.6 |
+| split_reduce_aligned | 3 | 49.7 | 50.8 | 102.4 | 22.5 | 23.8 | 34.0 | 7.7 |
+| split_reduce_odd | 3 | 49.2 | 49.6 | 102.4 | 22.3 | 23.9 | 34.2 | 7.7 |
+| barrier2 | 5 | 49.3 | 55.3 | 154.4 | 30.2 | 31.6 | 45.2 | 15.6 |
+
+* **`per_task` is slowest**, as predicted. On Triton that is about 26 µs per extra launch,
+  which is the Python launch path. On CUDA it is 4–6 µs per extra launch.
+* **`dynamic` costs 0–6 µs over `static`**: the atomic head, and losing the static
+  placement.
+* **The Triton static megakernel is around 49 µs regardless of program**, so it measures
+  launch overhead, not the schedule. The CUDA build takes 22–30 µs. Its in-kernel time
+  (first task start to last task end, by `%globaltimer`) is 8–16 µs, with a spread under
+  0.6 µs.
+* **Every series fails tinytail's i.i.d. gates** (`EVT-invalid-dependent`). Ljung–Box
+  rejects on all 35 and the runs test on 34, and most also fail KPSS or the KS-halves test. So
+  tinytail computes no EVT or MBPTA bound for any of them. It does report only the
+  hold-out maximum plus a margin, marked non-probabilistic. Back-to-back launches carry
+  state between iterations (clocks, caches, the launch queue), and the gates catch it.
+* **The gates do not separate `dynamic` from `static`.** Both fail, which answers the
+  open question above: at this sample size and back-to-back pacing, the dependence from
+  repeated launching swamps any extra non-i.i.d.-ness from the dynamic queue. Telling
+  them apart would need randomised pacing, or a design with launches interleaved across
+  schedules.
+* **The in-kernel series are quantised.** `%globaltimer` on the T4 takes only 18–59
+  distinct values over 66k samples, so the timer's resolution, not the schedule, sets
+  their tail. They are useful as medians, not for EVT.
+

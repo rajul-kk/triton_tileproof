@@ -79,12 +79,12 @@ targets the same failures as our precision-loss tier, but by a rule rather than 
 | `results/kernelgym_audit_t4.json`, `results/kernelgym_audit_t4_unpatched.json`, `results/kernelgym_readme_check_t4.json` | KernelGYM GPU results |
 | `src/triton_equiv/msync/` | Megakernel synchronisation: a schedule IR cut down from AutoMegaKernel's, an oracle that explores every SM interleaving, 12 schedule mutation operators and a checker audit. See `docs/megakernel_sync.md` |
 | `src/triton_equiv/msync/amk_bridge.py`, `amk_e2e.py` | Run AutoMegaKernel's own validator, simulators and correctness gate on our mutants and on bugs planted in its toy-Llama lowering (needs `AMK_ROOT`) |
-| `src/triton_equiv/msync/gpu.py`, `races.py`, `latency.py` | The same schedule programs as one persistent Triton kernel on a GPU: how often each mutant shows with and without injected delays, and launch-latency tails checked with tinytail (`notebooks/msync_gpu.ipynb`, not yet run) |
+| `src/triton_equiv/msync/gpu.py`, `races.py`, `latency.py` | The same schedule programs as one persistent Triton kernel on a GPU: how often each mutant shows with and without injected delays, and launch-latency tails checked with tinytail (`notebooks/msync_gpu.ipynb`, run on a T4: no false alarms, every racy mutant shown under delays, all latency series fail the i.i.d. gates) |
 | `src/triton_equiv/msync/cuda_vm.py`, `csrc/msync_vm.h` | The same VM in CUDA C++: PTX acquire/release, `%globaltimer` timeouts and per-task timestamps, and a warp-level `no_barrier` mutant (`--backend cuda`) |
 | `src/triton_equiv/cuda_ref.py`, `csrc/ref_kernels.h`, `refcheck.py` | C++/CUDA reference kernels independent of PyTorch and Triton, and a rerun of the checker against them. See `docs/cuda_reference.md` |
 | `src/triton_equiv/kgym_table.py` | KernelGYM accepted-by-label table from `results/kernelgym_audit_t4.json`, with mutants that do not compile on GPU counted separately |
 | `results/msync_audit.json` | 99 labelled schedule mutants and six checkers' verdicts (`python -m triton_equiv.msync.audit`) |
-| `results/refcheck_cpu.json` | Checker verdicts against PyTorch and against the C++ reference kernels: no verdict changes (`python -m triton_equiv.refcheck`) |
+| `results/refcheck_cpu.json` | Checker verdicts against PyTorch and against the C++ reference kernels: no verdict changes (`python -m triton_equiv.refcheck`). `results/refcheck_t4.json`: the same in real Triton on a T4, none of 80 changes |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
 | `tests/` | Known-label oracle tests, fp-tier tests, mutation tests, interpreter tests |
 
