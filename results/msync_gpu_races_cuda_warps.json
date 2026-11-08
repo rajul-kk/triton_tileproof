@@ -1,0 +1,2605 @@
+{
+ "command": "python -m triton_equiv.msync.races --backend cuda --reps 100 --out /kaggle/working/msync_gpu_races_cuda_warps.json",
+ "backend": "cuda",
+ "gpu": "Tesla T4",
+ "mode": "parallel",
+ "torch": "2.11.0+cu130",
+ "triton": null,
+ "reps": 100,
+ "dmax": 20000,
+ "spin_floor": 2000000,
+ "seed": 0,
+ "seconds": 16.6,
+ "false_alarms": [],
+ "by_label": {
+  "racy": {
+   "mutants": 45,
+   "none": {
+    "seen": 11,
+    "mean_rate": 0.228
+   },
+   "random": {
+    "seen": 45,
+    "mean_rate": 0.4113
+   }
+  },
+  "deadlock": {
+   "mutants": 27,
+   "none": {
+    "seen": 26,
+    "mean_rate": 0.963
+   },
+   "random": {
+    "seen": 27,
+    "mean_rate": 0.9819
+   }
+  },
+  "benign": {
+   "mutants": 17,
+   "none": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "random": {
+    "seen": 0,
+    "mean_rate": 0.0
+   }
+  },
+  "inequivalent": {
+   "mutants": 8,
+   "none": {
+    "seen": 8,
+    "mean_rate": 1.0
+   },
+   "random": {
+    "seen": 8,
+    "mean_rate": 1.0
+   }
+  },
+  "oob": {
+   "mutants": 11,
+   "none": {
+    "seen": 9,
+    "mean_rate": 0.8182
+   },
+   "random": {
+    "seen": 9,
+    "mean_rate": 0.8182
+   }
+  }
+ },
+ "warp": {
+  "benign": {
+   "mutants": 3,
+   "none": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "random": {
+    "seen": 0,
+    "mean_rate": 0.0
+   }
+  },
+  "racy": {
+   "mutants": 6,
+   "none": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "random": {
+    "seen": 6,
+    "mean_rate": 0.265
+   }
+  }
+ },
+ "rows": [
+  {
+   "id": "mlp_rms_aligned",
+   "kind": "reference",
+   "program": "mlp_rms_aligned",
+   "operator": null,
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:partial_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 89,
+     "differs": 11,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 80,
+     "differs": 20,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 16,
+     "differs": 84,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 71,
+     "differs": 29,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 34,
+     "differs": 66,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 28,
+     "differs": 72,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:3",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 76,
+     "differs": 24,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 16,
+     "differs": 84,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 75,
+     "differs": 25,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 67,
+     "differs": 33,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd",
+   "kind": "reference",
+   "program": "mlp_rms_odd",
+   "operator": null,
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:partial_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 72,
+     "differs": 28,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 79,
+     "differs": 21,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 20,
+     "differs": 80,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 21,
+     "differs": 79,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 67,
+     "differs": 33,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 40,
+     "differs": 60,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 25,
+     "differs": 75,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_unclamped:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_unclamped",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:3",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:tile_unclamped:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_unclamped",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 78,
+     "differs": 22,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 17,
+     "differs": 83,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "no_barrier",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 59,
+     "differs": 41,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned",
+   "kind": "reference",
+   "program": "split_reduce_aligned",
+   "operator": null,
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:partial_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 77,
+     "differs": 23,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:drop_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 78,
+     "differs": 22,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:signal_before_write:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "signal_before_write",
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:signal_before_write:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 68,
+     "differs": 32,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:tile_shift:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:tile_shift:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:scratch_no_offset:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "scratch_no_offset",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_aligned:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 71,
+     "differs": 29,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd",
+   "kind": "reference",
+   "program": "split_reduce_odd",
+   "operator": null,
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:partial_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 78,
+     "differs": 22,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:drop_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 71,
+     "differs": 29,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:signal_before_write:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "signal_before_write",
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:signal_before_write:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 62,
+     "differs": 38,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:tile_shift:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:tile_shift:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:tile_unclamped:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_unclamped",
+   "label": "oob",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:scratch_no_offset:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "scratch_no_offset",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "counter_not_zeroed",
+   "label": "benign",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "split_reduce_odd:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2180000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 73,
+     "differs": 27,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2",
+   "kind": "reference",
+   "program": "barrier2",
+   "operator": null,
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:partial_wait:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 77,
+     "differs": 23,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:drop_wait:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 73,
+     "differs": 27,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:partial_wait:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 71,
+     "differs": 29,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:drop_wait:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 24,
+     "differs": 76,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:partial_wait:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 84,
+     "differs": 16,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:drop_wait:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 66,
+     "differs": 34,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 71,
+     "differs": 29,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:signal_before_write:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 66,
+     "differs": 34,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:signal_before_write:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 63,
+     "differs": 37,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:signal_before_write:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:signal_before_write:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 68,
+     "differs": 32,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 0,
+     "timed_out": 100,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:tile_shift:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:tile_shift:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:tile_shift:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "inequivalent",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:tile_shift:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "oob",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 0,
+     "differs": 100,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 58,
+     "differs": 42,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 76,
+     "differs": 24,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:barrier_reuse_reset:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "barrier_reuse_reset",
+   "label": "deadlock",
+   "max_spin": 2360000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 49,
+     "differs": 0,
+     "timed_out": 51,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:barrier_reuse_no_reset:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "barrier_reuse_no_reset",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 78,
+     "differs": 22,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:no_barrier:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 77,
+     "differs": 23,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:no_barrier:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 83,
+     "differs": 17,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:no_barrier:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "benign",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "barrier2:no_barrier:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy",
+   "max_spin": 2300000,
+   "obs": {
+    "none": {
+     "match": 100,
+     "differs": 0,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 80,
+     "differs": 20,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  },
+  {
+   "id": "moe_dispatch",
+   "kind": "reference",
+   "program": "moe_dispatch",
+   "operator": null,
+   "label": "racy",
+   "max_spin": 2240000,
+   "obs": {
+    "none": {
+     "match": 76,
+     "differs": 24,
+     "timed_out": 0,
+     "faulted": 0
+    },
+    "random": {
+     "match": 43,
+     "differs": 57,
+     "timed_out": 0,
+     "faulted": 0
+    }
+   }
+  }
+ ]
+}

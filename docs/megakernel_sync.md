@@ -374,9 +374,10 @@ non-`match` launches.
   they do not change the compared output. Only the oracle sees them.
 * **`moe_dispatch`**, the racy reference, gave a different output from the list-order
   interleaving on 100% of undelayed launches and 77% of delayed ones.
-* **`no_barrier`**, the warp-level mutant the step machine cannot express, never showed
-  without delays. With delays it showed at 6 of 9 sites, at a mean rate of 0.18. This is
-  a real bug class, invisible to the part-1 oracle, that delay injection finds.
+* **`no_barrier`**, the warp-level mutant the step machine could not express at the time,
+  never showed without delays. With delays it showed at 6 of 9 sites, at a mean rate of
+  0.18. This was a real bug class, invisible to the part-1 oracle, that delay injection
+  finds. Part 4 adds warps to the model, and the oracle then predicts exactly these 6.
 
 ### Latency
 
@@ -413,3 +414,135 @@ non-`match` launches.
   distinct values over 66k samples, so the timer's resolution, not the schedule, sets
   their tail. They are useful as medians, not for EVT.
 
+## Part 4: warps in the step machine
+
+The T4 run found a bug the oracle could not see: `no_barrier`, where a task's signal goes
+out before all of its warps have written. Part 4 puts warps into the model, as far as
+that bug needs them.
+
+* `ir.Task.no_barrier` marks the bug. `ir.WARPS = 4` and `ir.warp_of(e) = e % 4` give
+  element `e`'s writer, the same dealing as `owner()` in `csrc/msync_vm.h`
+  (`tests/test_msync_warps.py` checks the two agree for 128 threads).
+* In `machine`, a step is now an action `(sm, lane)`. Lane 0 is the SM's main line. For
+  a `no_barrier` task it is: acquire, write warp 0's elements, signal. Lanes 1–3 are the
+  other warps' writes. Each is enabled from the acquire on, so it can land before or after
+  the signal. The SM moves to its next task only when the signal and every warp's write
+  are done: the `hw.sync()` that closes every task in the CUDA VM. The SM waits in a
+  fourth phase, "signalled, waiting for its slow warps".
+* Without the flag nothing changes. Every SM has only lane 0, the explored state spaces
+  are the same, and the part-1 audit (`mutate.mutants`) is untouched. The new mutants come
+  from `mutate.warp_mutants`, at the same sites as the T4 run and with the same ids.
+* Round robin (`machine.run`) lets the warps finish before the main line moves on. So the
+  default schedule never shows the bug, and the oracle has to find it.
+* The Triton runner refuses `no_barrier` programs, since Triton has no warp-level control.
+  The CUDA runner takes the flag from the program.
+
+### The oracle against the T4
+
+`python -m triton_equiv.msync.warp_check` labels the 9 warp mutants and compares them with
+`results/msync_gpu_races_cuda.json`, which recorded them as `unmodelled`. Result:
+`results/msync_warp_labels.json`.
+
+| mutant | site | oracle | T4 mismatch rate, random delays |
+|---|---|---|---|
+| mlp_rms_aligned:no_barrier:0 | g0 | benign | 0 |
+| mlp_rms_aligned:no_barrier:1 | g1 | racy | 0.25 |
+| mlp_rms_aligned:no_barrier:2 | r | racy | 0.36 |
+| mlp_rms_odd:no_barrier:0 | g0 | benign | 0 |
+| mlp_rms_odd:no_barrier:1 | r | racy | 0.41 |
+| barrier2:no_barrier:0 | a0 | racy | 0.22 |
+| barrier2:no_barrier:1 | a1 | racy | 0.19 |
+| barrier2:no_barrier:2 | b0 | benign | 0 |
+| barrier2:no_barrier:3 | b1 | racy | 0.20 |
+
+**9 of 9 agree.** The GPU showed exactly the mutants the oracle calls `racy`, and never
+showed the 3 it calls `benign`. Every racy label comes with a witness interleaving that
+the float64 replay confirms.
+
+The three benign sites are protected by the barrier that closes each task. `g0` (in both
+`mlp_rms` programs) and `b0` (in `barrier2`) run on SM 0, and the only task that waits for
+their counter (`r`, `fin`) is also on SM 0, later in its queue. SM 0 cannot start that
+consumer until all of its own warps have written, so a late signal cannot be seen early.
+At every racy site, a consumer on the other SM waits for the counter.
+
+**The prediction held a second time, made before the run.**
+`notebooks/msync_paced.ipynb` reran `races --backend cuda` on a T4 with the oracle
+labelling the warp mutants first (`results/msync_gpu_races_cuda_warps.json`). All 6
+`racy` ones showed with random delays, at rates of 0.17 to 0.41, and none showed without
+delays. The 3 `benign` ones never showed. No benign program, warp mutant or otherwise, had
+a false alarm.
+
+So a model at the granularity of SMs and steps is enough for these programs once warps
+are modelled as separate writers. Two things are still not modelled: weaker PTX
+orderings inside a step, and reads split over warps.
+
+`tests/test_msync_warps.py` covers:
+
+* the warp steps and the closing barrier;
+* round robin hiding the bug;
+* the same-SM case;
+* that the flag off changes nothing;
+* the labels above;
+* their agreement with the T4 file, when it is present.
+
+`tests/conftest.py` now sets `TRITON_INTERPRET=1` before collection. `triton.jit` reads
+it when `msync.gpu` is first imported. With the variable set only in
+`test_msync_gpu.py`, a full run that collected `test_msync_cuda_vm.py` first built
+compiled kernels, and the 115 interpreter tests failed with "0 active drivers". They
+passed only when the file ran on its own.
+
+## Part 5: paced latency
+
+Every back-to-back series in part 3 failed tinytail's i.i.d. gates, so those gates could
+not separate `static` from `dynamic`. `latency --design paced` changes the measurement and
+not the analysis:
+
+* there are `n` rounds;
+* each round runs every schedule once, in a fresh random order;
+* each launch follows an idle gap drawn uniformly from 0–200 µs, a host busy-wait after
+  the previous launch has finished.
+
+Drift is then shared by all schedules, and no launch follows one of its own kind at a
+fixed spacing. Because the rounds pair the samples, each program also gets the per-round
+difference of each schedule from `static` (`latency.paired`). That comparison needs no
+i.i.d. assumption across rounds. `tests/test_msync_latency.py` checks the design with a
+fake timer.
+
+`notebooks/msync_paced.ipynb` ran it on a Kaggle T4, from a private dataset of the source
+because the code was not on GitHub yet. Triton backend, 100k rounds:
+`results/msync_gpu_latency_paced.json`.
+
+**The gates still fail.** All 15 Triton series are `EVT-invalid-dependent`. The runs and
+Ljung–Box tests reject on every series (p below 1e-100), and so does the KS test of the two
+halves. KPSS rejects on 5. Randomising the order and the spacing did not remove the
+dependence, so it is not an artefact of launching back to back. The likely source is
+state of the GPU and driver that drifts over the session, such as clocks and power state.
+Pacing on the host cannot break that. This run does not measure it directly. The gates are doing their job: there is no defensible pWCET for these
+series, and tinytail refuses to give one.
+
+**The paired differences separate the schedules anyway:**
+
+| program | tasks | dynamic − static, median | rounds dynamic slower | per_task − static, median | rounds per_task slower |
+|---|---|---|---|---|---|
+| mlp_rms_aligned | 5 | +4.4 µs | 80% | +106 µs | 99.98% |
+| mlp_rms_odd | 5 | +4.2 µs | 77% | +110 µs | 99.98% |
+| split_reduce_aligned | 3 | +0.2 µs | 52% | +61 µs | 99.5% |
+| split_reduce_odd | 3 | +0.4 µs | 54% | +56 µs | 99.7% |
+| barrier2 | 5 | +4.7 µs | 80% | +107 µs | 99.98% |
+
+* **The dynamic queue costs about 4.5 µs on the 5-task programs** and is slower in about
+  four rounds out of five. On the 3-task programs the cost is within noise: half the rounds
+  each way. There, each SM takes at most two tasks from the atomic head, so there is
+  little contention to pay for.
+* **`per_task` costs 55–110 µs**, 26–30 µs per extra launch, in nearly every round.
+* **Medians are 4–10 µs higher than back to back** (static is 53–59 µs, against 49–51 µs).
+  A GPU left idle is slower to start a launch than one that is already busy. The back-to-back
+  numbers are the warm case.
+
+A tail bound on this hardware would need a cleaner timing source: in-kernel cycle
+counters per SM, or fixed clocks, which Kaggle does not allow. A pWCET is not what these
+programs need anyway. The paired design answers the schedule question.
+
+The CUDA backend's paced series failed on Kaggle, and the cause is not known yet. Its log
+was not retrieved, because the download of the run's outputs was stopped by low memory on
+this machine. The other two cells completed, and their results are above.
