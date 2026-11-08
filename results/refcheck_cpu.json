@@ -1,0 +1,3496 @@
+{
+ "command": "python -m triton_equiv.refcheck --trials 3 --out results/refcheck_cpu.json",
+ "device": "cpu",
+ "trials": 3,
+ "seconds": 44.0,
+ "python": "3.14.4",
+ "torch": "2.15.0+cpu",
+ "triton": "3.9.0",
+ "TRITON_INTERPRET": "1",
+ "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+ "reference_kernel_max_err": {
+  "vector_add": {
+   "torch": 0.0,
+   "cpp": 0.0,
+   "cpp64": 2.384185791015625e-07
+  },
+  "row_sum": {
+   "torch": 1.9073486328125e-06,
+   "cpp": 2.86102294921875e-06,
+   "cpp64": 1.6121193766593933e-06
+  },
+  "matmul": {
+   "torch": 7.62939453125e-06,
+   "cpp": 9.5367431640625e-06,
+   "cpp64": 3.5490317173980657e-06
+  },
+  "row_sum_loop": {
+   "torch": 9.5367431640625e-07,
+   "cpp": 0.0,
+   "cpp64": 9.5367431640625e-07
+  },
+  "matmul_fp16": {
+   "torch": 0.001953125,
+   "cpp": 0.001953125,
+   "cpp64": 0.007700234651565552
+  },
+  "softmax": {
+   "torch": 1.4901161193847656e-08,
+   "cpp": 5.960464477539063e-08,
+   "cpp64": 2.0080590440452184e-08
+  },
+  "layernorm": {
+   "torch": 0.0,
+   "cpp": 0.0,
+   "cpp64": 0.0009739168128022335
+  },
+  "attention": {
+   "torch": 1.0132789611816406e-06,
+   "cpp": 1.1920928955078125e-06,
+   "cpp64": 1.1534212739916505e-06
+  }
+ },
+ "disagreements": [],
+ "rows": [
+  {
+   "id": "vector_add:reference",
+   "kernel": "vector_add",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 2.384185791015625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "vector_add:mask_off_by_one:0",
+   "kernel": "vector_add",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 2.384185791015625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "vector_add:missing_store_mask:0",
+   "kernel": "vector_add",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 2.384185791015625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_pid_axis:0",
+   "kernel": "vector_add",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 5.372256755828857,
+    "cpp": 5.372256755828857,
+    "cpp64": 5.372256755828857
+   },
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_other:0",
+   "kernel": "vector_add",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 2.384185791015625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "vector_add:wrong_other:1",
+   "kernel": "vector_add",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 2.384185791015625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum:reference",
+   "kernel": "row_sum",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.9073486328125e-06,
+    "cpp": 2.86102294921875e-06,
+    "cpp64": 1.6121193766593933e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum:mask_off_by_one:0",
+   "kernel": "row_sum",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 2.5368947982788086,
+    "cpp": 2.536893844604492,
+    "cpp64": 2.5368943018256687
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum:wrong_pid_axis:0",
+   "kernel": "row_sum",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 15.532938957214355,
+    "cpp": 15.532938003540039,
+    "cpp64": 15.532937450800091
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum:wrong_other:0",
+   "kernel": "row_sum",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 14.000001907348633,
+    "cpp": 14.000000953674316,
+    "cpp64": 14.000002046115696
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum:split_sum:0",
+   "kernel": "row_sum",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 9.5367431640625e-07,
+    "cpp": 3.814697265625e-06,
+    "cpp64": 9.052455425262451e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:reference",
+   "kernel": "matmul",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:0",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:1",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:2",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:3",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:4",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:mask_off_by_one:5",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 21.653841018676758,
+    "cpp": 21.653841018676758,
+    "cpp64": 21.653840549599042
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:missing_store_mask:0",
+   "kernel": "matmul",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 29.921043395996094,
+    "cpp": 29.921045303344727,
+    "cpp64": 29.92104645770569
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_pid_axis:0",
+   "kernel": "matmul",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 30.88085174560547,
+    "cpp": 30.88084602355957,
+    "cpp64": 30.880850537216297
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_pid_axis:1",
+   "kernel": "matmul",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 30.88085174560547,
+    "cpp": 30.88084602355957,
+    "cpp64": 30.880850537216297
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_other:0",
+   "kernel": "matmul",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:wrong_other:1",
+   "kernel": "matmul",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:reverse_reduction_loop:0",
+   "kernel": "matmul",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 7.62939453125e-06,
+    "cpp64": 4.070227742403176e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul:acc_dtype_downgrade:0",
+   "kernel": "matmul",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 7.62939453125e-06,
+    "cpp": 9.5367431640625e-06,
+    "cpp64": 3.5490317173980657e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:reference",
+   "kernel": "row_sum_loop",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 9.5367431640625e-07,
+    "cpp": 0.0,
+    "cpp64": 9.5367431640625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:mask_off_by_one:0",
+   "kernel": "row_sum_loop",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 2.15234375,
+    "cpp": 2.15234375,
+    "cpp64": 2.15234375
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:wrong_pid_axis:0",
+   "kernel": "row_sum_loop",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 34.06094741821289,
+    "cpp": 34.06094741821289,
+    "cpp64": 34.06094741821289
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:wrong_other:0",
+   "kernel": "row_sum_loop",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 6.0,
+    "cpp": 6.0,
+    "cpp64": 6.000000953674316
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:reverse_reduction_loop:0",
+   "kernel": "row_sum_loop",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 9.5367431640625e-07,
+    "cpp": 0.0,
+    "cpp64": 9.5367431640625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:split_sum:0",
+   "kernel": "row_sum_loop",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 9.5367431640625e-07,
+    "cpp": 0.0,
+    "cpp64": 9.5367431640625e-07
+   },
+   "errors": []
+  },
+  {
+   "id": "row_sum_loop:acc_dtype_downgrade:0",
+   "kernel": "row_sum_loop",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.019124984741210938,
+    "cpp": 0.019124984741210938,
+    "cpp64": 0.019124984741210938
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:reference",
+   "kernel": "matmul_fp16",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:0",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:1",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:2",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:3",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:4",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:mask_off_by_one:5",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 21.65625,
+    "cpp": 21.65625,
+    "cpp64": 21.653704102151096
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:missing_store_mask:0",
+   "kernel": "matmul_fp16",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 29.921875,
+    "cpp": 29.921875,
+    "cpp64": 29.924316808581352
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:0",
+   "kernel": "matmul_fp16",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 30.875,
+    "cpp": 30.875,
+    "cpp64": 30.88202126417309
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_pid_axis:1",
+   "kernel": "matmul_fp16",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 30.875,
+    "cpp": 30.875,
+    "cpp64": 30.88202126417309
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:0",
+   "kernel": "matmul_fp16",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:wrong_other:1",
+   "kernel": "matmul_fp16",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:reverse_reduction_loop:0",
+   "kernel": "matmul_fp16",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:acc_dtype_downgrade:0",
+   "kernel": "matmul_fp16",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.015625,
+    "cpp": 0.015625,
+    "cpp64": 0.021561043336987495
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:drop_cast:0",
+   "kernel": "matmul_fp16",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.007700234651565552
+   },
+   "errors": []
+  },
+  {
+   "id": "matmul_fp16:change_cast:0",
+   "kernel": "matmul_fp16",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.125,
+    "cpp": 0.125,
+    "cpp64": 0.12483339919708669
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:reference",
+   "kernel": "softmax",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.4901161193847656e-08,
+    "cpp": 5.960464477539063e-08,
+    "cpp64": 2.0080590440452184e-08
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:mask_off_by_one:0",
+   "kernel": "softmax",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.021369248628616333,
+    "cpp": 0.021369263529777527,
+    "cpp64": 0.021369251970047853
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:missing_store_mask:0",
+   "kernel": "softmax",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.4901161193847656e-08,
+    "cpp": 5.960464477539063e-08,
+    "cpp64": 2.0080590440452184e-08
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:wrong_pid_axis:0",
+   "kernel": "softmax",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.21290597319602966,
+    "cpp": 0.21290597319602966,
+    "cpp64": 0.21290598309847567
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:wrong_other:0",
+   "kernel": "softmax",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.035105228424072266,
+    "cpp": 0.035105228424072266,
+    "cpp64": 0.03510523832651827
+   },
+   "errors": []
+  },
+  {
+   "id": "softmax:split_sum:0",
+   "kernel": "softmax",
+   "oracle": "numerical:reorder",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.4901161193847656e-08,
+    "cpp": 4.470348358154297e-08,
+    "cpp64": 1.220462021722657e-08
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:reference",
+   "kernel": "layernorm",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 0.0009739168128022335
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:mask_off_by_one:0",
+   "kernel": "layernorm",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.189453125,
+    "cpp": 0.189453125,
+    "cpp64": 0.18847920818719777
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:missing_store_mask:0",
+   "kernel": "layernorm",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 0.0009739168128022335
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:wrong_pid_axis:0",
+   "kernel": "layernorm",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 3.646484375,
+    "cpp": 3.646484375,
+    "cpp64": 3.646954734882299
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:wrong_other:0",
+   "kernel": "layernorm",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.501953125,
+    "cpp": 0.501953125,
+    "cpp64": 0.5027155351199109
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_where_mask:0",
+   "kernel": "layernorm",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0546875,
+    "cpp": 0.0546875,
+    "cpp64": 0.05544991011991085
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:0",
+   "kernel": "layernorm",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.087890625,
+    "cpp": 0.087890625,
+    "cpp64": 0.08865303511991085
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:divisor_block_size:1",
+   "kernel": "layernorm",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.45703125,
+    "cpp": 0.45703125,
+    "cpp64": 0.4570073567013817
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:split_sum:0",
+   "kernel": "layernorm",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 0.0009739168128022335
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:split_sum:1",
+   "kernel": "layernorm",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 0.0009739168128022335
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_cast:0",
+   "kernel": "layernorm",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.001027760396334898
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:drop_cast:1",
+   "kernel": "layernorm",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.0,
+    "cpp": 0.0,
+    "cpp64": 0.0009739168128022335
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:change_cast:0",
+   "kernel": "layernorm",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.001953125,
+    "cpp": 0.001953125,
+    "cpp64": 0.001027760396334898
+   },
+   "errors": []
+  },
+  {
+   "id": "layernorm:change_cast:1",
+   "kernel": "layernorm",
+   "oracle": "numerical:precision",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.015625,
+    "cpp": 0.015625,
+    "cpp64": 0.015559946509390521
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:reference",
+   "kernel": "attention",
+   "oracle": "reference",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:0",
+   "kernel": "attention",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:1",
+   "kernel": "attention",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:2",
+   "kernel": "attention",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:3",
+   "kernel": "attention",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.04587507247924805,
+    "cpp": 0.04587507247924805,
+    "cpp64": 0.04587504796940989
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:mask_off_by_one:4",
+   "kernel": "attention",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:missing_store_mask:0",
+   "kernel": "attention",
+   "oracle": "oob",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_pid_axis:0",
+   "kernel": "attention",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 3.2654333114624023,
+    "cpp": 3.2654342651367188,
+    "cpp64": 3.265433796547935
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:0",
+   "kernel": "attention",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:1",
+   "kernel": "attention",
+   "oracle": "benign:proved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:wrong_other:2",
+   "kernel": "attention",
+   "oracle": "benign:unproved",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 1.0132789611816406e-06,
+    "cpp": 1.1920928955078125e-06,
+    "cpp64": 1.1534212739916505e-06
+   },
+   "errors": []
+  },
+  {
+   "id": "attention:drop_where_mask:0",
+   "kernel": "attention",
+   "oracle": "inequivalent",
+   "verdict": {
+    "torch": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    },
+    "cpp64": {
+     "tile": {
+      "kernelbench": "accept",
+      "torch_default": "accept"
+     },
+     "odd": {
+      "kernelbench": "reject",
+      "torch_default": "reject"
+     }
+    }
+   },
+   "max_err": {
+    "torch": 0.12641024589538574,
+    "cpp": 0.12641024589538574,
+    "cpp64": 0.12641022138554758
+   },
+   "errors": []
+  }
+ ]
+}

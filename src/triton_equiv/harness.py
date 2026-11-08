@@ -115,15 +115,16 @@ def make_inputs(launch, seed: int, dist: str = "randn"):
     return out
 
 
-def run(spec, source: str, launch, inputs: dict, seed: int = 0):
-    """Run ``source`` once. Returns (outputs, guard_write, error string or None)."""
+def run(spec, source: str, launch, inputs: dict, seed: int = 0, device: str = "cpu"):
+    """Run ``source`` once. Returns (outputs, guard_write, error string or None); outputs are
+    on the CPU. ``device="cuda"`` runs real Triton on a GPU (with ``TRITON_INTERPRET=0``)."""
     torch = _torch()
     dt = {"float16": torch.float16, "float32": torch.float32}
     g = torch.Generator().manual_seed(10_000 + seed)
     big, views = {}, {}
     for b, n in launch.buffers.items():
-        t = torch.randn(n + 2 * GUARD, generator=g).to(dt[launch.dtype(b)])
-        t[GUARD:GUARD + n] = inputs[b] if b in inputs else 0
+        t = torch.randn(n + 2 * GUARD, generator=g).to(dt[launch.dtype(b)]).to(device)
+        t[GUARD:GUARD + n] = inputs[b].to(device) if b in inputs else 0
         big[b], views[b] = t, t[GUARD:GUARD + n]
     before = {b: (t[:GUARD].clone(), t[GUARD + launch.buffers[b]:].clone()) for b, t in big.items()}
     try:
@@ -135,7 +136,7 @@ def run(spec, source: str, launch, inputs: dict, seed: int = 0):
     guard_write = any(
         not torch.equal(big[b][:GUARD], lo) or not torch.equal(big[b][GUARD + launch.buffers[b]:], hi)
         for b, (lo, hi) in before.items())
-    return {b: views[b].clone() for b in launch.outputs}, guard_write, err
+    return {b: views[b].cpu().clone() for b in launch.outputs}, guard_write, err
 
 
 def close(out, ref, dtype: str, policy: str) -> bool:
