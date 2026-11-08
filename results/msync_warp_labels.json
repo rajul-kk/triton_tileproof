@@ -1,0 +1,90 @@
+{
+ "command": "python -m triton_equiv.msync.warp_check --gpu results/msync_gpu_races_cuda.json",
+ "gpu_run": "python -m triton_equiv.msync.races --backend cuda --reps 100 --out /kaggle/working/msync_gpu_races_cuda.json",
+ "gpu": "Tesla T4",
+ "agree": 9,
+ "mutants": 9,
+ "rows": [
+  {
+   "id": "mlp_rms_aligned:no_barrier:0",
+   "site": "g0",
+   "label": "benign",
+   "rate_none": 0.0,
+   "rate_random": 0.0,
+   "seen": false,
+   "agrees": true
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:1",
+   "site": "g1",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.25,
+   "seen": true,
+   "agrees": true
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:2",
+   "site": "r",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.36,
+   "seen": true,
+   "agrees": true
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:0",
+   "site": "g0",
+   "label": "benign",
+   "rate_none": 0.0,
+   "rate_random": 0.0,
+   "seen": false,
+   "agrees": true
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:1",
+   "site": "r",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.41,
+   "seen": true,
+   "agrees": true
+  },
+  {
+   "id": "barrier2:no_barrier:0",
+   "site": "a0",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.22,
+   "seen": true,
+   "agrees": true
+  },
+  {
+   "id": "barrier2:no_barrier:1",
+   "site": "a1",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.19,
+   "seen": true,
+   "agrees": true
+  },
+  {
+   "id": "barrier2:no_barrier:2",
+   "site": "b0",
+   "label": "benign",
+   "rate_none": 0.0,
+   "rate_random": 0.0,
+   "seen": false,
+   "agrees": true
+  },
+  {
+   "id": "barrier2:no_barrier:3",
+   "site": "b1",
+   "label": "racy",
+   "rate_none": 0.0,
+   "rate_random": 0.2,
+   "seen": true,
+   "agrees": true
+  }
+ ]
+}

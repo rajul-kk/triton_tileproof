@@ -9,10 +9,10 @@ backends can be swapped in ``races`` and ``latency``. Differences, all deliberat
 * waits are ``ld.acquire.gpu`` and signals ``atom.add.release.gpu``, written in PTX;
 * every task's start (after its waits) and end (after its signal) is time-stamped, so
   per-task latency can be studied without launch overhead (:attr:`Run.task_ns`);
-* ``no_barrier`` tasks signal without the block barrier while their writers in other
-  warps are delayed by the task's D_POST delay (see the header). The step machine has no
-  warps, so these mutants have no oracle label; :func:`no_barrier_sites` lists where one
-  can be planted.
+* ``no_barrier`` tasks (``ir.Task.no_barrier``) signal without the block barrier while
+  their writers in other warps are delayed by the task's D_POST delay (see the header).
+  The step machine models this with one step per warp (``machine``), so these mutants
+  have oracle labels; ``mutate.warp_mutants`` plants them.
 
 ``Backend.CPU`` builds the same header for one host thread, to test it without a GPU
 (``serial`` and ``per_task`` modes only, as with the Triton interpreter).
@@ -68,12 +68,14 @@ def layout() -> dict:
 
 
 def no_barrier_sites(prog: Program) -> list:
-    """Task indices where a missing block barrier can matter: the task signals a counter
-    somebody waits on and writes more than one element (so some writer is outside warp 0)."""
-    waited = {w.counter for t in prog.tasks for w in t.waits}
-    return [i for i, t in enumerate(prog.tasks)
-            if t.out_counter in waited and not t.signal_first and t.writes
-            and t.writes[0].hi - t.writes[0].lo > 1]
+    """See ``mutate.no_barrier_sites``."""
+    from .mutate import no_barrier_sites as sites
+    return sites(prog)
+
+
+def no_barrier_tasks(prog: Program) -> list:
+    """Indices of the tasks with ``no_barrier`` set."""
+    return [i for i, t in enumerate(prog.tasks) if t.no_barrier]
 
 
 @dataclass
@@ -85,10 +87,10 @@ class Run:
 class CudaRunner:
     """Like ``gpu.Runner``: buffers for one program, mode and initial arena; every launch
     starts from the same arena and counters. ``no_barrier``: task indices to plant the
-    warp-level mutant in."""
+    warp-level mutant in; None (the default) takes them from the program's tasks."""
 
     def __init__(self, enc: gpu.Encoded, arena: list, mode: str = "parallel", n_programs: int | None = None,
-                 backend: Backend = Backend.CUDA, threads: int = THREADS, no_barrier=()):
+                 backend: Backend = Backend.CUDA, threads: int = THREADS, no_barrier=None):
         import torch
         if mode not in gpu.Runner.MODES:
             raise ValueError(mode)
@@ -103,7 +105,7 @@ class CudaRunner:
         self.arena, self.cnt = self.arena0.clone(), self.cnt0.clone()
         self.qhead = torch.zeros(1, **i32)
         self.no_barrier = torch.zeros(max(1, n), **i32)
-        for i in no_barrier:
+        for i in (no_barrier_tasks(enc.prog) if no_barrier is None else no_barrier):
             self.no_barrier[i] = 1
         self.t_task = torch.zeros(max(1, n) * 2, dtype=torch.int64, device=dev)
         self.zero_delays = torch.zeros(max(1, n) * 3, dtype=torch.int64, device=dev)

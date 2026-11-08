@@ -361,6 +361,8 @@ class Runner:
         import torch
         if mode not in self.MODES:
             raise ValueError(mode)
+        if any(t.no_barrier for t in enc.prog.tasks):
+            raise ValueError("no_barrier tasks need the CUDA VM (msync.cuda_vm): Triton has no warp-level control")
         self.torch, self.enc, self.mode, self.device = torch, enc, mode, device
         prog = enc.prog
         i32 = dict(dtype=torch.int32, device=device)

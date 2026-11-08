@@ -53,20 +53,21 @@ def explore(prog: Program, sym: Sym):
         if m.done():
             outcomes.setdefault(m.output(), list(trace))
             return
-        en = [s for s in range(prog.n_sms) if m.enabled(s)]
-        if not en:
+        acts = m.actions()
+        if not acts:
             if first["deadlock"] is None:
                 first["deadlock"] = list(trace)
             return
-        for s in en:
+        for s, k in acts:
             m2 = m.copy()
+            step = s if k == 0 else (s, k)
             try:
-                m2.step(s)
+                m2.step(s, k)
             except Fault:
                 if first["fault"] is None:
-                    first["fault"] = trace + [s]
+                    first["fault"] = trace + [step]
                 continue
-            trace.append(s)
+            trace.append(step)
             dfs(m2, trace)
             trace.pop()
 

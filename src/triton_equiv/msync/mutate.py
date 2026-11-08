@@ -33,6 +33,14 @@ Grid barrier reuse (``barrier2`` only):
 ``barrier_reuse_no_reset`` both barriers use one counter with threshold 2 for both, so the
                            second barrier can be passed on the first barrier's arrivals.
 
+Inside a task (:func:`warp_mutants`, kept apart from :func:`mutants` so the part-1 audit
+is unchanged):
+
+``no_barrier``          drop the block barrier before a task's signal, so warps other than
+                        warp 0 may write after it (``ir.Task.no_barrier``). Sites: tasks
+                        that signal a counter somebody waits on and write more than one
+                        element.
+
 Each operator yields one mutant per site.
 """
 
@@ -45,6 +53,7 @@ from .ir import Program, Task, Wait, retile
 OPERATORS = ("partial_wait", "threshold_plus_one", "drop_wait", "wrong_wait_counter",
              "signal_before_write", "swap_same_sm", "tile_shift", "tile_unclamped",
              "scratch_no_offset", "counter_not_zeroed", "barrier_reuse_reset", "barrier_reuse_no_reset")
+WARP_OPERATORS = ("no_barrier",)
 
 
 @dataclass
@@ -151,3 +160,20 @@ def mutants(prog: Program) -> list:
         seen[op] = k + 1
         out.append(SyncMutant(f"{prog.name}:{op}:{k}", op, site, p.copy(name=prog.name)))
     return out
+
+
+def no_barrier_sites(prog: Program) -> list:
+    """Task indices where a missing block barrier can matter: the task signals a counter
+    somebody waits on and writes more than one element (so some writer is outside warp 0)."""
+    waited = {w.counter for t in prog.tasks for w in t.waits}
+    return [i for i, t in enumerate(prog.tasks)
+            if t.out_counter in waited and not t.signal_first and t.writes
+            and t.writes[0].hi - t.writes[0].lo > 1]
+
+
+def warp_mutants(prog: Program) -> list:
+    """One ``no_barrier`` mutant per :func:`no_barrier_sites` site, ids
+    ``<program>:no_barrier:<k>`` in site order (as the T4 run numbered them)."""
+    return [SyncMutant(f"{prog.name}:no_barrier:{k}", "no_barrier", prog.tasks[i].id,
+                       _with_task(prog, i, replace(prog.tasks[i], no_barrier=True)).copy(name=prog.name))
+            for k, i in enumerate(no_barrier_sites(prog))]

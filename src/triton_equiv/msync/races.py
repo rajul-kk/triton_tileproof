@@ -15,9 +15,9 @@ Backends (:class:`GpuBackend`; units of ``dmax`` and of the wait limit in bracke
 
 ``triton``  ``gpu.Runner``, the Triton kernel [spins of volatile loads; polls].
 ``cuda``    ``cuda_vm.CudaRunner``, the same VM in CUDA C++ [nanoseconds; nanoseconds].
-            Also plants the warp-level ``no_barrier`` mutant at every
-            ``cuda_vm.no_barrier_sites`` site of each benign reference. The step machine has
-            no warps, so these rows have label ``unmodelled``.
+            Also runs the warp-level ``no_barrier`` mutants (``mutate.warp_mutants``) of
+            each benign reference, labelled by the oracle like every other mutant. Their
+            rows are also summarised on their own, under ``warp``.
 
 Each launch is one :class:`Obs`, compared with the step machine's float64 output for the
 *reference* program on the same inputs (uninitialised memory is NaN, so a stale read
@@ -55,7 +55,7 @@ from pathlib import Path
 from . import gpu
 from .ir import reference_programs
 from .machine import Sym, num_arena, num_inputs, run
-from .mutate import mutants
+from .mutate import WARP_OPERATORS, mutants, warp_mutants
 from .oracle import explore, label
 
 
@@ -101,11 +101,13 @@ def max_spin_for(prog, dmax: int, floor: int = SPIN_FLOOR) -> int:
     return 3 * len(prog.tasks) * dmax + floor
 
 
-def launcher(backend: GpuBackend, prog, arena, mode="parallel", device="cuda", no_barrier=()):
-    """``f(delays, limit) -> gpu.Launch`` for one program on one backend."""
+def launcher(backend: GpuBackend, prog, arena, mode="parallel", device="cuda", no_barrier=None):
+    """``f(delays, limit) -> gpu.Launch`` for one program on one backend. ``no_barrier``:
+    extra task indices for the warp-level mutant (CUDA only); None takes the program's own
+    ``Task.no_barrier`` flags."""
     enc = gpu.encode(prog)
     if backend is GpuBackend.TRITON:
-        if no_barrier:
+        if no_barrier:  # a program with no_barrier tasks is refused by gpu.Runner itself
             raise ValueError("no_barrier needs the cuda backend")
         r = gpu.Runner(enc, arena, mode, device=device)
         return lambda d, limit: r.run(d, limit)
@@ -117,7 +119,7 @@ def launcher(backend: GpuBackend, prog, arena, mode="parallel", device="cuda", n
 
 
 def trial(prog, expected, arena, reps: int, dmax: int, seed: int, mode="parallel", device="cuda",
-          spin_floor: int = SPIN_FLOOR, backend: GpuBackend = GpuBackend.TRITON, no_barrier=()) -> dict:
+          spin_floor: int = SPIN_FLOOR, backend: GpuBackend = GpuBackend.TRITON, no_barrier=None) -> dict:
     """``{condition: {obs value: count}}`` for one program."""
     go = launcher(backend, prog, arena, mode, device, no_barrier)
     limit = max_spin_for(prog, dmax, spin_floor)
@@ -189,14 +191,13 @@ def main(argv=None):
         expected = list(m.output())
         ref_out = explore(ref, sym)[0]
         ref_label = label(ref, ref, sym, ref_out)["label"]
-        progs = [("reference", ref.name, None, ref_label, ref, ())]
+        progs = [("reference", ref.name, None, ref_label, ref, None)]
         if ref_label == "benign":  # as in audit: mutants need a reference with one outcome
-            progs += [("mutant", mu.id, mu.operator, label(mu.program, ref, sym, ref_out)["label"], mu.program, ())
+            progs += [("mutant", mu.id, mu.operator, label(mu.program, ref, sym, ref_out)["label"], mu.program, None)
                       for mu in mutants(ref)]
             if backend is GpuBackend.CUDA:
-                from .cuda_vm import no_barrier_sites
-                progs += [("mutant", f"{ref.name}:no_barrier:{k}", "no_barrier", "unmodelled", ref, (i,))
-                          for k, i in enumerate(no_barrier_sites(ref))]
+                progs += [("mutant", mu.id, mu.operator, label(mu.program, ref, sym, ref_out)["label"], mu.program, None)
+                          for mu in warp_mutants(ref)]
         for kind, pid, op, lab, prog, nobar in progs:
             obs = trial(prog, expected, num_arena(prog, inputs, "nan"), args.reps, args.dmax,
                         seed=zlib.crc32(f"{args.seed}:{pid}".encode()), mode=args.mode, device=args.device,
@@ -212,7 +213,8 @@ def main(argv=None):
            "gpu": torch.cuda.get_device_name() if args.device == "cuda" else args.device, "mode": args.mode,
            "torch": torch.__version__, "triton": triton_version,
            "reps": args.reps, "dmax": args.dmax, "spin_floor": args.spin_floor, "seed": args.seed, "seconds": round(time.time() - t0, 1),
-           "false_alarms": false_alarms, "by_label": summarise(rows), "rows": rows}
+           "false_alarms": false_alarms, "by_label": summarise(rows),
+           "warp": summarise([r for r in rows if r["operator"] in WARP_OPERATORS]), "rows": rows}
     Path(args.out).write_text(json.dumps(res, indent=1))
     print(json.dumps(res["by_label"], indent=1))
     print("false alarms:", false_alarms or "none")

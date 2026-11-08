@@ -19,6 +19,13 @@ found in other megakernels: ``reset`` (a task sets a counter back to 0, as a reu
 barrier does) and ``ticket`` (a task takes a slot index from an atomic counter, as MoE
 token dispatch does). ``Task.signal_first`` models a missing release fence: the counter is
 incremented before the task's writes land.
+
+``Task.no_barrier`` models a bug one level down, inside a task. A task's output elements
+are written by the threads of one block, dealt over its :data:`WARPS` warps (element ``e``
+by warp :func:`warp_of`, as ``owner()`` in ``csrc/msync_vm.h`` does). Normally a block
+barrier makes every warp's writes land before thread 0 signals. Without it, thread 0
+signals once warp 0 has written, and the other warps' writes may land later. The block
+still waits for all of them before its next task.
 """
 
 from __future__ import annotations
@@ -30,6 +37,13 @@ READONLY_KINDS = ("input", "weight")
 # buffer are still mapped memory, not a fault. The arena has this many spare cells at the
 # end; only an access beyond them faults.
 ARENA_PAD = 8
+# Warps per block in the CUDA VM (cuda_vm.THREADS // 32). Only no_barrier tasks see them.
+WARPS = 4
+
+
+def warp_of(e: int) -> int:
+    """The warp that writes output element ``e`` of a task."""
+    return e % WARPS
 
 
 @dataclass(frozen=True)
@@ -56,6 +70,7 @@ class Task:
     waits: tuple = ()
     params: tuple = ()  # (key, value) pairs
     signal_first: bool = False
+    no_barrier: bool = False
 
     def p(self, key, default=None):
         return dict(self.params).get(key, default)
@@ -135,10 +150,10 @@ def retile(t: Task, lo: int, hi: int) -> Task:
     p = dict(t.params)
     if t.op == "gemv":
         return replace(gemv(t.id, t.sm, p["W"], p["x"], p["y"], p["K"], lo, hi, p["T"], t.out_counter),
-                       waits=t.waits, signal_first=t.signal_first)
+                       waits=t.waits, signal_first=t.signal_first, no_barrier=t.no_barrier)
     if t.op == "sum":
         return replace(psum(t.id, t.sm, p["x"], lo, hi, p["T"], p["scratch"], p["slot"], t.out_counter),
-                       waits=t.waits, signal_first=t.signal_first, writes=t.writes)
+                       waits=t.waits, signal_first=t.signal_first, no_barrier=t.no_barrier, writes=t.writes)
     raise ValueError(t.op)
 
 
