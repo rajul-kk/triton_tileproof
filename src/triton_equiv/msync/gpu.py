@@ -455,27 +455,31 @@ class Runner:
                 cells += out[base:base + b.size]
         return cells
 
-    def time(self, n: int, delays=None, max_spin: int = 100_000, warmup: int = 50) -> list:
-        """``n`` launch times in microseconds, CUDA events around the launch(es) only (the
-        arena copy-in happens before the start event). Raises if a launch does not finish."""
+    def time_one(self, delays=None, max_spin: int = 100_000) -> float:
+        """One launch (``per_task``: one sequence of launches) in microseconds, CUDA events
+        around the launch(es) only (the arena copy-in happens before the start event). The
+        host waits for the end event before returning. Raises if a launch does not finish."""
         kernel()
-        torch = self.torch
+        if getattr(self, "_events", None) is None:
+            ev = self.torch.cuda.Event
+            self._events = (ev(enable_timing=True), ev(enable_timing=True))
+        start, end = self._events
         dl = self._delays(delays)
-        start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+        self._reset()
+        start.record()
+        self._launch_all(dl, max_spin)
+        end.record()
+        end.synchronize()
+        st = self.status.cpu().tolist()  # after the end event: not in the timed window
         n_last = self.args[-1][3]  # per_task: the status buffer holds the last launch only
-        out = []
-        for i in range(warmup + n):
-            self._reset()
-            start.record()
-            self._launch_all(dl, max_spin)
-            end.record()
-            end.synchronize()
-            st = self.status.cpu().tolist()  # after the end event: not in the timed window
-            if any(v != ProgState.DONE for v in st[0:3 * n_last:3]):
-                raise RuntimeError(f"{self.enc.prog.name} {self.mode}: launch {i} did not finish: {st}")
-            if i >= warmup:
-                out.append(start.elapsed_time(end) * 1000.0)
-        return out
+        if any(v != ProgState.DONE for v in st[0:3 * n_last:3]):
+            raise RuntimeError(f"{self.enc.prog.name} {self.mode}: a launch did not finish: {st}")
+        return start.elapsed_time(end) * 1000.0
+
+    def time(self, n: int, delays=None, max_spin: int = 100_000, warmup: int = 50) -> list:
+        """``n`` back-to-back :meth:`time_one` samples after ``warmup`` untimed ones."""
+        out = [self.time_one(delays, max_spin) for _ in range(warmup + n)]
+        return out[warmup:]
 
 
 def launch(enc: Encoded, arena: list, mode: str = "parallel", delays=None, max_spin: int = 100_000,

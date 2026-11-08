@@ -170,24 +170,28 @@ class CudaRunner:
                 cells += out[base:base + b.size]
         return cells
 
-    def time(self, n: int, delays_ns=None, timeout_ns: int = 20_000_000, warmup: int = 50) -> list:
-        """``n`` launch times in microseconds (CUDA events around the launches only)."""
+    def time_one(self, delays_ns=None, timeout_ns: int = 20_000_000) -> float:
+        """One launch (``per_task``: one sequence) in microseconds, CUDA events around the
+        launches only, as ``gpu.Runner.time_one``."""
         torch = self.torch
         if self.backend is not Backend.CUDA:
-            raise RuntimeError("time() needs the CUDA backend")
+            raise RuntimeError("time_one() needs the CUDA backend")
+        if getattr(self, "_events", None) is None:
+            self._events = (torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True))
+        start, end = self._events
         dl = self._delays(delays_ns)
-        start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
-        n_last, out = self.args[-1][3], []
-        for i in range(warmup + n):
-            self._reset()
-            start.record()
-            for a in self.args:
-                self._launch(a, dl, timeout_ns)
-            end.record()
-            end.synchronize()
-            st = self.status.cpu().tolist()
-            if any(v != gpu.ProgState.DONE for v in st[0:3 * n_last:3]):
-                raise RuntimeError(f"{self.enc.prog.name} {self.mode}: launch {i} did not finish: {st}")
-            if i >= warmup:
-                out.append(start.elapsed_time(end) * 1000.0)
-        return out
+        self._reset()
+        start.record()
+        for a in self.args:
+            self._launch(a, dl, timeout_ns)
+        end.record()
+        end.synchronize()
+        st = self.status.cpu().tolist()
+        if any(v != gpu.ProgState.DONE for v in st[0:3 * self.args[-1][3]:3]):
+            raise RuntimeError(f"{self.enc.prog.name} {self.mode}: a launch did not finish: {st}")
+        return start.elapsed_time(end) * 1000.0
+
+    def time(self, n: int, delays_ns=None, timeout_ns: int = 20_000_000, warmup: int = 50) -> list:
+        """``n`` back-to-back :meth:`time_one` samples after ``warmup`` untimed ones."""
+        out = [self.time_one(delays_ns, timeout_ns) for _ in range(warmup + n)]
+        return out[warmup:]
