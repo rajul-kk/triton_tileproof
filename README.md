@@ -31,14 +31,22 @@ What this repo adds:
    `inequivalent` with witnesses, and `benign` **with a proof**. A floating-point tier splits
    real-equivalent mutants into *proved bitwise identical*, *reorderings* and a
    **precision-loss** tier, with fp64 witnesses and Higham error bounds. 2609.22220 labels by kill
-   witness or quarantine; Volta (arXiv 2511.12638) treats values as reals, so reorderings and
-   precision loss count as equal there.
+   witness or quarantine. Volta (arXiv 2511.12638) and Gimlet's verifier treat values as
+   reals, so reorderings and precision loss count as equal there; arXiv 2610.24548 proves
+   CUDA kernels equivalent to a specification "over floating-point values" in Lean, but by
+   its abstract does not grade the difference. Kernel Contracts (arXiv 2604.22032) already
+   separates precision and ordering failures as contract classes, as a specification
+   taxonomy without proofs. What is added here is the split per mutant, with proofs,
+   witnesses and error bounds. Volta argues that worst-case floating-point bounds are
+   uninformative; the bounds here are used only to rank a mutant against its reference.
 3. **An audit with formally labelled, Triton-specific mutants, which isolates the failure
    class**: OOB at tails, `undef` lanes, precision loss, reorderings. Auditing Triton checkers is
    itself **not new**. *Red-Teaming the Reward* (NeurIPS 2026) already reports that three
    published verifiers accept nearly all of the invalid agent submissions (25% of those it
    audited). Its audit rests on agent runs and a verifier that is not released. Ours is a
-   complement, not a first. It covers the allclose harness below and KernelGYM's `kernel_simple`
+   complement, not a first. Gimlet's verifier also found, with proofs, 2 of 26 KernelBench
+   Level 1 Triton kernels that pass numeric tests but are not equivalent (ARRAY 2026). Ours
+   covers the allclose harness below and KernelGYM's `kernel_simple`
    check, run on a Kaggle T4. TritonRL has no released code, and DRTriton and TritonGym have not
    been read in code.
 
@@ -49,7 +57,9 @@ What this repo adds:
 | Measuring the Checker, 2609.22220 | CUDA source mutants | concrete runs | reports aligned shapes hide tails | yes (CUDA) | kill witness or quarantine, no proofs |
 | Volta, 2511.12638 | PTX | reals | fixed; tails not discussed | yes | equivalence proof; 4 LLM kernels, no hidden bugs found |
 | kernel-tv / triton-tv | TTIR, compiler translation validation | opaque UF tags (IEEE mode designed) | fixed tiles; `program_id` free, not grid-bounded | `scf.for` and `tt.dot` **not implemented** (source read 2026-11-06) | equivalent / not / unknown; no OOB model |
-| Tatva | TTIR + Z3 | | | loop-free only | equivalence proof |
+| Tatva / Gimlet (ARRAY 2026) | TTIR + Z3 | exact reals | masks not discussed | reductions by bounded symbolic unrolling (e.g. k=2), so bounded translation validation | equivalence proof; on 26 L1 Triton kernels: 16 equivalent, 2 pass tests but inequivalent, 8 unknown |
+| arXiv 2610.24548 | CUDA, Lean (Velvet) + VerCors | "over floating-point values" (abstract) | | | equivalence to a spec and race freedom, proved by an LLM agent |
+| Kernel Contracts, 2604.22032 | specification language | | | | 12 contract classes incl. precision and ordering; no proofs in the abstract |
 | Red-Teaming the Reward (KernelQuest) | Triton agent submissions | concrete runs, 5 seeded inputs, up to 5 distributions | | | 4-gate verifier (structure, correctness, precision/CUDA-graph policy, performance), hidden; audits three published verifiers |
 | TritonRL, 2510.17891 | Triton RL reward | 5 random inputs, exact equality as written | | | linter + LLM judge; no code released |
 | triton-verify | TTIR | bit-vectors | symbolic pid in grid | | pointer safety only |
