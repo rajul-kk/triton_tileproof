@@ -270,7 +270,10 @@ that explores every interleaving of the SMs and labels a schedule `oob`, `deadlo
 `racy`, `inequivalent` or `benign` (benign holds for all inputs at that size), and 99
 mutants of five reference schedules (missing or partial waits, early signals, swapped
 queues, shifted and unclamped tiles, unoffset scratch, counters not zeroed, and RESOLVE's
-barrier-reset race).
+barrier-reset race). Prior work: AutoMegaKernel evaluates its own validator on 2,800
+planted mutants in 8 classes, and RESOLVE ran a 143-mutant delay-injection study on single
+kernels. This audit is third-party, and adds counter-initial-value, tile-extent and
+warp-level classes.
 
 Accepted by six checkers (details and the three-part plan in `docs/megakernel_sync.md`):
 

@@ -8,18 +8,38 @@ protocol orders every read after its writes, never hangs and leaves no stale sta
 
 What is known (literature read 2026-11-07):
 
-* Hazy Research and MPK publish no correctness tests. AutoMegaKernel checks its schedule
-  graph with a static validator ("not a mechanized proof"), then compares logits within a
-  tolerance and greedy tokens against eager PyTorch.
+* Hazy Research's post, and the abstracts of MPK and Event Tensor, describe no correctness
+  testing (the MPK and Event Tensor papers were not read beyond the abstract).
+  AutoMegaKernel checks its schedule graph with a static validator ("not a mechanized
+  proof"), then compares logits within a tolerance and greedy tokens against eager
+  PyTorch. It also evaluates that validator itself (arXiv 2606.09682, section 5): 7,160
+  schedules, including 2,800 single-injection mutants in 8 unsafe classes (cycle,
+  drop_wait, kv_before_append, self_wait, oob_counter, oob_buffer, capacity_overflow,
+  partial_shared), labelled by an independent oracle, with zero false accepts. No class
+  mutates a counter's initial value, and the paper does not say what `oob_buffer`
+  changes.
 * RESOLVE (arXiv 2610.05683) inserted random delays with NVBit and compared outputs
   bitwise. It found a grid-barrier reset race and an unoffset scratch buffer in one
-  megakernel, and order-dependent token dropping in two MoE kernels. Most of them showed up
-  only under injected delays. MPK hung under the tool.
-* The only formal result is a Lean proof of a 2-CTA, 15-instruction ticket kernel under
-  the PTX memory model (arXiv 2611.04447). I found no planted-bug benchmark for megakernel
-  synchronisation and no audit of the checkers megakernel projects use.
+  megakernel, and order-dependent token dropping in two MoE kernels. The barrier race was
+  the only one that showed reliably without perturbation; the other three needed delays.
+  It also ran a mutation study on 143 KernelBench synchronisation mutants (section 6.2):
+  92 caught, 90 of them across repeated runs with no delay at all, and 20 of the misses
+  were conflicts inside one warp that its instrumentation cannot perturb. Its kernels are
+  then reduced and proved in F*/Pulse (Kuiper). MPK hung under the tool.
+* Formal results: RESOLVE's proofs, and a Lean formalisation of PTX (arXiv 2611.04447)
+  that proves simple WGMMA GEMM, FlashAttention and three-kernel MoE pipelines, plus a
+  2-CTA, 15-instruction ticket megakernel (its section 4.2). None of these model-checks
+  persistent-kernel schedules.
+* Method ancestors: stress testing exposes GPU bugs that rarely show natively (Sorensen
+  and Donaldson, PLDI 2016); MC Mutants (ASPLOS 2023) scores GPU testing environments by
+  mutation score at litmus-test level; DataRaceBench is the usual labelled benchmark for
+  auditing race detectors.
 
-This is the gap this work targets. It reuses the repo's method (plant labelled bugs, audit
+So a planted-bug evaluation of a megakernel validator exists (AMK's own), and a
+synchronisation mutation study with delays exists (RESOLVE's, on single kernels). What I
+did not find: a third-party audit of megakernel checkers, planted bugs for stale counter
+values, tile overruns or warp-level release, and an exhaustive model of the cross-SM
+protocol checked against hardware. That is the gap this work targets. It reuses the repo's method (plant labelled bugs, audit
 checkers against the labels) on the synchronisation layer instead of on Triton masks.
 
 ## Plan
@@ -120,8 +140,10 @@ Reading:
   accepts every race and every wrong-tile mutant it applies to.
 * **Schedule perturbation catches every race** in this model: 20 random interleavings on
   poisoned memory reject all 39 races and 27 deadlocks, including the barrier-reset race
-  that the round-robin schedule completes. This is RESOLVE's finding reproduced in a model;
-  on hardware schedules are far more correlated, which part 3 measures.
+  that the round-robin schedule completes. This matches RESOLVE's megakernel observation
+  (three of its four bugs needed delays), though not its single-kernel mutant study, where
+  90 of 92 caught mutants showed without delays (see part 3 results). On hardware,
+  schedules are far more correlated, which part 3 measures.
 * **Static rules catch most synchronisation bugs but none of the bounds bugs.** Our
   reading of AMK's validator rejects 22 of 30 applicable races and 24 of 26 deadlocks, and
   accepts all 11 out-of-bounds tiles (it does not check that tiles stay inside buffers) and
@@ -289,7 +311,9 @@ What to expect, stated before the run:
   met do not depend on timing. The exception is deadlocks that depend on the
   interleaving, such as the barrier-reuse ones.
 * Without delays, races should rarely show. The programs are tiny and the GPU runs its
-  SMs nearly in lockstep, which is the point RESOLVE makes about sanitizers.
+  SMs nearly in lockstep. (RESOLVE reports that Compute Sanitizer found nothing on its
+  megakernel and MoE subjects, and that a clean race report proves neither determinism
+  nor correctness.)
 * Random delays should expose many more races. Some should still never show: the oracle
   can prove an interleaving exists that hardware timing almost never produces.
 * `per_task` should be slowest, by roughly one launch overhead per task.
@@ -364,6 +388,13 @@ non-`match` launches.
   oracle-racy mutant stayed hidden. Rates range from 0.22 (`partial_wait`) to 1.0
   (`scratch_no_offset`). Under delay injection, a test catches everything the oracle calls
   racy, but a run without it misses about three quarters.
+* **Against prior work.** That stress exposes GPU bugs that rarely show natively is known
+  (Sorensen and Donaldson, PLDI 2016), as is delay injection on megakernels (RESOLVE). The
+  contrast is with RESOLVE's single-kernel mutant study, where 90 of 92 caught mutants
+  showed without any delay. Here 28 or 30 of 39 needed one. These races are cross-SM
+  counter protocols: they need a consumer on one SM to outrun a producer on another, where
+  a removed `__syncthreads` fails on almost any schedule. A like-for-like comparison would
+  run RESOLVE's mutant classes through this harness; that has not been done.
 * **Deadlocks time out on every launch** except `barrier2:barrier_reuse_reset:0`. That
   one depends on the interleaving, as predicted. On CUDA it never deadlocked without
   delays and timed out on 46% of delayed launches. On Triton it timed out on every
