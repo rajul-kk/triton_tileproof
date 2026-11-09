@@ -543,6 +543,48 @@ A tail bound on this hardware would need a cleaner timing source: in-kernel cycl
 counters per SM, or fixed clocks, which Kaggle does not allow. A pWCET is not what these
 programs need anyway. The paired design answers the schedule question.
 
-The CUDA backend's paced series failed on Kaggle, and the cause is not known yet. Its log
-was not retrieved, because the download of the run's outputs was stopped by low memory on
-this machine. The other two cells completed, and their results are above.
+### The CUDA backend, paced
+
+The first CUDA paced run crashed after measuring its first program. The series it was
+analysing was `static_in_kernel`, which is quantised. Its top 5% were all one value, so
+nothing lay strictly above the POT threshold, and tinytail's GPD fit failed on an empty
+array. tinytail now refuses a fit with fewer than 10 exceedances, and `analyse` records
+that quantile as an error and moves on (tinytail `0fb113a`). `latency.tail_report`
+also records an analysis error for a series instead of losing the run. The rerun
+(`notebooks/msync_paced_cuda.ipynb`, T4, 100k rounds, about 16 minutes) used that tinytail:
+`results/msync_gpu_latency_paced_cuda.json`.
+
+| program | tasks | dynamic − static, median | rounds dynamic slower | per_task − static, median | rounds per_task slower |
+|---|---|---|---|---|---|
+| mlp_rms_aligned | 5 | +2.1 µs | 92% | +25.6 µs | 99.8% |
+| mlp_rms_odd | 5 | +1.9 µs | 90% | +24.7 µs | 99.7% |
+| split_reduce_aligned | 3 | +1.1 µs | 76% | +11.8 µs | 96.7% |
+| split_reduce_odd | 3 | +0.9 µs | 72% | +12.1 µs | 96.7% |
+| barrier2 | 5 | +2.0 µs | 92% | +26.1 µs | 99.8% |
+
+* **The CUDA VM's dynamic queue costs about 2 µs on the 5-task programs and about 1 µs on
+  the 3-task ones.** Unlike Triton, it separates the 3-task programs too, in three rounds
+  out of four. Its launches are shorter (static medians 22.5–30.4 µs, against 53–59 µs for
+  Triton), so less noise hides the cost.
+* **`per_task` costs 12–26 µs,** about 6 µs per extra launch, against 26–30 µs for Triton.
+* **Idle gaps barely move the CUDA medians.** Static is within 0.5 µs of back to back
+  except `mlp_rms_aligned` (+3 µs). `per_task` rises by 8–10 µs on the 5-task programs and
+  not at all on the 3-task ones. So most of the idle penalty seen with Triton comes from
+  its launch path rather than the GPU.
+* **`static_in_kernel` sits 14–15 µs below the event-timed `static`** in every round, so
+  half to two thirds of each event-timed launch is outside the kernel.
+
+**The gates:** all 15 event-timed series still fail (runs and Ljung–Box on every one).
+The in-kernel series differ:
+
+* 3 of 5 pass every gate: both `split_reduce` programs and `barrier2`. These are the
+  first series in this work to pass.
+* `mlp_rms_odd` is refused as degenerate (18 distinct values).
+* `mlp_rms_aligned` fails.
+
+None of the three passing series gets a GPD bound. The fit is rejected at every quantile
+(p = 0.001), and on both `split_reduce` programs the 0.975 and 0.99 quantiles have no
+exceedances at all: the case that crashed the first run. With 38–65 distinct values, the
+in-kernel clock is too coarse for a tail fit. So the conclusion above stands for both
+backends: the paired differences answer the schedule question; a pWCET needs a finer
+timer.
