@@ -436,6 +436,13 @@ non-`match` launches.
   tinytail computes no EVT or MBPTA bound for any of them. It does report only the
   hold-out maximum plus a margin, marked non-probabilistic. Back-to-back launches carry
   state between iterations (clocks, caches, the launch queue), and the gates catch it.
+  This has a precedent: Berezovskyi, Santinelli, Bletsas and Tovar (RTNS 2014) found
+  host-side CUDA timings on Kepler dependent (an AR(22) structure that a runs test alone
+  missed) and device-side clock-register timings independent (Ljung–Box p = 0.14). They
+  then applied EVT to the host series anyway, arguing that the extremes were independent
+  (extremogram, extremal index near 1). tinytail does not take that route: its gates
+  refuse a fit on any failure, and most of these series also fail KPSS or the KS test of
+  the two halves, so they are not stationary either, which that argument assumes.
 * **The gates do not separate `dynamic` from `static`.** Both fail, which answers the
   open question above: at this sample size and back-to-back pacing, the dependence from
   repeated launching swamps any extra non-i.i.d.-ness from the dynamic queue. Telling
@@ -443,7 +450,11 @@ non-`match` launches.
   schedules.
 * **The in-kernel series are quantised.** `%globaltimer` on the T4 takes only 18–59
   distinct values over 66k samples, so the timer's resolution, not the schedule, sets
-  their tail. They are useful as medians, not for EVT.
+  their tail. They are useful as medians, not for EVT. NVIDIA forum answers put
+  `%globaltimer` updates at 1 µs on GPUs below compute capability 9.0 (the T4 is 7.5) and
+  32 ns on Hopper and later, and report that Nsight tools raise the resolution while they
+  run. The PTX manual gives no update rate. RTNS 2014 used the per-SM clock register
+  instead.
 
 ## Part 4: warps in the step machine
 
@@ -571,7 +582,8 @@ series, and tinytail refuses to give one.
   numbers are the warm case.
 
 A tail bound on this hardware would need a cleaner timing source: in-kernel cycle
-counters per SM, or fixed clocks, which Kaggle does not allow. A pWCET is not what these
+counters per SM (`%clock64`, as RTNS 2014 used), or fixed clocks, which Kaggle does not
+allow. A pWCET is not what these
 programs need anyway. The paired design answers the schedule question.
 
 ### The CUDA backend, paced
