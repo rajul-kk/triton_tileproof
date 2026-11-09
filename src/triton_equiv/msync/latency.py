@@ -152,7 +152,10 @@ def tail_report(x, cfg) -> dict:
     """tinytail's report, cut down to what the summary needs (the full one is long)."""
     from pwcet.analysis import analyse
     k = int(len(x) * cfg.fit_frac)
-    r = analyse(x[:k], x[k:], cfg, origin="hardware", meta={"unit": "us"})
+    try:
+        r = analyse(x[:k], x[k:], cfg, origin="hardware", meta={"unit": "us"})
+    except ValueError as e:  # one series that tinytail cannot analyse must not lose the run
+        return {"error": str(e), "gates": {"verdict": "error"}, "primary_outcome": f"analysis failed: {e}"}
     keep = ("gates", "verdict", "primary_outcome", "fit_set", "holdout_set", "baseline_max_plus_margin",
             "estimates", "validation", "extrapolation_refuted")
     return {key: r[key] for key in keep if key in r}

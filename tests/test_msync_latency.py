@@ -35,3 +35,14 @@ def test_paired_differences():
     p = latency.paired(x)
     assert set(p) == {"dynamic-static"}                  # unequal lengths are not paired
     assert p["dynamic-static"] == {"median_us": 0.5, "share_positive": 2 / 3, "rounds": 3}
+
+
+def test_tail_report_records_an_analysis_error(monkeypatch):
+    import pytest
+    an = pytest.importorskip("pwcet.analysis")
+
+    def boom(*a, **k):
+        raise ValueError("zero-size array to reduction operation minimum")
+    monkeypatch.setattr(an, "analyse", boom)
+    rep = latency.tail_report([1.0] * 100, an.Config(gof_reps=0))
+    assert rep["gates"]["verdict"] == "error" and "zero-size" in rep["primary_outcome"]
