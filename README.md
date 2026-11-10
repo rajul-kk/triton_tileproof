@@ -344,8 +344,25 @@ orders each SM's queue topologically rather than by task list. This is a model w
 
 ```bash
 pip install -e ".[dev]"     # oracle + tests: Windows, Linux or WSL
-pytest                      # Windows: 66 passed, 2 skipped (no triton)
+pytest                      # Windows: 130 passed, 162 skipped (no triton, no ninja)
 ```
+
+### Tests and CI
+
+`.github/workflows/ci.yml` runs three jobs on push to `main` and on pull requests:
+
+| Job | Installs | What it checks |
+|---|---|---|
+| `oracle-windows` | `.[dev]` (z3, numpy, pytest) | the oracle tiers; Triton and C++-extension tests skip |
+| `full-linux` | CPU torch, triton, ninja, `.[dev]` | the whole suite under `TRITON_INTERPRET=1` (set in `tests/conftest.py`) |
+| `labels` | `.` | regenerates the 72 labels (about 1 minute) and fails if any label, proof flag, size list or count differs from `results/labels.json`; Z3 witnesses and timings vary between runs and are not compared |
+
+Skips, measured on 10 Nov 2026:
+
+| Where | Skipped | Why |
+|---|---|---|
+| Windows | 162 | no Triton wheel (interpreter, harness, batch-invariance and msync GPU tests); no ninja, so the CPU C++ reference and msync VM extensions do not build; `AMK_ROOT` unset |
+| Linux and WSL | 4 | `AMK_ROOT` unset (3 AutoMegaKernel bridge tests); the `pwcet` package from the separate tinyml-pwcet project is not installed (1 latency test) |
 
 ### Triton CPU interpreter (WSL)
 
@@ -361,8 +378,8 @@ official Windows wheel, so these tests are skipped on Windows.
 # WSL, from the repo root
 python3 -m venv ~/venv-triton-equiv
 ~/venv-triton-equiv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
-~/venv-triton-equiv/bin/pip install triton z3-solver numpy pytest
-~/venv-triton-equiv/bin/python -m pytest -q      # 69 passed
+~/venv-triton-equiv/bin/pip install triton ninja z3-solver numpy pytest
+~/venv-triton-equiv/bin/python -m pytest -q      # 405 passed, 4 skipped
 ```
 
 ## License
