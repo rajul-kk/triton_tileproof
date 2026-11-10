@@ -631,3 +631,131 @@ exceedances at all: the case that crashed the first run. With 38–65 distinct v
 in-kernel clock is too coarse for a tail fit. So the conclusion above stands for both
 backends: the paired differences answer the schedule question; a pWCET needs a finer
 timer.
+
+## Part 6: race checkers and single-kernel mutants
+
+Parts 3 to 5 tested the schedule programs by comparing outputs, with and without injected
+delays. Two questions were left:
+
+- **Would a race checker do better?** A race checker flags unordered accesses directly,
+  so in principle it does not need a race to change an output.
+- **Are block-level races easier to expose?** RESOLVE (arXiv 2610.05683, §6.2) saw 90 of
+  92 caught single-kernel mutants show without delays. On the cross-SM protocols, about
+  a quarter of the racy mutants showed without delays.
+
+`notebooks/msync_sanitizers.ipynb` ran both on a Kaggle T4 (about 15 minutes for the
+checkers):
+
+- `python -m triton_equiv.msync.intra --reps 200`: four block-level kernels with
+  shared-memory barriers, 16 racy and 6 benign mutants plus 4 references, labelled by a
+  happens-before model (`msync/intra.py`).
+- `python -m triton_equiv.msync.sanitize`, with these checkers:
+  - compute-sanitizer 2025.3.1 `racecheck`, `synccheck` and `memcheck`, on the CUDA VM and
+    the intra kernels;
+  - Triton 3.9's GSan and ConSan, on the Triton VM.
+
+Outputs:
+
+- `results/msync_intra.json`
+- `results/msync_sanitizers.json`
+- raw reports in `results/msync_sanitizer_logs/`
+
+### Single-kernel mutants under the delay harness
+
+The table gives mutants shown in at least one of 200 launches, per condition.
+
+| scope | mutants | no delay | warp delays | lane delays | any |
+|---|---|---|---|---|---|
+| cross_warp | 5 | 3 | 4 | 4 | 4 |
+| intra_warp | 5 | 0 | 0 | 1 | 1 |
+| mixed | 6 | 6 | 6 | 6 | 6 |
+| **racy** | **16** | **9** | **10** | **11** | **12** |
+| benign + references | 10 | 0 | 0 | 0 | 0 |
+
+- **No false alarms.**
+- **Without delays, 9 of 16 block-level mutants show.** On the cross-SM programs, 10 of
+  40 showed. Races in shared memory, inside one block, are easier to expose, which goes
+  some way to explain RESOLVE's figure.
+- **Mixed races always show.**
+- **Intra-warp races almost never show.** The four tail mutants of `reduce` are never
+  seen: the 32 lanes of a warp run in lockstep on the T4, and a per-lane delay does not
+  pull them apart enough. The exception is `warp_sync_free`, which drops every
+  `__syncwarp` and shows on every launch with lane delays.
+- **`reduce:after_load` never shows.** It is a cross-warp race that stays hidden in all
+  600 launches.
+
+### compute-sanitizer
+
+| suite | racy flagged | false flags |
+|---|---|---|
+| intra, racecheck | 16 / 16 (cross_warp 5, intra_warp 5, mixed 6) | 0 / 10 |
+| intra, synccheck and memcheck | 0 / 16 | 0 |
+| CUDA VM, all three tools | 0 / 45 racy, 0 / 11 oob | 0 |
+
+- **On the single-kernel suite, racecheck catches every racy mutant in one run, without
+  delays.** That includes the four intra-warp races the delay harness never shows.
+- **On the megakernel programs it finds nothing.** racecheck checks shared memory only,
+  and the VM synchronises through global-memory counters, so none of these races is in
+  its scope. memcheck does not flag the out-of-bounds tile mutants either: they stay
+  inside the arena allocation.
+
+This repeats RESOLVE's observation that Compute Sanitizer found nothing on its megakernel
+and MoE subjects, with labelled mutants behind it.
+
+### GSan and ConSan (Triton 3.9)
+
+GSan tracks global loads, stores and atomics with vector clocks. Its results by oracle
+label:
+
+| label | programs | flagged |
+|---|---|---|
+| benign (references and mutants) | 19 | 0 |
+| racy | 40 | 25 |
+| deadlock | 27 | 0 |
+| inequivalent (`tile_shift`) | 8 | 6 |
+| oob | 11 | 11 |
+
+- **Racy, by operator:**
+  - flagged every time: `drop_wait` 9/9, `signal_before_write` 9/9,
+    `wrong_wait_counter` 3/3, `scratch_no_offset` 2/2;
+  - flagged sometimes: `counter_not_zeroed` 2/8;
+  - never flagged: `partial_wait` 0/7, `barrier_reuse_no_reset` 0/1, and the racy
+    reference `moe_dispatch`.
+- **The misses are races of interleavings that did not happen.** Take `partial_wait`,
+  which waits for k−1 of k producers. When the last producer has already signalled, the
+  consumer's acquire reads its write. That gives a happens-before edge in the observed
+  run, so a vector-clock checker correctly reports nothing. The oracle shows that another
+  interleaving breaks it. `counter_not_zeroed` needs a stale counter from an earlier
+  launch, which a single run does not have.
+- **GSan against output comparison, on the 40 racy programs (Triton backend):**
+
+  | | flagged |
+  |---|---|
+  | GSan, no delays | 25 |
+  | Output comparison, no delays | 10 |
+  | Output comparison, with delays | 40 |
+
+  - The no-delay output check finds 10 programs; GSan finds 16 that it misses, and misses
+    1 that it finds.
+  - Delays expose all 40, including the 15 GSan misses. This needs 100 launches per
+    program against GSan's one.
+- **GSan flags all 11 oob mutants and 6 of the 8 inequivalent `tile_shift` ones.** Two
+  programs then write the same cells, and GSan reports that as a write-after-write or
+  read-after-write race. The two it misses are the `split_reduce` shifts, which read past
+  their tile but write only their own cells.
+
+**ConSan did not run.** Its instrumentation uses `elect.sync`, an sm_90 instruction, and
+LLVM aborts on sm_75 (`Cannot select: intrinsic %llvm.nvvm.elect.sync`,
+`results/msync_sanitizer_logs/triton_consan.log`). The run stopped after the first
+program. ConSan needs a Hopper or newer GPU.
+
+### What this adds
+
+| Checker | Strength | Gap |
+|---|---|---|
+| racecheck | complete on block-level shared-memory races | blind to cross-SM protocols |
+| GSan | covers cross-SM protocols in a single run with no false flags, and finds more than plain output comparison | sees only the interleaving that ran, so it misses about a third of the racy programs |
+| delays | find all of the cross-SM races | cost 100 launches per program; leave intra-warp races hidden |
+
+None of the three replaces the oracle's labels. The oracle is what showed that the GSan
+misses are real races, and that the checkers' silence on the benign mutants is correct.
