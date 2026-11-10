@@ -95,6 +95,7 @@ targets the same failures as our precision-loss tier, but by a rule rather than 
 | `src/triton_equiv/kgym_table.py` | KernelGYM accepted-by-label table from `results/kernelgym_audit_t4.json`, with mutants that do not compile on GPU counted separately |
 | `results/msync_audit.json` | 99 labelled schedule mutants and six checkers' verdicts (`python -m triton_equiv.msync.audit`) |
 | `results/refcheck_cpu.json` | Checker verdicts against PyTorch and against the C++ reference kernels: no verdict changes (`python -m triton_equiv.refcheck`). `results/refcheck_t4.json`: the same in real Triton on a T4, none of 80 changes |
+| `src/triton_equiv/batchinv.py` | Batch invariance: is a row's output bitwise the same at two batch sizes, given the kernel and the launch policy that picks tiles from the batch size? Static check on the uninterpreted-function tier, an emulator witness search, and a hardware check. `results/batchinv.json` (T4): all 7 proved families equal on the GPU, 3 of 4 refuted ones differ; the fourth is explained by Triton folding `acc + dot` into the dot. See `docs/batch_invariance.md` |
 | `src/triton_equiv/symexec.py` | Placeholder for later work |
 | `tests/` | Known-label oracle tests, fp-tier tests, mutation tests, interpreter tests |
 
