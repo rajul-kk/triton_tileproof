@@ -1,0 +1,57 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  oracle-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .[dev]
+      - run: pytest -rs
+
+  full-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install triton ninja -e .[dev]
+      - run: pytest -rs
+
+  labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - run: python -m triton_equiv.fporacle --out "$RUNNER_TEMP/labels.json"
+      - name: compare with results/labels.json
+        run: |
+          python - "$RUNNER_TEMP/labels.json" <<'EOF'
+          import json, sys
+          KEYS = ("id", "label", "bv_label", "fp_proof", "real_proof", "precision_loss", "sizes")
+          old = json.load(open("results/labels.json"))
+          new = json.load(open(sys.argv[1]))
+          pick = lambda d: [{k: r.get(k) for k in KEYS} for r in d["labels"]]
+          bad = [(a["id"], a, b) for a, b in zip(pick(old), pick(new)) if a != b]
+          for i, a, b in bad:
+              print(f"{i}: committed {a} regenerated {b}")
+          if old["counts"] != new["counts"] or len(old["labels"]) != len(new["labels"]) or bad:
+              print("committed counts", old["counts"], "regenerated", new["counts"])
+              sys.exit(1)
+          print(f"{len(new['labels'])} labels match; witnesses and timings are not compared")
+          EOF
