@@ -1,0 +1,526 @@
+{
+ "command": "python -m triton_equiv.msync.intra --reps 200 --out /kaggle/working/msync_intra.json",
+ "gpu": "Tesla T4",
+ "torch": "2.11.0+cu130",
+ "reps": 200,
+ "dmax": 20000,
+ "seed": 0,
+ "seconds": 65.0,
+ "false_alarms": [],
+ "summary": {
+  "benign": {
+   "mutants": 12,
+   "none": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "warp": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "lane": {
+    "seen": 0,
+    "mean_rate": 0.0
+   }
+  },
+  "racy/cross_warp": {
+   "mutants": 5,
+   "none": {
+    "seen": 3,
+    "mean_rate": 0.121
+   },
+   "warp": {
+    "seen": 4,
+    "mean_rate": 0.8
+   },
+   "lane": {
+    "seen": 4,
+    "mean_rate": 0.638
+   }
+  },
+  "racy": {
+   "mutants": 16,
+   "none": {
+    "seen": 9,
+    "mean_rate": 0.3053
+   },
+   "warp": {
+    "seen": 10,
+    "mean_rate": 0.625
+   },
+   "lane": {
+    "seen": 11,
+    "mean_rate": 0.5297
+   }
+  },
+  "racy/intra_warp": {
+   "mutants": 5,
+   "none": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "warp": {
+    "seen": 0,
+    "mean_rate": 0.0
+   },
+   "lane": {
+    "seen": 1,
+    "mean_rate": 0.2
+   }
+  },
+  "racy/mixed": {
+   "mutants": 6,
+   "none": {
+    "seen": 6,
+    "mean_rate": 0.7133
+   },
+   "warp": {
+    "seen": 6,
+    "mean_rate": 1.0
+   },
+   "lane": {
+    "seen": 6,
+    "mean_rate": 0.7142
+   }
+  }
+ },
+ "rows": [
+  {
+   "id": "reduce:reference",
+   "kind": "reference",
+   "kernel": "reduce",
+   "label": "benign",
+   "scope": null,
+   "deterministic": true,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "matmul:reference",
+   "kind": "reference",
+   "kernel": "matmul",
+   "label": "benign",
+   "scope": null,
+   "deterministic": true,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "stencil:reference",
+   "kind": "reference",
+   "kernel": "stencil",
+   "label": "benign",
+   "scope": null,
+   "deterministic": true,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "scan:reference",
+   "kind": "reference",
+   "kernel": "scan",
+   "label": "benign",
+   "scope": null,
+   "deterministic": true,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:pre_load",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    0
+   ],
+   "what": "barrier before the load",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:after_load",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    1
+   ],
+   "what": "barrier after the load",
+   "label": "racy",
+   "scope": "cross_warp",
+   "hb_pairs": 128,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:after_128",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    2
+   ],
+   "what": "barrier after the 128 level",
+   "label": "racy",
+   "scope": "cross_warp",
+   "hb_pairs": 64,
+   "differs": {
+    "none": 84,
+    "warp": 200,
+    "lane": 120
+   }
+  },
+  {
+   "id": "reduce:after_64",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    3
+   ],
+   "what": "barrier after the 64 level",
+   "label": "racy",
+   "scope": "cross_warp",
+   "hb_pairs": 63,
+   "differs": {
+    "none": 32,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "reduce:warp32_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    4
+   ],
+   "what": "__syncwarp between read and write, step 32",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp32_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    5
+   ],
+   "what": "__syncwarp after the write, step 32",
+   "label": "racy",
+   "scope": "intra_warp",
+   "hb_pairs": 16,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp16_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    6
+   ],
+   "what": "__syncwarp between read and write, step 16",
+   "label": "racy",
+   "scope": "intra_warp",
+   "hb_pairs": 16,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp16_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    7
+   ],
+   "what": "__syncwarp after the write, step 16",
+   "label": "racy",
+   "scope": "intra_warp",
+   "hb_pairs": 24,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp1_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    14
+   ],
+   "what": "__syncwarp between read and write, step 1",
+   "label": "racy",
+   "scope": "intra_warp",
+   "hb_pairs": 31,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp1_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    15
+   ],
+   "what": "__syncwarp after the write, step 1",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "reduce:warp_sync_free",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "bits": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "what": "every __syncwarp of the tail",
+   "label": "racy",
+   "scope": "intra_warp",
+   "hb_pairs": 774,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 200
+   }
+  },
+  {
+   "id": "matmul:after_load",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "bits": [
+    0
+   ],
+   "what": "barrier after the tile loads",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 30720,
+   "differs": {
+    "none": 200,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "matmul:before_next_load",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "bits": [
+    1
+   ],
+   "what": "barrier before the next tile load",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 23040,
+   "differs": {
+    "none": 90,
+    "warp": 200,
+    "lane": 4
+   }
+  },
+  {
+   "id": "matmul:after_loop",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "bits": [
+    2
+   ],
+   "what": "barrier after the loop",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "stencil:after_load",
+   "kind": "mutant",
+   "kernel": "stencil",
+   "bits": [
+    0
+   ],
+   "what": "barrier after the loads",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 510,
+   "differs": {
+    "none": 1,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "stencil:before_store",
+   "kind": "mutant",
+   "kernel": "stencil",
+   "bits": [
+    1
+   ],
+   "what": "barrier before the store",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  },
+  {
+   "id": "scan:after_load",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    16
+   ],
+   "what": "barrier after the load",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 255,
+   "differs": {
+    "none": 200,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "scan:step1_war",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    0
+   ],
+   "what": "barrier between read and write, step 1",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 255,
+   "differs": {
+    "none": 167,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "scan:step1_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    1
+   ],
+   "what": "barrier after the write, step 1",
+   "label": "racy",
+   "scope": "mixed",
+   "hb_pairs": 254,
+   "differs": {
+    "none": 198,
+    "warp": 200,
+    "lane": 53
+   }
+  },
+  {
+   "id": "scan:step64_war",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    12
+   ],
+   "what": "barrier between read and write, step 64",
+   "label": "racy",
+   "scope": "cross_warp",
+   "hb_pairs": 192,
+   "differs": {
+    "none": 5,
+    "warp": 200,
+    "lane": 200
+   }
+  },
+  {
+   "id": "scan:step64_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    13
+   ],
+   "what": "barrier after the write, step 64",
+   "label": "racy",
+   "scope": "cross_warp",
+   "hb_pairs": 128,
+   "differs": {
+    "none": 0,
+    "warp": 200,
+    "lane": 118
+   }
+  },
+  {
+   "id": "scan:step128_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "bits": [
+    15
+   ],
+   "what": "barrier after the write, step 128",
+   "label": "benign",
+   "scope": null,
+   "hb_pairs": 0,
+   "differs": {
+    "none": 0,
+    "warp": 0,
+    "lane": 0
+   }
+  }
+ ]
+}

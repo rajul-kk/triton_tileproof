@@ -1,0 +1,1464 @@
+### mlp_rms_aligned rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:partial_wait:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:threshold_plus_one:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:drop_wait:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:wrong_wait_counter:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:threshold_plus_one:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:drop_wait:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [3,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:wrong_wait_counter:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [3,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:threshold_plus_one:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:drop_wait:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:wrong_wait_counter:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:signal_before_write:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:signal_before_write:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:signal_before_write:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [0,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:swap_same_sm:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:swap_same_sm:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:swap_same_sm:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:tile_shift:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:tile_shift:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:tile_shift:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:tile_shift:3 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [4,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [5,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_aligned:counter_not_zeroed:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:counter_not_zeroed:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_aligned:counter_not_zeroed:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [3,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:partial_wait:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:threshold_plus_one:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:drop_wait:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:wrong_wait_counter:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:threshold_plus_one:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:drop_wait:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:wrong_wait_counter:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:threshold_plus_one:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:drop_wait:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:wrong_wait_counter:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:signal_before_write:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:signal_before_write:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:signal_before_write:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [0,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:swap_same_sm:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:swap_same_sm:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:swap_same_sm:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:tile_shift:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:tile_shift:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:tile_unclamped:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:tile_shift:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:tile_shift:3 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [0,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:tile_unclamped:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [4,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:280: : block: [0,0,0], thread: [5,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### mlp_rms_odd:counter_not_zeroed:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:counter_not_zeroed:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### mlp_rms_odd:counter_not_zeroed:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:307: : block: [0,0,0], thread: [2,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_aligned rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:partial_wait:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:threshold_plus_one:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:drop_wait:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_aligned:signal_before_write:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:signal_before_write:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_aligned:swap_same_sm:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:tile_shift:0 rc=0
+RESULT {"obs": "differs", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:tile_shift:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:309: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_aligned:scratch_no_offset:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:309: : block: [0,0,0], thread: [0,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_aligned:counter_not_zeroed:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_aligned:counter_not_zeroed:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:partial_wait:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:threshold_plus_one:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:drop_wait:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_odd:signal_before_write:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:signal_before_write:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_odd:swap_same_sm:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:tile_shift:0 rc=0
+RESULT {"obs": "differs", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:tile_shift:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:309: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_odd:tile_unclamped:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:309: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_odd:scratch_no_offset:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:309: : block: [0,0,0], thread: [0,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### split_reduce_odd:counter_not_zeroed:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### split_reduce_odd:counter_not_zeroed:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:partial_wait:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:threshold_plus_one:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:drop_wait:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:wrong_wait_counter:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:partial_wait:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:threshold_plus_one:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:drop_wait:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [0,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:wrong_wait_counter:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:partial_wait:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:threshold_plus_one:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:drop_wait:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:wrong_wait_counter:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:signal_before_write:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [0,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [1,0,0], thread: [1,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:signal_before_write:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:282: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:signal_before_write:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:signal_before_write:3 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [2,0,0] Assertion `Read after write race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:283: : block: [0,0,0], thread: [3,0,0] Assertion `Read after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:swap_same_sm:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:swap_same_sm:1 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:swap_same_sm:2 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:tile_shift:0 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:tile_shift:1 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:tile_shift:2 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after write race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:tile_shift:3 rc=1
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [0,0,0] Assertion `Write after read race detected` failed.
+/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py:305: : block: [0,0,0], thread: [1,0,0] Assertion `Write after read race detected` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 327, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 257, in main
+    return child_triton(args.triton_child, args.mode)
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/sanitize.py", line 144, in child_triton
+    launch = r.run(None, max_spin_for(prog, 1000))
+  File "/kaggle/working/tileproof_src/triton_equiv/msync/gpu.py", line 432, in run
+    st = self.status.cpu().tolist()
+         ~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+### barrier2:counter_not_zeroed:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:counter_not_zeroed:1 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:counter_not_zeroed:2 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:barrier_reuse_reset:0 rc=0
+RESULT {"obs": "timed_out", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### barrier2:barrier_reuse_no_reset:0 rc=0
+RESULT {"obs": "match", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)
+
+### moe_dispatch rc=0
+RESULT {"obs": "differs", "triton": "3.9.0"}
+
+/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)

@@ -1,0 +1,158 @@
+========= COMPUTE-SANITIZER
+@@ reduce:reference
+@@ obs reduce:reference match
+@@ reduce:pre_load
+@@ obs reduce:pre_load match
+@@ reduce:after_load
+========= Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x270
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x430 [40960 hazards]
+========= 
+@@ obs reduce:after_load differs
+@@ reduce:after_128
+========= Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x450
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x620 [20480 hazards]
+========= 
+@@ obs reduce:after_128 differs
+@@ reduce:after_64
+========= Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x640
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x810 [10240 hazards]
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0xc00 [128 hazards]
+========= 
+@@ obs reduce:after_64 differs
+@@ reduce:warp32_war
+@@ obs reduce:warp32_war match
+@@ reduce:warp32_raw
+========= Warning: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xa00
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0xc00 [5120 hazards]
+========= 
+@@ obs reduce:warp32_raw match
+@@ reduce:warp16_war
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0xc00
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xe00 [5120 hazards]
+========= 
+@@ obs reduce:warp16_war match
+@@ reduce:warp16_raw
+========= Warning: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xe00
+=========     and Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1000 [7680 hazards]
+========= 
+@@ obs reduce:warp16_raw match
+@@ reduce:warp1_war
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1c00
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1e00 [9920 hazards]
+========= 
+@@ obs reduce:warp1_war match
+@@ reduce:warp1_raw
+@@ obs reduce:warp1_raw match
+@@ reduce:warp_sync_free
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1c00
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1a00 [9920 hazards]
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1e00 [9920 hazards]
+========= 
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1800
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1600 [9600 hazards]
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1a00 [9600 hazards]
+========= 
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1400
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1200 [8960 hazards]
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1600 [8960 hazards]
+========= 
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1000
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xe00 [7680 hazards]
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1200 [7680 hazards]
+========= 
+========= Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0xc00
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xa00 [5120 hazards]
+=========     and Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xe00 [5120 hazards]
+========= 
+@@ obs reduce:warp_sync_free match
+@@ matmul:reference
+@@ obs matmul:reference match
+@@ matmul:after_load
+========= Error: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5f0
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7a0 [27520 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7c0 [21824 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7d0 [19200 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7e0 [18048 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7f0 [17984 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x810 [17088 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x820 [16704 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x830 [16704 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x850 [16448 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x890 [16448 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8b0 [16448 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8c0 [16384 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8e0 [16448 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x920 [16384 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x940 [16384 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x950 [16384 hazards]
+========= 
+========= Warning: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5e0
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7b0 [65536 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x800 [65536 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x860 [65536 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8f0 [65536 hazards]
+========= 
+@@ obs matmul:after_load differs
+@@ matmul:before_next_load
+========= Error: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5f0
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7a0 [10752 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7c0 [10240 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7d0 [10624 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7e0 [10432 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x7f0 [10560 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x810 [10624 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x820 [11264 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x830 [11840 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x850 [12160 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x890 [12864 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8b0 [14400 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8c0 [15360 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x8e0 [15808 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x920 [17152 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x940 [16128 hazards]
+=========     and Read access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x950 [16320 hazards]
+========= 
+@@ obs matmul:before_next_load differs
+@@ matmul:after_loop
+@@ obs matmul:after_loop match
+@@ stencil:reference
+@@ obs stencil:reference match
+@@ stencil:after_load
+========= Error: Race reported between Write access at k_stencil(const float *, float *, unsigned int, const long long *, int)+0x260
+=========     and Read access at k_stencil(const float *, float *, unsigned int, const long long *, int)+0x5a0 [80956 hazards]
+=========     and Read access at k_stencil(const float *, float *, unsigned int, const long long *, int)+0x5e0 [1444 hazards]
+========= 
+@@ obs stencil:after_load differs
+@@ stencil:before_store
+@@ obs stencil:before_store match
+@@ scan:reference
+@@ obs scan:reference match
+@@ scan:after_load
+========= Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x250
+=========     and Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x430 [81600 hazards]
+========= 
+@@ obs scan:after_load differs
+@@ scan:step1_war
+========= Error: Race reported between Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x430
+=========     and Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x5e0 [80964 hazards]
+========= 
+@@ obs scan:step1_war differs
+@@ scan:step1_raw
+========= Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x5e0
+=========     and Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x7c0 [4480 hazards]
+========= 
+@@ obs scan:step1_raw differs
+@@ scan:step64_war
+========= Error: Race reported between Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x1940
+=========     and Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x1ae0 [45440 hazards]
+========= 
+@@ obs scan:step64_war differs
+@@ scan:step64_raw
+========= Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x1ae0
+=========     and Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x1cc0 [40960 hazards]
+========= 
+@@ obs scan:step64_raw differs
+@@ scan:step128_raw
+@@ obs scan:step128_raw match
+========= RACECHECK SUMMARY: 21 hazards displayed (11 errors, 10 warnings)
+

@@ -1,0 +1,231 @@
+========= COMPUTE-SANITIZER
+@@ mlp_rms_aligned
+@@ obs mlp_rms_aligned match
+@@ mlp_rms_aligned:partial_wait:0
+@@ obs mlp_rms_aligned:partial_wait:0 match
+@@ mlp_rms_aligned:threshold_plus_one:0
+@@ obs mlp_rms_aligned:threshold_plus_one:0 timed_out
+@@ mlp_rms_aligned:drop_wait:0
+@@ obs mlp_rms_aligned:drop_wait:0 match
+@@ mlp_rms_aligned:wrong_wait_counter:0
+@@ obs mlp_rms_aligned:wrong_wait_counter:0 timed_out
+@@ mlp_rms_aligned:threshold_plus_one:1
+@@ obs mlp_rms_aligned:threshold_plus_one:1 timed_out
+@@ mlp_rms_aligned:drop_wait:1
+@@ obs mlp_rms_aligned:drop_wait:1 differs
+@@ mlp_rms_aligned:wrong_wait_counter:1
+@@ obs mlp_rms_aligned:wrong_wait_counter:1 differs
+@@ mlp_rms_aligned:threshold_plus_one:2
+@@ obs mlp_rms_aligned:threshold_plus_one:2 timed_out
+@@ mlp_rms_aligned:drop_wait:2
+@@ obs mlp_rms_aligned:drop_wait:2 match
+@@ mlp_rms_aligned:wrong_wait_counter:2
+@@ obs mlp_rms_aligned:wrong_wait_counter:2 match
+@@ mlp_rms_aligned:signal_before_write:0
+@@ obs mlp_rms_aligned:signal_before_write:0 match
+@@ mlp_rms_aligned:signal_before_write:1
+@@ obs mlp_rms_aligned:signal_before_write:1 match
+@@ mlp_rms_aligned:signal_before_write:2
+@@ obs mlp_rms_aligned:signal_before_write:2 match
+@@ mlp_rms_aligned:swap_same_sm:0
+@@ obs mlp_rms_aligned:swap_same_sm:0 timed_out
+@@ mlp_rms_aligned:swap_same_sm:1
+@@ obs mlp_rms_aligned:swap_same_sm:1 timed_out
+@@ mlp_rms_aligned:swap_same_sm:2
+@@ obs mlp_rms_aligned:swap_same_sm:2 timed_out
+@@ mlp_rms_aligned:tile_shift:0
+@@ obs mlp_rms_aligned:tile_shift:0 differs
+@@ mlp_rms_aligned:tile_shift:1
+@@ obs mlp_rms_aligned:tile_shift:1 differs
+@@ mlp_rms_aligned:tile_shift:2
+@@ obs mlp_rms_aligned:tile_shift:2 differs
+@@ mlp_rms_aligned:tile_shift:3
+@@ obs mlp_rms_aligned:tile_shift:3 differs
+@@ mlp_rms_aligned:counter_not_zeroed:0
+@@ obs mlp_rms_aligned:counter_not_zeroed:0 match
+@@ mlp_rms_aligned:counter_not_zeroed:1
+@@ obs mlp_rms_aligned:counter_not_zeroed:1 match
+@@ mlp_rms_aligned:counter_not_zeroed:2
+@@ obs mlp_rms_aligned:counter_not_zeroed:2 differs
+@@ mlp_rms_aligned:no_barrier:0
+@@ obs mlp_rms_aligned:no_barrier:0 match
+@@ mlp_rms_aligned:no_barrier:1
+@@ obs mlp_rms_aligned:no_barrier:1 match
+@@ mlp_rms_aligned:no_barrier:2
+@@ obs mlp_rms_aligned:no_barrier:2 match
+@@ mlp_rms_odd
+@@ obs mlp_rms_odd match
+@@ mlp_rms_odd:partial_wait:0
+@@ obs mlp_rms_odd:partial_wait:0 match
+@@ mlp_rms_odd:threshold_plus_one:0
+@@ obs mlp_rms_odd:threshold_plus_one:0 timed_out
+@@ mlp_rms_odd:drop_wait:0
+@@ obs mlp_rms_odd:drop_wait:0 match
+@@ mlp_rms_odd:wrong_wait_counter:0
+@@ obs mlp_rms_odd:wrong_wait_counter:0 timed_out
+@@ mlp_rms_odd:threshold_plus_one:1
+@@ obs mlp_rms_odd:threshold_plus_one:1 timed_out
+@@ mlp_rms_odd:drop_wait:1
+@@ obs mlp_rms_odd:drop_wait:1 differs
+@@ mlp_rms_odd:wrong_wait_counter:1
+@@ obs mlp_rms_odd:wrong_wait_counter:1 differs
+@@ mlp_rms_odd:threshold_plus_one:2
+@@ obs mlp_rms_odd:threshold_plus_one:2 timed_out
+@@ mlp_rms_odd:drop_wait:2
+@@ obs mlp_rms_odd:drop_wait:2 match
+@@ mlp_rms_odd:wrong_wait_counter:2
+@@ obs mlp_rms_odd:wrong_wait_counter:2 match
+@@ mlp_rms_odd:signal_before_write:0
+@@ obs mlp_rms_odd:signal_before_write:0 match
+@@ mlp_rms_odd:signal_before_write:1
+@@ obs mlp_rms_odd:signal_before_write:1 match
+@@ mlp_rms_odd:signal_before_write:2
+@@ obs mlp_rms_odd:signal_before_write:2 match
+@@ mlp_rms_odd:swap_same_sm:0
+@@ obs mlp_rms_odd:swap_same_sm:0 timed_out
+@@ mlp_rms_odd:swap_same_sm:1
+@@ obs mlp_rms_odd:swap_same_sm:1 timed_out
+@@ mlp_rms_odd:swap_same_sm:2
+@@ obs mlp_rms_odd:swap_same_sm:2 timed_out
+@@ mlp_rms_odd:tile_shift:0
+@@ obs mlp_rms_odd:tile_shift:0 differs
+@@ mlp_rms_odd:tile_shift:1
+@@ obs mlp_rms_odd:tile_shift:1 differs
+@@ mlp_rms_odd:tile_unclamped:0
+@@ obs mlp_rms_odd:tile_unclamped:0 match
+@@ mlp_rms_odd:tile_shift:2
+@@ obs mlp_rms_odd:tile_shift:2 differs
+@@ mlp_rms_odd:tile_shift:3
+@@ obs mlp_rms_odd:tile_shift:3 differs
+@@ mlp_rms_odd:tile_unclamped:1
+@@ obs mlp_rms_odd:tile_unclamped:1 match
+@@ mlp_rms_odd:counter_not_zeroed:0
+@@ obs mlp_rms_odd:counter_not_zeroed:0 match
+@@ mlp_rms_odd:counter_not_zeroed:1
+@@ obs mlp_rms_odd:counter_not_zeroed:1 match
+@@ mlp_rms_odd:counter_not_zeroed:2
+@@ obs mlp_rms_odd:counter_not_zeroed:2 differs
+@@ mlp_rms_odd:no_barrier:0
+@@ obs mlp_rms_odd:no_barrier:0 match
+@@ mlp_rms_odd:no_barrier:1
+@@ obs mlp_rms_odd:no_barrier:1 match
+@@ split_reduce_aligned
+@@ obs split_reduce_aligned match
+@@ split_reduce_aligned:partial_wait:0
+@@ obs split_reduce_aligned:partial_wait:0 match
+@@ split_reduce_aligned:threshold_plus_one:0
+@@ obs split_reduce_aligned:threshold_plus_one:0 timed_out
+@@ split_reduce_aligned:drop_wait:0
+@@ obs split_reduce_aligned:drop_wait:0 match
+@@ split_reduce_aligned:signal_before_write:0
+@@ obs split_reduce_aligned:signal_before_write:0 match
+@@ split_reduce_aligned:signal_before_write:1
+@@ obs split_reduce_aligned:signal_before_write:1 match
+@@ split_reduce_aligned:swap_same_sm:0
+@@ obs split_reduce_aligned:swap_same_sm:0 timed_out
+@@ split_reduce_aligned:tile_shift:0
+@@ obs split_reduce_aligned:tile_shift:0 differs
+@@ split_reduce_aligned:tile_shift:1
+@@ obs split_reduce_aligned:tile_shift:1 differs
+@@ split_reduce_aligned:scratch_no_offset:0
+@@ obs split_reduce_aligned:scratch_no_offset:0 differs
+@@ split_reduce_aligned:counter_not_zeroed:0
+@@ obs split_reduce_aligned:counter_not_zeroed:0 match
+@@ split_reduce_aligned:counter_not_zeroed:1
+@@ obs split_reduce_aligned:counter_not_zeroed:1 match
+@@ split_reduce_odd
+@@ obs split_reduce_odd match
+@@ split_reduce_odd:partial_wait:0
+@@ obs split_reduce_odd:partial_wait:0 match
+@@ split_reduce_odd:threshold_plus_one:0
+@@ obs split_reduce_odd:threshold_plus_one:0 timed_out
+@@ split_reduce_odd:drop_wait:0
+@@ obs split_reduce_odd:drop_wait:0 match
+@@ split_reduce_odd:signal_before_write:0
+@@ obs split_reduce_odd:signal_before_write:0 match
+@@ split_reduce_odd:signal_before_write:1
+@@ obs split_reduce_odd:signal_before_write:1 match
+@@ split_reduce_odd:swap_same_sm:0
+@@ obs split_reduce_odd:swap_same_sm:0 timed_out
+@@ split_reduce_odd:tile_shift:0
+@@ obs split_reduce_odd:tile_shift:0 differs
+@@ split_reduce_odd:tile_shift:1
+@@ obs split_reduce_odd:tile_shift:1 differs
+@@ split_reduce_odd:tile_unclamped:0
+@@ obs split_reduce_odd:tile_unclamped:0 differs
+@@ split_reduce_odd:scratch_no_offset:0
+@@ obs split_reduce_odd:scratch_no_offset:0 differs
+@@ split_reduce_odd:counter_not_zeroed:0
+@@ obs split_reduce_odd:counter_not_zeroed:0 match
+@@ split_reduce_odd:counter_not_zeroed:1
+@@ obs split_reduce_odd:counter_not_zeroed:1 match
+@@ barrier2
+@@ obs barrier2 match
+@@ barrier2:partial_wait:0
+@@ obs barrier2:partial_wait:0 match
+@@ barrier2:threshold_plus_one:0
+@@ obs barrier2:threshold_plus_one:0 timed_out
+@@ barrier2:drop_wait:0
+@@ obs barrier2:drop_wait:0 match
+@@ barrier2:wrong_wait_counter:0
+@@ obs barrier2:wrong_wait_counter:0 timed_out
+@@ barrier2:partial_wait:1
+@@ obs barrier2:partial_wait:1 match
+@@ barrier2:threshold_plus_one:1
+@@ obs barrier2:threshold_plus_one:1 timed_out
+@@ barrier2:drop_wait:1
+@@ obs barrier2:drop_wait:1 match
+@@ barrier2:wrong_wait_counter:1
+@@ obs barrier2:wrong_wait_counter:1 timed_out
+@@ barrier2:partial_wait:2
+@@ obs barrier2:partial_wait:2 match
+@@ barrier2:threshold_plus_one:2
+@@ obs barrier2:threshold_plus_one:2 timed_out
+@@ barrier2:drop_wait:2
+@@ obs barrier2:drop_wait:2 match
+@@ barrier2:wrong_wait_counter:2
+@@ obs barrier2:wrong_wait_counter:2 match
+@@ barrier2:signal_before_write:0
+@@ obs barrier2:signal_before_write:0 match
+@@ barrier2:signal_before_write:1
+@@ obs barrier2:signal_before_write:1 match
+@@ barrier2:signal_before_write:2
+@@ obs barrier2:signal_before_write:2 match
+@@ barrier2:signal_before_write:3
+@@ obs barrier2:signal_before_write:3 match
+@@ barrier2:swap_same_sm:0
+@@ obs barrier2:swap_same_sm:0 timed_out
+@@ barrier2:swap_same_sm:1
+@@ obs barrier2:swap_same_sm:1 timed_out
+@@ barrier2:swap_same_sm:2
+@@ obs barrier2:swap_same_sm:2 timed_out
+@@ barrier2:tile_shift:0
+@@ obs barrier2:tile_shift:0 differs
+@@ barrier2:tile_shift:1
+@@ obs barrier2:tile_shift:1 differs
+@@ barrier2:tile_shift:2
+@@ obs barrier2:tile_shift:2 differs
+@@ barrier2:tile_shift:3
+@@ obs barrier2:tile_shift:3 differs
+@@ barrier2:counter_not_zeroed:0
+@@ obs barrier2:counter_not_zeroed:0 match
+@@ barrier2:counter_not_zeroed:1
+@@ obs barrier2:counter_not_zeroed:1 match
+@@ barrier2:counter_not_zeroed:2
+@@ obs barrier2:counter_not_zeroed:2 match
+@@ barrier2:barrier_reuse_reset:0
+@@ obs barrier2:barrier_reuse_reset:0 match
+@@ barrier2:barrier_reuse_no_reset:0
+@@ obs barrier2:barrier_reuse_no_reset:0 match
+@@ barrier2:no_barrier:0
+@@ obs barrier2:no_barrier:0 match
+@@ barrier2:no_barrier:1
+@@ obs barrier2:no_barrier:1 match
+@@ barrier2:no_barrier:2
+@@ obs barrier2:no_barrier:2 match
+@@ barrier2:no_barrier:3
+@@ obs barrier2:no_barrier:3 match
+@@ moe_dispatch
+@@ obs moe_dispatch differs
+========= ERROR SUMMARY: 0 errors
+

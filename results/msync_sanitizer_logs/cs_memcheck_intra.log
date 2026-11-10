@@ -1,0 +1,55 @@
+========= COMPUTE-SANITIZER
+@@ reduce:reference
+@@ obs reduce:reference match
+@@ reduce:pre_load
+@@ obs reduce:pre_load match
+@@ reduce:after_load
+@@ obs reduce:after_load match
+@@ reduce:after_128
+@@ obs reduce:after_128 match
+@@ reduce:after_64
+@@ obs reduce:after_64 match
+@@ reduce:warp32_war
+@@ obs reduce:warp32_war match
+@@ reduce:warp32_raw
+@@ obs reduce:warp32_raw match
+@@ reduce:warp16_war
+@@ obs reduce:warp16_war match
+@@ reduce:warp16_raw
+@@ obs reduce:warp16_raw match
+@@ reduce:warp1_war
+@@ obs reduce:warp1_war match
+@@ reduce:warp1_raw
+@@ obs reduce:warp1_raw match
+@@ reduce:warp_sync_free
+@@ obs reduce:warp_sync_free match
+@@ matmul:reference
+@@ obs matmul:reference match
+@@ matmul:after_load
+@@ obs matmul:after_load match
+@@ matmul:before_next_load
+@@ obs matmul:before_next_load match
+@@ matmul:after_loop
+@@ obs matmul:after_loop match
+@@ stencil:reference
+@@ obs stencil:reference match
+@@ stencil:after_load
+@@ obs stencil:after_load match
+@@ stencil:before_store
+@@ obs stencil:before_store match
+@@ scan:reference
+@@ obs scan:reference match
+@@ scan:after_load
+@@ obs scan:after_load match
+@@ scan:step1_war
+@@ obs scan:step1_war match
+@@ scan:step1_raw
+@@ obs scan:step1_raw match
+@@ scan:step64_war
+@@ obs scan:step64_war match
+@@ scan:step64_raw
+@@ obs scan:step64_raw match
+@@ scan:step128_raw
+@@ obs scan:step128_raw match
+========= ERROR SUMMARY: 0 errors
+

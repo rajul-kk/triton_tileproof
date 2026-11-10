@@ -1,0 +1,4899 @@
+{
+ "command": "python -m triton_equiv.msync.sanitize --tools racecheck synccheck memcheck gsan consan --gsan-path /kaggle/working/tri39 --out /kaggle/working/msync_sanitizers.json --log-dir /kaggle/working/sanitizer_logs",
+ "sanitizer": "/usr/local/cuda/bin/compute-sanitizer",
+ "tools": {
+  "racecheck": {
+   "vm": {
+    "returncode": 0,
+    "seconds": 154.3,
+    "error_summary": null,
+    "rows": {
+     "mlp_rms_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_no_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "moe_dispatch": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     }
+    }
+   },
+   "intra": {
+    "returncode": 0,
+    "seconds": 17.2,
+    "error_summary": null,
+    "rows": {
+     "reduce:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:pre_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_load": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x270"
+      ]
+     },
+     "reduce:after_128": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x450"
+      ]
+     },
+     "reduce:after_64": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0x640"
+      ]
+     },
+     "reduce:warp32_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp32_raw": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "match",
+      "sample": [
+       "Warning: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xa00"
+      ]
+     },
+     "reduce:warp16_war": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "match",
+      "sample": [
+       "Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0xc00"
+      ]
+     },
+     "reduce:warp16_raw": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "match",
+      "sample": [
+       "Warning: Race reported between Write access at k_reduce(const float *, float *, unsigned int, const long long *)+0xe00"
+      ]
+     },
+     "reduce:warp1_war": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "match",
+      "sample": [
+       "Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1c00"
+      ]
+     },
+     "reduce:warp1_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp_sync_free": {
+      "hits": 5,
+      "by_class": {
+       "race": 5
+      },
+      "obs": "match",
+      "sample": [
+       "Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1c00",
+       "Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1800",
+       "Warning: Race reported between Read access at k_reduce(const float *, float *, unsigned int, const long long *)+0x1400"
+      ]
+     },
+     "matmul:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:after_load": {
+      "hits": 2,
+      "by_class": {
+       "race": 2
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5f0",
+       "Warning: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5e0"
+      ]
+     },
+     "matmul:before_next_load": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_matmul(const float *, const float *, float *, unsigned int, const long long *, int, int)+0x5f0"
+      ]
+     },
+     "matmul:after_loop": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:after_load": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_stencil(const float *, float *, unsigned int, const long long *, int)+0x260"
+      ]
+     },
+     "stencil:before_store": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:after_load": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x250"
+      ]
+     },
+     "scan:step1_war": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x430"
+      ]
+     },
+     "scan:step1_raw": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x5e0"
+      ]
+     },
+     "scan:step64_war": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Read access at k_scan(const float *, float *, unsigned int, const long long *)+0x1940"
+      ]
+     },
+     "scan:step64_raw": {
+      "hits": 1,
+      "by_class": {
+       "race": 1
+      },
+      "obs": "differs",
+      "sample": [
+       "Error: Race reported between Write access at k_scan(const float *, float *, unsigned int, const long long *)+0x1ae0"
+      ]
+     },
+     "scan:step128_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     }
+    }
+   }
+  },
+  "synccheck": {
+   "vm": {
+    "returncode": 0,
+    "seconds": 89.7,
+    "error_summary": 0,
+    "rows": {
+     "mlp_rms_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_no_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "moe_dispatch": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     }
+    }
+   },
+   "intra": {
+    "returncode": 0,
+    "seconds": 10.8,
+    "error_summary": 0,
+    "rows": {
+     "reduce:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:pre_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_128": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_64": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp32_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp32_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp16_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp16_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp1_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp1_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp_sync_free": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:before_next_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:after_loop": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:before_store": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step1_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step1_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step64_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step64_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step128_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     }
+    }
+   }
+  },
+  "memcheck": {
+   "vm": {
+    "returncode": 0,
+    "seconds": 89.8,
+    "error_summary": 0,
+    "rows": {
+     "mlp_rms_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_aligned:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:tile_unclamped:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "mlp_rms_odd:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_aligned:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:tile_unclamped:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:scratch_no_offset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "split_reduce_odd:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:partial_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:partial_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:threshold_plus_one:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:drop_wait:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:wrong_wait_counter:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:signal_before_write:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:swap_same_sm:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "timed_out",
+      "sample": []
+     },
+     "barrier2:tile_shift:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:tile_shift:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "differs",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:counter_not_zeroed:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:barrier_reuse_no_reset:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:0": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:1": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:2": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "barrier2:no_barrier:3": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "moe_dispatch": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     }
+    }
+   },
+   "intra": {
+    "returncode": 0,
+    "seconds": 10.9,
+    "error_summary": 0,
+    "rows": {
+     "reduce:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:pre_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_128": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:after_64": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp32_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp32_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp16_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp16_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp1_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp1_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "reduce:warp_sync_free": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:before_next_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "matmul:after_loop": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "stencil:before_store": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:reference": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:after_load": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step1_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step1_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step64_war": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step64_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     },
+     "scan:step128_raw": {
+      "hits": 0,
+      "by_class": {},
+      "obs": "match",
+      "sample": []
+     }
+    }
+   }
+  },
+  "gsan": {
+   "vm_triton": {
+    "seconds": 500.2,
+    "rows": {
+     "mlp_rms_aligned": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:partial_wait:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:threshold_plus_one:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:drop_wait:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:wrong_wait_counter:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:threshold_plus_one:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:drop_wait:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 4
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:wrong_wait_counter:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 4
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:threshold_plus_one:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:drop_wait:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:wrong_wait_counter:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:signal_before_write:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:signal_before_write:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:signal_before_write:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 4
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:swap_same_sm:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:swap_same_sm:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:swap_same_sm:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:tile_shift:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:tile_shift:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:tile_shift:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:tile_shift:3": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_aligned:counter_not_zeroed:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:counter_not_zeroed:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_aligned:counter_not_zeroed:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 4
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:partial_wait:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:threshold_plus_one:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:drop_wait:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:wrong_wait_counter:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:threshold_plus_one:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:drop_wait:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 3
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:wrong_wait_counter:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 3
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:threshold_plus_one:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:drop_wait:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:wrong_wait_counter:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:signal_before_write:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:signal_before_write:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:signal_before_write:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 3
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:swap_same_sm:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:swap_same_sm:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:swap_same_sm:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:tile_shift:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:tile_shift:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:tile_unclamped:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:tile_shift:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:tile_shift:3": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:tile_unclamped:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "mlp_rms_odd:counter_not_zeroed:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:counter_not_zeroed:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "mlp_rms_odd:counter_not_zeroed:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 3
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_aligned": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:partial_wait:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:threshold_plus_one:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:drop_wait:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_aligned:signal_before_write:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:signal_before_write:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_aligned:swap_same_sm:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:tile_shift:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "differs",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:tile_shift:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_aligned:scratch_no_offset:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_aligned:counter_not_zeroed:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_aligned:counter_not_zeroed:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:partial_wait:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:threshold_plus_one:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:drop_wait:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_odd:signal_before_write:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:signal_before_write:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_odd:swap_same_sm:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:tile_shift:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "differs",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:tile_shift:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_odd:tile_unclamped:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_odd:scratch_no_offset:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "split_reduce_odd:counter_not_zeroed:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "split_reduce_odd:counter_not_zeroed:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:partial_wait:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:threshold_plus_one:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:drop_wait:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:wrong_wait_counter:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:partial_wait:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:threshold_plus_one:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:drop_wait:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:wrong_wait_counter:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:partial_wait:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:threshold_plus_one:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:drop_wait:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:wrong_wait_counter:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:signal_before_write:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:signal_before_write:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:signal_before_write:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:signal_before_write:3": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Read after write": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:swap_same_sm:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:swap_same_sm:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:swap_same_sm:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:tile_shift:0": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:tile_shift:1": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:tile_shift:2": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after write": 1
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:tile_shift:3": {
+      "returncode": 1,
+      "result": null,
+      "races": {
+       "Write after read": 2
+      },
+      "reported": true,
+      "error": null
+     },
+     "barrier2:counter_not_zeroed:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:counter_not_zeroed:1": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:counter_not_zeroed:2": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:barrier_reuse_reset:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "timed_out",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "barrier2:barrier_reuse_no_reset:0": {
+      "returncode": 0,
+      "result": {
+       "obs": "match",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     },
+     "moe_dispatch": {
+      "returncode": 0,
+      "result": {
+       "obs": "differs",
+       "triton": "3.9.0"
+      },
+      "races": {},
+      "reported": false,
+      "error": null
+     }
+    }
+   }
+  },
+  "consan": {
+   "vm_triton": {
+    "seconds": 4.1,
+    "rows": {
+     "mlp_rms_aligned": {
+      "returncode": -6,
+      "result": null,
+      "races": {},
+      "reported": false,
+      "error": "/kaggle/working/tri39/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.\n  warn_once(FP_FUSION_DEFAULT_WARNING)\nLLVM ERROR: Cannot select: intrinsic %llvm.nvvm.elect.sync"
+     }
+    }
+   }
+  }
+ },
+ "vm": [
+  {
+   "id": "mlp_rms_aligned",
+   "kind": "reference",
+   "program": "mlp_rms_aligned",
+   "operator": null,
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:partial_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:drop_wait:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "drop_wait",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "wrong_wait_counter",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:signal_before_write:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "mlp_rms_aligned:tile_shift:3",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:0",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:1",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_aligned:no_barrier:2",
+   "kind": "mutant",
+   "program": "mlp_rms_aligned",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd",
+   "kind": "reference",
+   "program": "mlp_rms_odd",
+   "operator": null,
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:partial_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:drop_wait:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "drop_wait",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "wrong_wait_counter",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:signal_before_write:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_odd:tile_unclamped:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_unclamped",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "mlp_rms_odd:tile_shift:3",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_odd:tile_unclamped:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "tile_unclamped",
+   "label": "oob"
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:0",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "no_barrier",
+   "label": "benign"
+  },
+  {
+   "id": "mlp_rms_odd:no_barrier:1",
+   "kind": "mutant",
+   "program": "mlp_rms_odd",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_aligned",
+   "kind": "reference",
+   "program": "split_reduce_aligned",
+   "operator": null,
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_aligned:partial_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_aligned:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "split_reduce_aligned:drop_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_aligned:signal_before_write:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "signal_before_write",
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_aligned:signal_before_write:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_aligned:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "split_reduce_aligned:tile_shift:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "split_reduce_aligned:tile_shift:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "split_reduce_aligned:scratch_no_offset:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "scratch_no_offset",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_aligned:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_aligned:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "split_reduce_aligned",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_odd",
+   "kind": "reference",
+   "program": "split_reduce_odd",
+   "operator": null,
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_odd:partial_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_odd:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "split_reduce_odd:drop_wait:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_odd:signal_before_write:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "signal_before_write",
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_odd:signal_before_write:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_odd:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "split_reduce_odd:tile_shift:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "split_reduce_odd:tile_shift:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "split_reduce_odd:tile_unclamped:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "tile_unclamped",
+   "label": "oob"
+  },
+  {
+   "id": "split_reduce_odd:scratch_no_offset:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "scratch_no_offset",
+   "label": "racy"
+  },
+  {
+   "id": "split_reduce_odd:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "counter_not_zeroed",
+   "label": "benign"
+  },
+  {
+   "id": "split_reduce_odd:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "split_reduce_odd",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2",
+   "kind": "reference",
+   "program": "barrier2",
+   "operator": null,
+   "label": "benign"
+  },
+  {
+   "id": "barrier2:partial_wait:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:threshold_plus_one:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:drop_wait:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:partial_wait:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:threshold_plus_one:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:drop_wait:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:partial_wait:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "partial_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:threshold_plus_one:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "threshold_plus_one",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:drop_wait:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "drop_wait",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:wrong_wait_counter:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "wrong_wait_counter",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:signal_before_write:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:signal_before_write:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:signal_before_write:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "benign"
+  },
+  {
+   "id": "barrier2:signal_before_write:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "signal_before_write",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:swap_same_sm:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:swap_same_sm:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:swap_same_sm:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "swap_same_sm",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:tile_shift:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "barrier2:tile_shift:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "barrier2:tile_shift:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "inequivalent"
+  },
+  {
+   "id": "barrier2:tile_shift:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "tile_shift",
+   "label": "oob"
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:counter_not_zeroed:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "counter_not_zeroed",
+   "label": "benign"
+  },
+  {
+   "id": "barrier2:barrier_reuse_reset:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "barrier_reuse_reset",
+   "label": "deadlock"
+  },
+  {
+   "id": "barrier2:barrier_reuse_no_reset:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "barrier_reuse_no_reset",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:no_barrier:0",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:no_barrier:1",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "barrier2:no_barrier:2",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "benign"
+  },
+  {
+   "id": "barrier2:no_barrier:3",
+   "kind": "mutant",
+   "program": "barrier2",
+   "operator": "no_barrier",
+   "label": "racy"
+  },
+  {
+   "id": "moe_dispatch",
+   "kind": "reference",
+   "program": "moe_dispatch",
+   "operator": null,
+   "label": "racy"
+  }
+ ],
+ "intra": [
+  {
+   "id": "reduce:reference",
+   "kind": "reference",
+   "kernel": "reduce",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "matmul:reference",
+   "kind": "reference",
+   "kernel": "matmul",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "stencil:reference",
+   "kind": "reference",
+   "kernel": "stencil",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "scan:reference",
+   "kind": "reference",
+   "kernel": "scan",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "reduce:pre_load",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "reduce:after_load",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "cross_warp"
+  },
+  {
+   "id": "reduce:after_128",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "cross_warp"
+  },
+  {
+   "id": "reduce:after_64",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "cross_warp"
+  },
+  {
+   "id": "reduce:warp32_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "reduce:warp32_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "intra_warp"
+  },
+  {
+   "id": "reduce:warp16_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "intra_warp"
+  },
+  {
+   "id": "reduce:warp16_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "intra_warp"
+  },
+  {
+   "id": "reduce:warp1_war",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "intra_warp"
+  },
+  {
+   "id": "reduce:warp1_raw",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "reduce:warp_sync_free",
+   "kind": "mutant",
+   "kernel": "reduce",
+   "label": "racy",
+   "scope": "intra_warp"
+  },
+  {
+   "id": "matmul:after_load",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "matmul:before_next_load",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "matmul:after_loop",
+   "kind": "mutant",
+   "kernel": "matmul",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "stencil:after_load",
+   "kind": "mutant",
+   "kernel": "stencil",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "stencil:before_store",
+   "kind": "mutant",
+   "kernel": "stencil",
+   "label": "benign",
+   "scope": null
+  },
+  {
+   "id": "scan:after_load",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "scan:step1_war",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "scan:step1_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "racy",
+   "scope": "mixed"
+  },
+  {
+   "id": "scan:step64_war",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "racy",
+   "scope": "cross_warp"
+  },
+  {
+   "id": "scan:step64_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "racy",
+   "scope": "cross_warp"
+  },
+  {
+   "id": "scan:step128_raw",
+   "kind": "mutant",
+   "kernel": "scan",
+   "label": "benign",
+   "scope": null
+  }
+ ],
+ "sanitizer_version": "Version 2025.3.1.0 (build 36400806) (public-release)",
+ "seconds": 877.1,
+ "summary": {
+  "racecheck/vm": {
+   "reference": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy": {
+    "programs": 45,
+    "flagged": 0,
+    "missing": 0
+   },
+   "deadlock": {
+    "programs": 27,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 17,
+    "flagged": 0,
+    "missing": 0
+   },
+   "inequivalent": {
+    "programs": 8,
+    "flagged": 0,
+    "missing": 0
+   },
+   "oob": {
+    "programs": 11,
+    "flagged": 0,
+    "missing": 0
+   }
+  },
+  "racecheck/intra": {
+   "reference": {
+    "programs": 4,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/cross_warp": {
+    "programs": 5,
+    "flagged": 5,
+    "missing": 0
+   },
+   "racy/intra_warp": {
+    "programs": 5,
+    "flagged": 5,
+    "missing": 0
+   },
+   "racy/mixed": {
+    "programs": 6,
+    "flagged": 6,
+    "missing": 0
+   }
+  },
+  "synccheck/vm": {
+   "reference": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy": {
+    "programs": 45,
+    "flagged": 0,
+    "missing": 0
+   },
+   "deadlock": {
+    "programs": 27,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 17,
+    "flagged": 0,
+    "missing": 0
+   },
+   "inequivalent": {
+    "programs": 8,
+    "flagged": 0,
+    "missing": 0
+   },
+   "oob": {
+    "programs": 11,
+    "flagged": 0,
+    "missing": 0
+   }
+  },
+  "synccheck/intra": {
+   "reference": {
+    "programs": 4,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/cross_warp": {
+    "programs": 5,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/intra_warp": {
+    "programs": 5,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/mixed": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   }
+  },
+  "memcheck/vm": {
+   "reference": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy": {
+    "programs": 45,
+    "flagged": 0,
+    "missing": 0
+   },
+   "deadlock": {
+    "programs": 27,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 17,
+    "flagged": 0,
+    "missing": 0
+   },
+   "inequivalent": {
+    "programs": 8,
+    "flagged": 0,
+    "missing": 0
+   },
+   "oob": {
+    "programs": 11,
+    "flagged": 0,
+    "missing": 0
+   }
+  },
+  "memcheck/intra": {
+   "reference": {
+    "programs": 4,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/cross_warp": {
+    "programs": 5,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/intra_warp": {
+    "programs": 5,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy/mixed": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   }
+  },
+  "gsan/vm_triton": {
+   "reference": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 0
+   },
+   "racy": {
+    "programs": 39,
+    "flagged": 25,
+    "missing": 0
+   },
+   "deadlock": {
+    "programs": 27,
+    "flagged": 0,
+    "missing": 0
+   },
+   "benign": {
+    "programs": 14,
+    "flagged": 0,
+    "missing": 0
+   },
+   "inequivalent": {
+    "programs": 8,
+    "flagged": 6,
+    "missing": 0
+   },
+   "oob": {
+    "programs": 11,
+    "flagged": 11,
+    "missing": 0
+   }
+  },
+  "consan/vm_triton": {
+   "reference": {
+    "programs": 6,
+    "flagged": 0,
+    "missing": 5
+   },
+   "racy": {
+    "programs": 39,
+    "flagged": 0,
+    "missing": 39
+   },
+   "deadlock": {
+    "programs": 27,
+    "flagged": 0,
+    "missing": 27
+   },
+   "benign": {
+    "programs": 14,
+    "flagged": 0,
+    "missing": 14
+   },
+   "inequivalent": {
+    "programs": 8,
+    "flagged": 0,
+    "missing": 8
+   },
+   "oob": {
+    "programs": 11,
+    "flagged": 0,
+    "missing": 11
+   }
+  }
+ }
+}
