@@ -72,10 +72,10 @@ def test_attention_labels():
     for i in (0, 1):
         lab = labels[f"attention:wrong_other:{i}"]
         assert lab.label == "benign" and lab.fp_proof == "uf"
-    # v fill meets p = exp(-inf) = 0. Under uninterpreted exp that is not provable, and fp64
-    # does not confirm a difference: benign, unproved.
+    # v fill meets p = exp(-inf) = 0. Real equivalence stays unproved under uninterpreted exp, but the
+    # lane tier's -inf rules (exp(-inf) = +0) prove the outputs bitwise identical.
     lab = labels["attention:wrong_other:2"]
-    assert lab.label == "benign" and lab.fp_proof is None and lab.real_proof is False
+    assert lab.label == "benign" and lab.fp_proof == "uf-lane" and lab.real_proof is False
 
 
 def test_interpreter_dtype_rule():

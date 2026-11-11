@@ -103,8 +103,11 @@ def test_lane_fold_only_folds_narrow_finite_constants_and_keeps_signed_zero():
     dom = fporacle._UFDom(lanes=True)
     prod = lambda a, b: dom.lane_product(a, b, "float32")  # noqa: E731
     x = z3.Real("x")
-    fold = fporacle._fold_lane_products
+    fold = fporacle._fold_lane
     assert z3.eq(fold(prod(z3.RealVal(1), z3.RealVal(0))), z3.RealVal(0))
+    neg_zero_fill = prod(z3.RealVal(1), dom.const(-0.0))  # a -0.0 literal is not the numeral 0
+    assert not z3.eq(dom.const(-0.0), dom.const(0.0))
+    assert z3.eq(fold(neg_zero_fill), neg_zero_fill)
     assert z3.eq(fold(prod(z3.RealVal(0), z3.RealVal(0))), z3.RealVal(0))
     assert z3.eq(fold(prod(z3.RealVal(3), z3.RealVal(2))), z3.RealVal(6))
     neg_zero = prod(z3.RealVal(-1), z3.RealVal(0))  # IEEE gives -0, which a Z3 numeral cannot hold
@@ -113,6 +116,55 @@ def test_lane_fold_only_folds_narrow_finite_constants_and_keeps_signed_zero():
     assert z3.eq(fold(with_var), with_var)
     not_narrow = prod(z3.RealVal(0.1), z3.RealVal(1))  # 0.1 is not exact at fp16/bf16/tf32 inputs
     assert z3.eq(fold(not_narrow), not_narrow)
+
+
+def test_value_padding_on_attention_is_proved_through_the_neg_inf_rules():
+    spec, m = KERNELS["attention"], _mutant("attention", "wrong_other", 2)
+    sizes = spec.oracle_sizes + spec.fp_sizes
+    # v's padded rows become 1.0; they meet p = exp(-inf - max) = +0, as the 0.0 rows did.
+    assert not all(fporacle.uf_identical(spec, m.source, s) for s in sizes)
+    assert all(fporacle.uf_identical(spec, m.source, s, lanes=True) for s in sizes)
+    lab = _label("attention", "wrong_other", 2)
+    assert lab.label == "benign" and lab.fp_proof == "uf-lane" and lab.witness is None
+
+
+def test_neg_inf_fold_needs_a_finite_subtrahend():
+    import z3
+    dom = fporacle._UFDom(lanes=True)
+    neg_inf, pos_inf = dom.const(-float("inf")), dom.const(float("inf"))
+    load = z3.Select(z3.Array("m", z3.BitVecSort(8), z3.RealSort()), z3.BitVecVal(0, 8))
+    sub = lambda a, b: dom.sub(a, b, "float32")  # noqa: E731
+    mx = lambda *xs: dom.max(list(xs), "float32")  # noqa: E731
+    fold = fporacle._fold_lane
+    assert z3.eq(fold(dom.exp(neg_inf, "float32")), z3.RealVal(0))
+    assert z3.eq(fold(sub(neg_inf, load)), neg_inf)
+    assert z3.eq(fold(sub(neg_inf, mx(neg_inf, load))), neg_inf)  # a row max with one finite entry
+    assert z3.eq(fold(dom.exp(sub(neg_inf, mx(neg_inf, load)), "float32")), z3.RealVal(0))
+    assert not z3.eq(fold(dom.exp(neg_inf, "float32")), dom.const(-0.0))  # exp(-inf) is +0, not -0
+    for kept in (sub(neg_inf, mx(neg_inf, neg_inf)),  # -inf - (-inf) is NaN
+                 sub(neg_inf, z3.Real("x")),  # a free real may be infinite
+                 sub(neg_inf, mx(pos_inf, load)),  # +inf in the max
+                 sub(pos_inf, load),
+                 dom.exp(load, "float32"),
+                 sub(neg_inf, dom.sqrt(load, "float32")),  # sqrt of a negative load is NaN
+                 sub(neg_inf, dom.div(load, load, "float32")),  # 0/0 is NaN
+                 sub(neg_inf, dom.exp(load, "float32")),  # exp overflows from finite inputs
+                 sub(neg_inf, dom.add(load, load, "float16")),  # fp16 overflows at 65504
+                 sub(neg_inf, z3.RealVal(10 ** 39)),  # beyond fp32 range
+                 sub(neg_inf, z3.Select(z3.Store(load.arg(0), z3.BitVecVal(1, 8), neg_inf),
+                                        z3.BitVecVal(2, 8)))):  # a read through a store may be -inf
+        assert z3.eq(fold(kept), kept)
+
+
+@pytest.mark.parametrize("op", ["mask_off_by_one", "wrong_pid_axis", "drop_where_mask"])
+def test_neg_inf_rules_do_not_prove_real_differences_on_attention(op):
+    spec, checked = KERNELS["attention"], 0
+    for m in mutants("attention", spec.source, [op]):
+        size = next((s for s in spec.oracle_sizes if fporacle.real_counterexample(spec, m.source, s)), None)
+        if size is not None:
+            checked += 1
+            assert not fporacle.uf_identical(spec, m.source, size, lanes=True), m.id
+    assert checked, f"no {op} mutant of attention has a real difference to check against"
 
 
 @pytest.mark.parametrize("op", ["mask_off_by_one", "wrong_pid_axis", "missing_store_mask"])

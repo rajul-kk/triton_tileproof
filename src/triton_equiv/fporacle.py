@@ -29,6 +29,9 @@ Three checks, run on every mutant the bit-vector tier calls benign:
    bitwise equal under *any* semantics in which each primitive is a deterministic function of
    its operands. This holds in the Triton interpreter, and on a GPU if the same shape gets the
    same reduction tree. The check is purely structural: no commutativity, no ``x*0 = 0``.
+   When it fails on a kernel with ``tl.dot``, a second pass (``fp_proof="uf-lane"``) adds the
+   lane-product assumption and the ``-inf`` padding rules of ``_LaneFolder``, which also lean
+   on the no-overflow scope for fp32/fp64 sums and products.
 3. **Witness search and error bounds (numpy).** A concrete emulator runs the kernel source
    with the *same numpy calls as the Triton interpreter* (``tl.sum`` is ``np.sum``, ``tl.dot`` is
    ``np.matmul(a, b, dtype=acc.dtype) + acc``, fp32 -> bf16 truncates). It is run in the declared
@@ -219,6 +222,8 @@ class _UFDom:
         return self._fns[key]
 
     def const(self, c):
+        if c == 0 and math.copysign(1.0, c) < 0:
+            return z3.Real(_NEG_ZERO)  # bitwise identity must tell -0 from the numeral 0 (= +0)
         return _const_real(c)
 
     def div(self, a, b, dt): return self._f(f"fdiv_{dt}", 2)(a, b)
@@ -276,32 +281,101 @@ def _numeral(t):
     return None
 
 
-def _fold_lane_products(term):
-    """Replace lane products of two narrow-exact constants by their (non -0) value."""
-    cache: dict = {}
+# -inf padding rules, applied in the same pass. Two IEEE facts: exp(-inf) = +0, and
+# -inf - x = -inf for every finite x. In the uf domain -0.0 is its own named constant, so the
+# numeral 0 always means +0 there. Finiteness is decided conservatively and leans on the stated
+# scope (finite inputs, no overflow), restricted to fp32/fp64 where overflow needs values beyond
+# 3.4e38: loads are finite; a numeral is finite if it is within fp32 range; an fp32/fp64 add, sub,
+# mul, sum, dot or lane product is finite if its operands are; an fp32/fp64 max is finite if one
+# operand is finite and the rest are finite or -inf. Everything else (exp, sqrt, division,
+# rounding, fp16 and bf16 ops, other constants) is treated as possibly non-finite.
+_NEG_INF = repr(-math.inf)
+_NEG_ZERO = "fconst_-0.0"
+_FP32_MAX = float(np.finfo(np.float32).max)
+_TOTAL_OPS = ("fadd_", "fsub_", "fmul_", "fsum_", "fdot_", "fdotp_", _LANE_PROD)
+_WIDE = ("float32", "float64")
 
-    def go(t):
+
+def _is_neg_inf(t) -> bool:
+    return z3.is_const(t) and t.decl().name() == f"fconst_{_NEG_INF}"
+
+
+def _op_dtype(name: str) -> str:
+    return name.split("_")[1] if "_" in name else ""
+
+
+class _LaneFolder:
+    """One bottom-up rewrite for the lane tier: the -inf rules, then constant lane products.
+
+    The caches live as long as the folder, so the subterms that every output cell of a trace
+    shares (a row's max and exp terms, say) are rewritten once.
+    """
+
+    def __init__(self):
+        self._out: dict = {}
+        self._finite: dict = {}
+
+    # Both caches keep the term next to its result: an AST id is only unique while the term is
+    # alive, and the simplified terms of earlier output cells would otherwise be freed and their
+    # ids reused for different terms.
+    def finite(self, t) -> bool:
         key = t.get_id()
-        if key in cache:
-            return cache[key]
-        if z3.is_app(t) and t.num_args():
-            kids = [go(c) for c in t.children()]
-            decl = t.decl()
-            if decl.name().startswith(_LANE_PROD) and len(kids) == 2:
-                a, b = _numeral(kids[0]), _numeral(kids[1])
-                if a is not None and b is not None and _narrow_exact(a) and _narrow_exact(b):
-                    p = a * b
-                    if not (p == 0 and math.copysign(1.0, p) < 0):
-                        cache[key] = z3.RealVal(p)
-                        return cache[key]
-            out = decl(*kids) if decl.kind() == z3.Z3_OP_UNINTERPRETED else z3.substitute(
-                t, *[(c, k) for c, k in zip(t.children(), kids) if not z3.eq(c, k)])
-        else:
-            out = t
-        cache[key] = out
-        return out
+        if key not in self._finite:
+            self._finite[key] = (t, self._decide_finite(t))
+        return self._finite[key][1]
 
-    return go(term)
+    def _decide_finite(self, t) -> bool:
+        if z3.is_rational_value(t):
+            return abs(float(t.as_fraction())) <= _FP32_MAX
+        if z3.is_select(t):
+            return z3.is_const(t.arg(0))  # a load from input memory, not through a Store chain
+        if not (z3.is_app(t) and t.num_args() and t.decl().kind() == z3.Z3_OP_UNINTERPRETED):
+            return False
+        name, kids = t.decl().name(), t.children()
+        if _op_dtype(name) not in _WIDE:
+            return False
+        if name.startswith("fmax_"):
+            return all(self.finite(k) or _is_neg_inf(k) for k in kids) and any(self.finite(k) for k in kids)
+        return name.startswith(_TOTAL_OPS) and all(self.finite(k) for k in kids)
+
+    def __call__(self, t):
+        key = t.get_id()
+        if key not in self._out:
+            self._out[key] = (t, self._rewrite(t))
+        return self._out[key][1]
+
+    def _rewrite(self, t):
+        if not (z3.is_app(t) and t.num_args()):
+            return t
+        kids = [self(c) for c in t.children()]
+        decl = t.decl()
+        if decl.kind() != z3.Z3_OP_UNINTERPRETED:
+            changed = [(c, k) for c, k in zip(t.children(), kids) if not z3.eq(c, k)]
+            return z3.substitute(t, *changed) if changed else t
+        name = decl.name()
+        if name.startswith("fsub_") and _is_neg_inf(kids[0]) and self.finite(kids[1]):
+            return kids[0]
+        if name.startswith("fexp_") and _is_neg_inf(kids[0]):
+            return z3.RealVal(0)
+        if name.startswith(_LANE_PROD):
+            folded = _fold_product(kids[0], kids[1])
+            if folded is not None:
+                return folded
+        return decl(*kids)
+
+
+def _fold_product(x, y):
+    """The value of a lane product of two narrow-exact numerals, or None (also when it is -0)."""
+    a, b = _numeral(x), _numeral(y)
+    if a is None or b is None or not (_narrow_exact(a) and _narrow_exact(b)):
+        return None
+    p = a * b
+    return None if p == 0 and math.copysign(1.0, p) < 0 else z3.RealVal(p)
+
+
+def _fold_lane(term):
+    """Apply the lane-tier rewrites to one term (a fresh folder; ``uf_identical`` shares one)."""
+    return _LaneFolder()(term)
 
 
 class FT:
@@ -520,15 +594,20 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
 def uf_identical(spec: KernelSpec, mut_src: str, size: dict, lanes: bool = False) -> bool:
     """True if every output term is syntactically identical with rounded ops uninterpreted.
 
-    ``lanes=True`` models ``tl.dot`` through its lane products and folds constant products
-    (see ``_fold_lane_products`` for the extra assumption this adds).
+    ``lanes=True`` models ``tl.dot`` through its lane products and rewrites with ``_LaneFolder``:
+    the ``-inf`` padding rules and constant lane products. That adds the lane-product assumption
+    and, for the ``-inf`` rules, the no-overflow scope on fp32/fp64 sums and products.
     """
     launch = spec.make_launch(**size)
     mem = _real_memory(launch)
     dom = _UFDom(lanes=lanes)
     ref = _final_values(trace_fp(spec.source, spec.fn_name, launch, mem, "ref", dom), launch)
     mut = _final_values(trace_fp(mut_src, spec.fn_name, launch, mem, "mut", dom), launch)
-    norm = (lambda t: z3.simplify(_fold_lane_products(z3.simplify(t)))) if lanes else z3.simplify
+    if lanes:
+        fold = _LaneFolder()
+        norm = lambda t: z3.simplify(fold(z3.simplify(t)))  # noqa: E731
+    else:
+        norm = z3.simplify
     for buf in launch.outputs:
         for i in range(launch.buffers[buf]):
             init = z3.Select(mem[buf], z3.BitVecVal(i, IDX_BITS))
