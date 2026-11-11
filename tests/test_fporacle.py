@@ -85,9 +85,43 @@ def test_structural_proofs_for_drop_cast_and_promoted_downgrade():
     assert lab.label == "benign" and lab.fp_proof == "uf"
 
 
-def test_other_change_on_matmul_is_real_benign_but_not_structurally_proved():
-    lab = _label("matmul", "wrong_other")
-    assert lab.label == "benign" and lab.fp_proof is None and lab.witness is None
+@pytest.mark.parametrize("kernel", ["matmul", "matmul_fp16"])
+@pytest.mark.parametrize("site", [0, 1])
+def test_other_change_on_matmul_is_proved_under_the_lane_product_model(kernel, site):
+    spec, m = KERNELS[kernel], _mutant(kernel, "wrong_other", site)
+    # The opaque-dot tier cannot see that a padded lane meets a zero on the other operand ...
+    sizes = spec.oracle_sizes + spec.fp_sizes
+    assert not all(fporacle.uf_identical(spec, m.source, s) for s in sizes)
+    # ... the lane-product tier folds 1*0 and 0*0 to the same +0 product.
+    assert all(fporacle.uf_identical(spec, m.source, s, lanes=True) for s in sizes)
+    lab = _label(kernel, "wrong_other", site)
+    assert lab.label == "benign" and lab.fp_proof == "uf-lane" and lab.witness is None
+
+
+def test_lane_fold_only_folds_narrow_finite_constants_and_keeps_signed_zero():
+    import z3
+    dom = fporacle._UFDom(lanes=True)
+    prod = lambda a, b: dom.lane_product(a, b, "float32")  # noqa: E731
+    x = z3.Real("x")
+    fold = fporacle._fold_lane_products
+    assert z3.eq(fold(prod(z3.RealVal(1), z3.RealVal(0))), z3.RealVal(0))
+    assert z3.eq(fold(prod(z3.RealVal(0), z3.RealVal(0))), z3.RealVal(0))
+    assert z3.eq(fold(prod(z3.RealVal(3), z3.RealVal(2))), z3.RealVal(6))
+    neg_zero = prod(z3.RealVal(-1), z3.RealVal(0))  # IEEE gives -0, which a Z3 numeral cannot hold
+    assert z3.eq(fold(neg_zero), neg_zero)
+    with_var = prod(x, z3.RealVal(0))  # x may be inf or NaN
+    assert z3.eq(fold(with_var), with_var)
+    not_narrow = prod(z3.RealVal(0.1), z3.RealVal(1))  # 0.1 is not exact at fp16/bf16/tf32 inputs
+    assert z3.eq(fold(not_narrow), not_narrow)
+
+
+@pytest.mark.parametrize("op", ["mask_off_by_one", "wrong_pid_axis", "missing_store_mask"])
+def test_lane_product_tier_does_not_prove_real_differences_on_matmul(op):
+    spec = KERNELS["matmul"]
+    for m in mutants("matmul", spec.source, [op]):
+        size = next((s for s in spec.oracle_sizes if fporacle.real_counterexample(spec, m.source, s)), None)
+        if size is not None:
+            assert not fporacle.uf_identical(spec, m.source, size, lanes=True), m.id
 
 
 def test_error_bounds_hold_for_every_reference_on_random_inputs():

@@ -208,8 +208,9 @@ class _UFDom:
 
     name = "uf"
 
-    def __init__(self):
+    def __init__(self, lanes: bool = False):
         self._fns: dict = {}
+        self.lanes = lanes
 
     def _f(self, name, arity):
         key = (name, arity)
@@ -241,7 +242,66 @@ class _UFDom:
 
     def dot(self, row, col, dt):
         k = len(row)
+        if self.lanes:
+            prods = [self.lane_product(a, b, dt) for a, b in zip(row, col)]
+            return self._f(f"fdotp_{dt}_{k}", k)(*prods)
         return self._f(f"fdot_{dt}_{k}", 2 * k)(*row, *col)
+
+    def lane_product(self, a, b, dt):
+        return self._f(f"{_LANE_PROD}{dt}", 2)(a, b)
+
+
+# Lane-product model (fp_proof="uf-lane"). Assumption, stated in the README: ``tl.dot`` is a
+# deterministic function of the sequence of exact lane products a_i*b_i, taken after its inputs
+# are rounded to the dot's input precision (fp16, bf16 or tf32). FMA chains and exact-product
+# tensor-core accumulation both have this form. Under it, a lane product of two constants can be
+# replaced by its value when both are exact at every such input precision and the product is not
+# -0 (a Z3 numeral cannot carry the sign of zero).
+_LANE_PROD = "flaneprod_"
+
+
+def _narrow_exact(c: float) -> bool:
+    """True if ``c`` is exactly representable in fp16 and bf16 (hence also in tf32)."""
+    if c == 0:
+        return True
+    if not math.isfinite(c) or not (2.0 ** -14 <= abs(c) <= 65504.0):
+        return False
+    m, _ = math.frexp(abs(c))
+    return (m * 2 ** 8).is_integer()
+
+
+def _numeral(t):
+    if z3.is_rational_value(t):
+        return float(t.as_fraction())
+    return None
+
+
+def _fold_lane_products(term):
+    """Replace lane products of two narrow-exact constants by their (non -0) value."""
+    cache: dict = {}
+
+    def go(t):
+        key = t.get_id()
+        if key in cache:
+            return cache[key]
+        if z3.is_app(t) and t.num_args():
+            kids = [go(c) for c in t.children()]
+            decl = t.decl()
+            if decl.name().startswith(_LANE_PROD) and len(kids) == 2:
+                a, b = _numeral(kids[0]), _numeral(kids[1])
+                if a is not None and b is not None and _narrow_exact(a) and _narrow_exact(b):
+                    p = a * b
+                    if not (p == 0 and math.copysign(1.0, p) < 0):
+                        cache[key] = z3.RealVal(p)
+                        return cache[key]
+            out = decl(*kids) if decl.kind() == z3.Z3_OP_UNINTERPRETED else z3.substitute(
+                t, *[(c, k) for c, k in zip(t.children(), kids) if not z3.eq(c, k)])
+        else:
+            out = t
+        cache[key] = out
+        return out
+
+    return go(term)
 
 
 class FT:
@@ -457,17 +517,22 @@ def real_counterexample(spec: KernelSpec, mut_src: str, size: dict) -> dict | No
     return None
 
 
-def uf_identical(spec: KernelSpec, mut_src: str, size: dict) -> bool:
-    """True if every output term is syntactically identical with rounded ops uninterpreted."""
+def uf_identical(spec: KernelSpec, mut_src: str, size: dict, lanes: bool = False) -> bool:
+    """True if every output term is syntactically identical with rounded ops uninterpreted.
+
+    ``lanes=True`` models ``tl.dot`` through its lane products and folds constant products
+    (see ``_fold_lane_products`` for the extra assumption this adds).
+    """
     launch = spec.make_launch(**size)
     mem = _real_memory(launch)
-    dom = _UFDom()
+    dom = _UFDom(lanes=lanes)
     ref = _final_values(trace_fp(spec.source, spec.fn_name, launch, mem, "ref", dom), launch)
     mut = _final_values(trace_fp(mut_src, spec.fn_name, launch, mem, "mut", dom), launch)
+    norm = (lambda t: z3.simplify(_fold_lane_products(z3.simplify(t)))) if lanes else z3.simplify
     for buf in launch.outputs:
         for i in range(launch.buffers[buf]):
             init = z3.Select(mem[buf], z3.BitVecVal(i, IDX_BITS))
-            if not z3.eq(z3.simplify(ref.get((buf, i), init)), z3.simplify(mut.get((buf, i), init))):
+            if not z3.eq(norm(ref.get((buf, i), init)), norm(mut.get((buf, i), init))):
                 return False
     return True
 
@@ -879,6 +944,11 @@ def label(spec: KernelSpec, mutant_source: str, mutant_id: str = "", trials: int
             return out
     if all(uf_identical(spec, mutant_source, s) for s in sizes):
         out.label, out.fp_proof = "benign", "uf"
+        out.seconds = round(time.time() - t0, 3)
+        return out
+    if "tl.dot" in spec.source and all(uf_identical(spec, mutant_source, s, lanes=True) for s in sizes):
+        out.label, out.fp_proof = "benign", "uf-lane"
+        out.notes.append("proved under the lane-product model of tl.dot")
         out.seconds = round(time.time() - t0, 3)
         return out
     ratio = 0.0
