@@ -12,6 +12,12 @@ Sizes come from ``KernelSpec.checker_sizes``. ``tile`` sizes make every dimensio
 multiple, which is what most fixed-shape benchmarks use. ``odd`` sizes leave partial tiles.
 A checker "with odd sizes" runs both.
 
+``tritongym`` is scored separately, as TritonGym's released verifier decides (github.com/yil384/TritonGym, MIT,
+read 2026-11-11): one input draw at the task's first shape (``benchmark/eval/runner.py``: ``shape_index`` 0, a fixed
+seed, ``torch.randn``), accepted when ``max |out - ref| <= 1e-2`` after ``nan_to_num(nan=0, posinf=inf,
+neginf=inf)`` (``benchmark/eval/tools.py``, ``_correctness``), so a NaN difference counts as zero. Here that is
+the first ``tile`` size and seed 0. The rule is re-implemented from the description, no code is copied.
+
 Each buffer lives inside one larger tensor with a guard band on each side, filled with seeded
 random values. Out-of-bounds loads therefore read plausible data, and out-of-bounds stores land
 in the guard instead of corrupting the process. The standard checker never looks at the guard;
@@ -139,6 +145,15 @@ def run(spec, source: str, launch, inputs: dict, seed: int = 0, device: str = "c
     return {b: views[b].cpu().clone() for b in launch.outputs}, guard_write, err
 
 
+def tritongym_close(out, ref) -> bool:
+    """TritonGym's acceptance rule: max absolute difference at most 1e-2, NaN differences mapped to 0."""
+    torch = _torch()
+    if out.numel() == 0:
+        return True
+    diff = torch.nan_to_num((out - ref).abs(), nan=0.0, posinf=float("inf"), neginf=float("inf"))
+    return bool(diff.max().item() <= 1e-2)
+
+
 def close(out, ref, dtype: str, policy: str) -> bool:
     torch = _torch()
     rtol, atol = TOLERANCES[policy][dtype]
@@ -163,7 +178,7 @@ def audit(labels_path: str, trials: int, kernels=None):
             row = {"id": mid, "oracle": _family(lab), "verdict": {}, "guard_write": False, "errors": []}
             for kind, sizes in spec.checker_sizes.items():
                 ok = {p: True for p in TOLERANCES}
-                for size in sizes:
+                for si, size in enumerate(sizes):
                     launch = spec.make_launch(**size)
                     for seed in range(trials):
                         inputs = make_inputs(launch, seed)
@@ -175,6 +190,9 @@ def audit(labels_path: str, trials: int, kernels=None):
                         for p in TOLERANCES:
                             ok[p] &= err is None and all(
                                 close(out[b], ref[b], launch.dtype(b), p) for b in launch.outputs)
+                        if kind == "tile" and si == 0 and seed == 0:
+                            row["tritongym"] = "accept" if err is None and all(
+                                tritongym_close(out[b], ref[b]) for b in launch.outputs) else "reject"
                 row["verdict"][kind] = {p: "accept" if v else "reject" for p, v in ok.items()}
             rows.append(row)
             print(mid, row["oracle"], row["verdict"], "guard" if row["guard_write"] else "", flush=True)
@@ -196,6 +214,11 @@ def confusion(rows):
         acc = all(r["verdict"][k]["kernelbench"] == "accept" for k in ("tile", "odd")) and not r["guard_write"]
         tab[r["oracle"]]["accept" if acc else "reject"] += 1
     out["tile+odd/kernelbench+canary"] = tab
+    if rows and all("tritongym" in r for r in rows):  # TritonGym's rule: first tile size, one draw, max abs 1e-2
+        tab = {f: {"accept": 0, "reject": 0} for f in FAMILIES}
+        for r in rows:
+            tab[r["oracle"]][r["tritongym"]] += 1
+        out["tritongym"] = tab
     return out
 
 

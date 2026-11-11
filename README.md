@@ -214,19 +214,22 @@ checker below. The 43 original mutants give exactly the same verdicts as the ear
 four matmul `other` mutants moved from the unproved to the proved row and layernorm's two
 `split_sum`s to the reorder row. Rerun on 11 Nov 2026 after the `-inf` rules: every verdict
 unchanged; attention's `other` on v moved to the proved row, which leaves the unproved row empty.
+The same 11 Nov rerun added the TritonGym column (every earlier verdict unchanged): TritonGym's released verifier
+(github.com/yil384/TritonGym) takes one input draw at the task's first shape and accepts when the largest absolute
+difference is at most 1e-2, with NaN differences counted as zero. Here it is scored on the first tile size and seed 0.
 
 Accepted / total, by oracle label (accepting an `oob`, `inequivalent` or
 `numerical: precision` mutant is a miss). Each cell is *all 72* (*new kernels only*: softmax,
 layernorm, attention):
 
-| Oracle label | n | tile, 1e-2 | tile+odd, 1e-2 | tile, torch defaults | tile+odd, torch defaults | tile+odd, 1e-2 + guard canary |
-|---|---|---|---|---|---|---|
-| oob | 27 (9) | 27 (9) | 19 (7) | 27 (9) | 19 (7) | 11 (3) |
-| inequivalent | 19 (10) | 9 (7) | 0 (0) | 9 (7) | 0 (0) | 0 (0) |
-| numerical: precision loss | 6 (3) | 6 (3) | 6 (3) | 0 (0) | 0 (0) | 6 (3) |
-| numerical: reorder | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) |
-| benign: proved | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) |
-| benign: unproved | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) |
+| Oracle label | n | tile, 1e-2 | tile+odd, 1e-2 | tile, torch defaults | tile+odd, torch defaults | tile+odd, 1e-2 + guard canary | TritonGym rule |
+|---|---|---|---|---|---|---|---|
+| oob | 27 (9) | 27 (9) | 19 (7) | 27 (9) | 19 (7) | 11 (3) | 27 (9) |
+| inequivalent | 19 (10) | 9 (7) | 0 (0) | 9 (7) | 0 (0) | 0 (0) | 9 (7) |
+| numerical: precision loss | 6 (3) | 6 (3) | 6 (3) | 0 (0) | 0 (0) | 6 (3) | 2 (2) |
+| numerical: reorder | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) |
+| benign: proved | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) |
+| benign: unproved | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) |
 
 * At tile-multiple sizes the 1e-2 check accepts **every** OOB mutant, all 6 precision-loss
   mutants, and 9 of the 19 inequivalent ones. On the new kernels it accepts 7 of 10: the
@@ -246,6 +249,11 @@ layernorm, attention):
 * Tighter `torch.testing` tolerances reject all 6 precision-loss mutants and still accept the
   6 reorderings. They add nothing for OOB or tail bugs.
 * The oracle and the checker agree on every `benign` and `numerical: reorder` mutant: no false rejects.
+* The TritonGym rule misses the same OOB and inequivalent mutants as the tile-size 1e-2 check, since it also runs
+  only at an aligned size. Its absolute-only 1e-2 bound rejects 4 of the 6 precision-loss mutants, the ones with
+  larger outputs, and accepts layernorm's two cast changes. Of TritonGym's 139 tasks, 5 have a first shape with a
+  dimension above 16 that is not a multiple of 16 (`cache_transform`, `embedding`, `token_softmax_bloom`,
+  `uniform_sampling`, `var_len_copy`), so its own tasks rarely exercise a tail either.
 
 ### Tolerance blind band
 

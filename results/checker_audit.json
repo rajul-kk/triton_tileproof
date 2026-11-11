@@ -1,5 +1,5 @@
 {
- "command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness audit --trials 3",
+ "command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness audit",
  "env": {
   "python": "3.14.4",
   "torch": "2.15.0+cpu",
@@ -180,6 +180,36 @@
     "accept": 0,
     "reject": 0
    }
+  },
+  "tritongym": {
+   "reference": {
+    "accept": 8,
+    "reject": 0
+   },
+   "oob": {
+    "accept": 27,
+    "reject": 0
+   },
+   "inequivalent": {
+    "accept": 9,
+    "reject": 10
+   },
+   "numerical:precision": {
+    "accept": 2,
+    "reject": 4
+   },
+   "numerical:reorder": {
+    "accept": 8,
+    "reject": 0
+   },
+   "benign:proved": {
+    "accept": 12,
+    "reject": 0
+   },
+   "benign:unproved": {
+    "accept": 0,
+    "reject": 0
+   }
   }
  },
  "rows": [
@@ -197,7 +227,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "vector_add:mask_off_by_one:0",
@@ -213,7 +244,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "vector_add:missing_store_mask:0",
@@ -229,7 +261,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "vector_add:wrong_pid_axis:0",
@@ -245,7 +278,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "vector_add:wrong_other:0",
@@ -261,7 +295,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "vector_add:wrong_other:1",
@@ -277,7 +312,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum:reference",
@@ -293,7 +329,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum:mask_off_by_one:0",
@@ -309,7 +346,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum:wrong_pid_axis:0",
@@ -325,7 +363,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "row_sum:wrong_other:0",
@@ -341,7 +380,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum:split_sum:0",
@@ -357,7 +397,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:reference",
@@ -373,7 +414,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:0",
@@ -389,7 +431,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:1",
@@ -405,7 +448,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:2",
@@ -421,7 +465,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:3",
@@ -437,7 +482,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:4",
@@ -453,7 +499,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:mask_off_by_one:5",
@@ -469,7 +516,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:missing_store_mask:0",
@@ -485,7 +533,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:wrong_pid_axis:0",
@@ -501,7 +550,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul:wrong_pid_axis:1",
@@ -517,7 +567,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul:wrong_other:0",
@@ -533,7 +584,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:wrong_other:1",
@@ -549,7 +601,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:reverse_reduction_loop:0",
@@ -565,7 +618,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul:acc_dtype_downgrade:0",
@@ -581,7 +635,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:reference",
@@ -597,7 +652,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:mask_off_by_one:0",
@@ -613,7 +669,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:wrong_pid_axis:0",
@@ -629,7 +686,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "row_sum_loop:wrong_other:0",
@@ -645,7 +703,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:reverse_reduction_loop:0",
@@ -661,7 +720,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:split_sum:0",
@@ -677,7 +737,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "row_sum_loop:acc_dtype_downgrade:0",
@@ -693,7 +754,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul_fp16:reference",
@@ -709,7 +771,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:0",
@@ -725,7 +788,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:1",
@@ -741,7 +805,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:2",
@@ -757,7 +822,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:3",
@@ -773,7 +839,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:4",
@@ -789,7 +856,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:mask_off_by_one:5",
@@ -805,7 +873,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:missing_store_mask:0",
@@ -821,7 +890,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:wrong_pid_axis:0",
@@ -837,7 +907,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul_fp16:wrong_pid_axis:1",
@@ -853,7 +924,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul_fp16:wrong_other:0",
@@ -869,7 +941,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:wrong_other:1",
@@ -885,7 +958,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:reverse_reduction_loop:0",
@@ -901,7 +975,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:acc_dtype_downgrade:0",
@@ -917,7 +992,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "matmul_fp16:drop_cast:0",
@@ -933,7 +1009,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "matmul_fp16:change_cast:0",
@@ -949,7 +1026,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "softmax:reference",
@@ -965,7 +1043,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "softmax:mask_off_by_one:0",
@@ -981,7 +1060,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "softmax:missing_store_mask:0",
@@ -997,7 +1077,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "softmax:wrong_pid_axis:0",
@@ -1013,7 +1094,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "softmax:wrong_other:0",
@@ -1029,7 +1111,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "softmax:split_sum:0",
@@ -1045,7 +1128,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:reference",
@@ -1061,7 +1145,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:mask_off_by_one:0",
@@ -1077,7 +1162,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:missing_store_mask:0",
@@ -1093,7 +1179,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:wrong_pid_axis:0",
@@ -1109,7 +1196,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "layernorm:wrong_other:0",
@@ -1125,7 +1213,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:drop_where_mask:0",
@@ -1141,7 +1230,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:divisor_block_size:0",
@@ -1157,7 +1247,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:divisor_block_size:1",
@@ -1173,7 +1264,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:split_sum:0",
@@ -1189,7 +1281,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:split_sum:1",
@@ -1205,7 +1298,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:drop_cast:0",
@@ -1221,7 +1315,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:drop_cast:1",
@@ -1237,7 +1332,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:change_cast:0",
@@ -1253,7 +1349,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "layernorm:change_cast:1",
@@ -1269,7 +1366,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "attention:reference",
@@ -1285,7 +1383,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:mask_off_by_one:0",
@@ -1301,7 +1400,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:mask_off_by_one:1",
@@ -1317,7 +1417,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:mask_off_by_one:2",
@@ -1333,7 +1434,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:mask_off_by_one:3",
@@ -1349,7 +1451,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:mask_off_by_one:4",
@@ -1365,7 +1468,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:missing_store_mask:0",
@@ -1381,7 +1485,8 @@
     }
    },
    "guard_write": true,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:wrong_pid_axis:0",
@@ -1397,7 +1502,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "reject"
   },
   {
    "id": "attention:wrong_other:0",
@@ -1413,7 +1519,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:wrong_other:1",
@@ -1429,7 +1536,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:wrong_other:2",
@@ -1445,7 +1553,8 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   },
   {
    "id": "attention:drop_where_mask:0",
@@ -1461,8 +1570,9 @@
     }
    },
    "guard_write": false,
-   "errors": []
+   "errors": [],
+   "tritongym": "accept"
   }
  ],
- "seconds": 24.4
+ "seconds": 19.3
 }

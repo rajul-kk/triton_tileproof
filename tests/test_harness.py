@@ -28,6 +28,24 @@ def test_confusion_counts_tile_and_odd_and_canary():
     assert c["tile/torch_default"]["numerical:precision"] == {"accept": 0, "reject": 1}
 
 
+def test_tritongym_table_only_when_every_row_has_its_verdict():
+    rows = [{"id": "a", "oracle": "oob", "guard_write": False, "tritongym": "accept",
+             "verdict": {"tile": {"kernelbench": "accept", "torch_default": "accept"},
+                         "odd": {"kernelbench": "accept", "torch_default": "accept"}}}]
+    assert harness.confusion(rows)["tritongym"]["oob"] == {"accept": 1, "reject": 0}
+    del rows[0]["tritongym"]
+    assert "tritongym" not in harness.confusion(rows)
+
+
+def test_tritongym_rule_ignores_nan_and_rejects_inf():
+    torch = pytest.importorskip("torch")
+    ref = torch.zeros(4)
+    assert harness.tritongym_close(ref + 0.009, ref)
+    assert not harness.tritongym_close(ref + 0.02, ref)
+    assert harness.tritongym_close(torch.tensor([float("nan"), 0.0, 0.0, 0.0]), ref)
+    assert not harness.tritongym_close(torch.tensor([float("inf"), 0.0, 0.0, 0.0]), ref)
+
+
 def test_family_names():
     assert harness._family(None) == "reference"
     assert harness._family({"label": "numerical", "precision_loss": True}) == "numerical:precision"
