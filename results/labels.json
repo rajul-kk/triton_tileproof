@@ -3,14 +3,13 @@
  "python": "3.10.0",
  "numpy": "2.2.6",
  "z3": "5.3.3",
- "seconds": 65.7,
+ "seconds": 2460.7,
  "counts": {
   "oob": 27,
   "inequivalent": 19,
-  "benign:proved": 11,
+  "benign:proved": 12,
   "numerical:reorder": 8,
-  "numerical:precision": 6,
-  "benign:unproved": 1
+  "numerical:precision": 6
  },
  "labels": [
   {
@@ -48,7 +47,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.058,
+   "seconds": 0.081,
    "notes": [
     "< -> <="
    ]
@@ -88,7 +87,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.063,
+   "seconds": 0.085,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -123,7 +122,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.106,
+   "seconds": 0.102,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -149,7 +148,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.168,
+   "seconds": 0.139,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -175,7 +174,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.146,
+   "seconds": 0.144,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -215,7 +214,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.028,
+   "seconds": 0.031,
    "notes": [
     "< -> <="
    ]
@@ -250,7 +249,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.032,
+   "seconds": 0.04,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -285,7 +284,7 @@
     "mut_value": 3
    },
    "trials": 0,
-   "seconds": 0.03,
+   "seconds": 0.05,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -344,7 +343,7 @@
     "mut_err_bound": 1.6912865976647311e-06
    },
    "trials": 60,
-   "seconds": 0.167,
+   "seconds": 0.176,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -399,7 +398,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.245,
+   "seconds": 0.209,
    "notes": [
     "< -> <="
    ]
@@ -454,7 +453,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.26,
+   "seconds": 0.233,
    "notes": [
     "< -> <="
    ]
@@ -509,7 +508,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.291,
+   "seconds": 0.263,
    "notes": [
     "< -> <="
    ]
@@ -564,7 +563,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.342,
+   "seconds": 0.253,
    "notes": [
     "< -> <="
    ]
@@ -610,16 +609,16 @@
     "length": 30,
     "pid": [
      1,
-     1
+     0
     ],
     "lane": [
      2,
      0
     ],
-    "address": 34
+    "address": 30
    },
    "trials": 0,
-   "seconds": 0.324,
+   "seconds": 0.259,
    "notes": [
     "< -> <="
    ]
@@ -674,7 +673,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.518,
+   "seconds": 0.257,
    "notes": [
     "< -> <="
    ]
@@ -729,7 +728,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.283,
+   "seconds": 0.39,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -777,7 +776,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.571,
+   "seconds": 0.76,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -825,7 +824,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.597,
+   "seconds": 0.742,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -862,7 +861,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 2.61,
+   "seconds": 3.066,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -900,7 +899,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 2.495,
+   "seconds": 2.927,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -1087,7 +1086,7 @@
     "mut_err_bound": 2.3540638081899273e-06
    },
    "trials": 120,
-   "seconds": 2.14,
+   "seconds": 3.607,
    "notes": [
     "loop over k reversed"
    ]
@@ -1124,7 +1123,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 1.447,
+   "seconds": 1.994,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1172,7 +1171,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.059,
+   "seconds": 0.154,
    "notes": [
     "< -> <="
    ]
@@ -1215,7 +1214,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.2,
+   "seconds": 0.177,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1258,7 +1257,7 @@
     "mut_value": 2
    },
    "trials": 0,
-   "seconds": 0.065,
+   "seconds": 0.152,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -1331,7 +1330,7 @@
     "mut_err_bound": 0.006113385234127447
    },
    "trials": 120,
-   "seconds": 0.582,
+   "seconds": 0.971,
    "notes": [
     "loop over k reversed"
    ]
@@ -1398,7 +1397,7 @@
     "mut_err_bound": 0.0002727847066011007
    },
    "trials": 120,
-   "seconds": 0.565,
+   "seconds": 0.988,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -1465,7 +1464,7 @@
     "mut_err_bound": 0.007599421406463504
    },
    "trials": 120,
-   "seconds": 0.393,
+   "seconds": 1.009,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1520,7 +1519,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.407,
+   "seconds": 0.472,
    "notes": [
     "< -> <="
    ]
@@ -1575,7 +1574,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.417,
+   "seconds": 0.509,
    "notes": [
     "< -> <="
    ]
@@ -1630,7 +1629,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.669,
+   "seconds": 0.547,
    "notes": [
     "< -> <="
    ]
@@ -1685,7 +1684,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.331,
+   "seconds": 0.549,
    "notes": [
     "< -> <="
    ]
@@ -1740,7 +1739,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.448,
+   "seconds": 0.569,
    "notes": [
     "< -> <="
    ]
@@ -1795,7 +1794,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.516,
+   "seconds": 0.635,
    "notes": [
     "< -> <="
    ]
@@ -1850,7 +1849,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.304,
+   "seconds": 0.647,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -1898,7 +1897,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.359,
+   "seconds": 0.764,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1946,7 +1945,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.63,
+   "seconds": 0.781,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -1983,7 +1982,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 3.187,
+   "seconds": 3.054,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -2021,7 +2020,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 3.135,
+   "seconds": 3.056,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -2208,7 +2207,7 @@
     "mut_err_bound": 0.0018443935479292284
    },
    "trials": 690,
-   "seconds": 3.922,
+   "seconds": 6.947,
    "notes": [
     "loop over k reversed"
    ]
@@ -2330,7 +2329,7 @@
     "mut_err_bound": 0.008587361358902274
    },
    "trials": 120,
-   "seconds": 2.013,
+   "seconds": 3.095,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -2367,7 +2366,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 1.197,
+   "seconds": 2.582,
    "notes": [
     "dropped .to(tl.float16)"
    ]
@@ -2489,7 +2488,7 @@
     "mut_err_bound": 0.012805953252355905
    },
    "trials": 120,
-   "seconds": 2.068,
+   "seconds": 8.133,
    "notes": [
     ".to(tl.float16) -> .to(tl.bfloat16)"
    ]
@@ -2534,7 +2533,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.046,
+   "seconds": 0.279,
    "notes": [
     "< -> <="
    ]
@@ -2579,7 +2578,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.047,
+   "seconds": 0.271,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -2633,7 +2632,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.155,
+   "seconds": 0.355,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2688,7 +2687,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.137,
+   "seconds": 0.577,
    "notes": [
     "other=-inf -> other=0.0",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2753,7 +2752,7 @@
     "mut_err_bound": 4.302618585872711e-08
    },
    "trials": 90,
-   "seconds": 1.135,
+   "seconds": 2.646,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -2798,7 +2797,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.047,
+   "seconds": 0.227,
    "notes": [
     "< -> <="
    ]
@@ -2843,7 +2842,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.048,
+   "seconds": 0.267,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -2897,7 +2896,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.12,
+   "seconds": 0.299,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2934,8 +2933,8 @@
     "reason": "output differs",
     "buffer": "out",
     "index": 0,
-    "ref_value": 15404,
-    "mut_value": 59738,
+    "ref_value": 15022,
+    "mut_value": 20529,
     "abstract": true,
     "fp64": {
      "size": {
@@ -2952,7 +2951,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.171,
+   "seconds": 1.701,
    "notes": [
     "other=0.0 -> other=1.0",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2989,8 +2988,8 @@
     "reason": "output differs",
     "buffer": "out",
     "index": 0,
-    "ref_value": 6928,
-    "mut_value": 59036,
+    "ref_value": 50326,
+    "mut_value": 38130,
     "abstract": true,
     "fp64": {
      "size": {
@@ -3007,7 +3006,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.337,
+   "seconds": 1.345,
    "notes": [
     "tl.where(mask, a, b) -> a",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3044,8 +3043,8 @@
     "reason": "output differs",
     "buffer": "out",
     "index": 0,
-    "ref_value": 21945,
-    "mut_value": 16632,
+    "ref_value": 28614,
+    "mut_value": 18747,
     "abstract": true,
     "fp64": {
      "size": {
@@ -3062,7 +3061,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.505,
+   "seconds": 1.628,
    "notes": [
     "/ n_cols -> / BLOCK",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3099,8 +3098,8 @@
     "reason": "output differs",
     "buffer": "out",
     "index": 0,
-    "ref_value": 8225,
-    "mut_value": 23617,
+    "ref_value": 57382,
+    "mut_value": 25605,
     "abstract": true,
     "fp64": {
      "size": {
@@ -3117,7 +3116,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.294,
+   "seconds": 1.124,
    "notes": [
     "/ n_cols -> / BLOCK",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3184,7 +3183,7 @@
     "widened_row": 16
    },
    "trials": 702,
-   "seconds": 10.853,
+   "seconds": 48.6,
    "notes": [
     "tl.sum split: halves added first, then reduced",
     "witness from the row-widened search (256 rows per input)"
@@ -3251,7 +3250,7 @@
     "widened_row": 99
    },
    "trials": 698,
-   "seconds": 8.279,
+   "seconds": 191.195,
    "notes": [
     "tl.sum split: halves added first, then reduced",
     "witness from the row-widened search (256 rows per input)"
@@ -3316,7 +3315,7 @@
     "mut_err_bound": 0.008551760733002824
    },
    "trials": 90,
-   "seconds": 0.766,
+   "seconds": 1.994,
    "notes": [
     "dropped .to(tl.float32)"
    ]
@@ -3346,7 +3345,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.289,
+   "seconds": 0.778,
    "notes": [
     "dropped .to(tl.float16)"
    ]
@@ -3410,7 +3409,7 @@
     "mut_err_bound": 0.008551760733002824
    },
    "trials": 90,
-   "seconds": 0.682,
+   "seconds": 1.468,
    "notes": [
     ".to(tl.float32) -> .to(tl.float16)"
    ]
@@ -3474,7 +3473,7 @@
     "mut_err_bound": 0.0033983821127257295
    },
    "trials": 90,
-   "seconds": 1.052,
+   "seconds": 2137.274,
    "notes": [
     ".to(tl.float16) -> .to(tl.bfloat16)"
    ]
@@ -3515,7 +3514,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.102,
+   "seconds": 0.875,
    "notes": [
     "< -> <="
    ]
@@ -3556,7 +3555,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.107,
+   "seconds": 1.463,
    "notes": [
     "< -> <="
    ]
@@ -3597,7 +3596,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.138,
+   "seconds": 1.301,
    "notes": [
     "< -> <="
    ]
@@ -3646,7 +3645,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.655,
+   "seconds": 3.991,
    "notes": [
     "< -> <=",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3688,7 +3687,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.156,
+   "seconds": 1.026,
    "notes": [
     "< -> <="
    ]
@@ -3729,7 +3728,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.167,
+   "seconds": 1.276,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -3778,7 +3777,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.156,
+   "seconds": 1.146,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3804,7 +3803,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.565,
+   "seconds": 2.074,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -3829,7 +3828,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.423,
+   "seconds": 0.553,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -3848,17 +3847,18 @@
      "N": 5
     }
    ],
-   "fp_proof": null,
+   "fp_proof": "uf-lane",
    "real_proof": false,
    "precision_loss": null,
-   "bound_ratio": 1.0,
+   "bound_ratio": null,
    "witness": null,
-   "trials": 660,
-   "seconds": 3.175,
+   "trials": 0,
+   "seconds": 1.963,
    "notes": [
     "other=0.0 -> other=1.0",
     "bit-vector difference only under uninterpreted functions; not confirmed in fp64",
-    "real tier not proved at {'M': 6, 'N': 5} (uninterpreted exp/sqrt); no fp64 difference found"
+    "real tier not proved at {'M': 6, 'N': 5} (uninterpreted exp/sqrt); no fp64 difference found",
+    "proved under the lane-product model of tl.dot"
    ]
   },
   {
@@ -3905,7 +3905,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.41,
+   "seconds": 0.671,
    "notes": [
     "tl.where(rn[None, :] < N, a, b) -> a",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
