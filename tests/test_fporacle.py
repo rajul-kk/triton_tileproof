@@ -152,3 +152,23 @@ def test_real_domain_abstract_flag_is_per_trace():
     ls, lv = sm.make_launch(**sm.oracle_sizes[0]), va.make_launch(**va.oracle_sizes[0])
     assert trace_fp(sm.source, sm.fn_name, ls, _real_memory(ls), "a", dom).abstract
     assert not trace_fp(va.source, va.fn_name, lv, _real_memory(lv), "b", dom).abstract
+
+
+def test_layernorm_split_sum_gets_a_witness_from_the_row_widened_search():
+    # An fp32 reordering of the mean has to survive the final fp16 rounding: too rare for the
+    # per-size search, found by running 256 rows per input and moving the differing row into row 0.
+    # Site 0 needs about 360 inputs (2.5 min); the labels CI job covers it.
+    spec, m = KERNELS["layernorm"], _mutant("layernorm", "split_sum", 1)
+    size = {"n_rows": 2, "n_cols": 5}
+    w, n = fporacle.search_witness_wide(spec, m.source, size, seeds=40)
+    assert w is not None and w["size"] == size and w["widened_from_rows"] == 256
+    launch = spec.make_launch(**size)
+    inputs = {b: np.array(v, dtype=fporacle._np_dtype(launch.dtype(b))) for b, v in w["inputs"].items()}
+    ref, _ = fporacle.emulate(spec.source, spec.fn_name, launch, inputs)
+    mut, _ = fporacle.emulate(m.source, spec.fn_name, launch, inputs)
+    assert fporacle._bitwise_diff(ref["out"], mut["out"]).size
+
+
+def test_row_widened_search_skips_kernels_without_rows():
+    spec = KERNELS["matmul"]
+    assert fporacle.search_witness_wide(spec, spec.source, spec.fp_sizes[0]) == (None, 0)

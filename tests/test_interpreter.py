@@ -61,7 +61,8 @@ REPLAY = textwrap.dedent('''
     out = []
     for kname, op in [("row_sum", "split_sum"), ("row_sum_loop", "reverse_reduction_loop"),
                       ("row_sum_loop", "acc_dtype_downgrade"), ("matmul_fp16", "change_cast"),
-                      ("softmax", "split_sum"), ("layernorm", "drop_cast"), ("layernorm", "change_cast#1")]:
+                      ("softmax", "split_sum"), ("layernorm", "drop_cast"), ("layernorm", "change_cast#1"),
+                      ("layernorm", "split_sum#1")]:
         op, _, site = op.partition("#")
         spec = KERNELS[kname]
         m = list(mutants(kname, spec.source, [op]))[int(site or 0)]

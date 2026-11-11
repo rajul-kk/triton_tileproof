@@ -878,6 +878,62 @@ def search_witness(spec: KernelSpec, mut_src: str, size: dict, trials: int = 10,
     return witness, ratio, tried
 
 
+WIDE_ROWS, WIDE_SEEDS = 256, 400  # row-widened search, only for row-wise mutants still unwitnessed
+
+
+def search_witness_wide(spec: KernelSpec, mut_src: str, size: dict, rows: int = WIDE_ROWS,
+                        seeds: int = WIDE_SEEDS, generators=GENERATORS):
+    """Witness for a rare row-local difference, at ``size``; returns (witness or None, inputs tried).
+
+    Each program of a row-wise kernel reads and writes only its own row, so ``rows`` rows per input
+    give ``rows`` independent chances. The first differing row is copied into row 0 of an input at
+    ``size`` and the difference is re-checked there, so the witness is at a listed size.
+    """
+    if "n_rows" not in size:
+        return None, 0
+    wide, launch = spec.make_launch(**{**size, "n_rows": rows}), spec.make_launch(**size)
+    tried = 0
+    for seed in range(seeds):
+        for kind in generators:
+            winp = make_inputs(wide, kind, seed)
+            rm, _ = emulate(spec.source, spec.fn_name, wide, winp)
+            mm, _ = emulate(mut_src, spec.fn_name, wide, winp)
+            tried += 1
+            for buf in wide.outputs:
+                diff = _bitwise_diff(rm[buf], mm[buf])
+                if not diff.size:
+                    continue
+                row = int(diff[0]) // (wide.buffers[buf] // rows)
+                inputs = make_inputs(launch, kind, seed)
+                for b, x in winp.items():
+                    stride = wide.buffers[b] // rows
+                    inputs[b] = inputs[b].copy()
+                    inputs[b][:stride] = x[row * stride:(row + 1) * stride]
+                w, _, _ = _witness_from(spec, mut_src, size, launch, inputs, kind, seed)
+                if w is not None:
+                    return {**w, "widened_from_rows": rows, "widened_row": row}, tried
+    return None, tried
+
+
+def _witness_from(spec, mut_src, size, launch, inputs, kind, seed):
+    rm, re_ = emulate(spec.source, spec.fn_name, launch, inputs)
+    mm, me = emulate(mut_src, spec.fn_name, launch, inputs)
+    xm, _ = emulate(spec.source, spec.fn_name, launch, inputs, exact=True)
+    for buf in launch.outputs:
+        diff = _bitwise_diff(rm[buf], mm[buf])
+        if diff.size:
+            i = int(diff[0])
+            return {
+                "size": size, "generator": kind, "seed": seed,
+                "inputs": {b: [float(v) for v in x] for b, x in inputs.items()},
+                "buffer": buf, "index": i,
+                "ref_value": float(rm[buf][i]), "mut_value": float(mm[buf][i]),
+                "fp64_value": float(xm[buf][i]),
+                "ref_err_bound": float(re_[buf][i]), "mut_err_bound": float(me[buf][i]),
+            }, None, None
+    return None, None, None
+
+
 CONFIRM_RTOL = 1e-6  # fp64 outputs further apart than this are a confirmed real difference
 
 
@@ -964,6 +1020,14 @@ def label(spec: KernelSpec, mutant_source: str, mutant_id: str = "", trials: int
         w, r, n = search_witness(spec, mutant_source, big, EXTENDED_TRIALS, ("mixed", "randn"),
                                  first_seed=trials, stop_early=True)
         ratio, out.trials, out.witness = max(ratio, r), out.trials + n, w
+    if out.witness is None and WIDE_SEEDS:
+        for size in sizes:
+            w, n = search_witness_wide(spec, mutant_source, size)
+            out.trials += n
+            if w is not None:
+                out.witness = w
+                out.notes.append(f"witness from the row-widened search ({WIDE_ROWS} rows per input)")
+                break
     out.bound_ratio = ratio
     if out.witness is not None:
         out.label = "numerical"
