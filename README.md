@@ -114,8 +114,8 @@ Produced by `PYTHONPATH=src python -m triton_equiv.fporacle --out results/labels
 | matmul_fp16 | 15 | 7 | 2 | 2 (fp16 accumulator, cast to bf16) | 1 (loop reversed) | 3 (redundant `.to(fp16)` before the store; `other` 0 -> 1 on a and b, lane-product model) | 0 |
 | softmax | 5 | 2 | 2 (pid axis, `other=-inf` -> `0.0`) | 0 | 1 (`split_sum` of the denominator) | 0 | 0 |
 | layernorm | 13 | 2 | 5 (pid axis, `other`, `tl.where` dropped, 2x `/ BLOCK`) | 3 (fp32 upcast dropped or changed to fp16; output cast to bf16) | 2 (`split_sum` of mean and variance) | 1 (redundant output `.to(fp16)`) | 0 |
-| attention | 11 | 5 | 3 (pid axis, key-mask `<=`, `tl.where` dropped) | 0 | 0 | 2 (`other` on q and k) | 1 (`other` on v) |
-| **total** | **72** | **27** | **19** | **6** | **8** | **11** | **1** |
+| attention | 11 | 5 | 3 (pid axis, key-mask `<=`, `tl.where` dropped) | 0 | 0 | 3 (`other` on q and k; `other` on v, lane-product model with the `-inf` rules) | 0 |
+| **total** | **72** | **27** | **19** | **6** | **8** | **12** | **0** |
 
 The four label families:
 
@@ -131,11 +131,10 @@ The four label families:
   (`matmul_fp16` downgrade and bf16 cast), 55x on `randn` and 108x on `rand` (layernorm computed
   in fp16; unbounded on the wide-exponent inputs, where fp16 overflows) and 17x (layernorm output
   through bf16). Reorderings measure 0.6x-1.5x.
-* `benign`: real-equivalent and no witness. 11 are **proved** bitwise identical: 7 by the
-  uninterpreted-function check (`fp_proof: "uf"`), and the 4 matmul `other=1.0` mutants by the
-  same check under the lane-product model of `tl.dot` (`fp_proof: "uf-lane"`, below). The other 1,
-  `other=1.0` on attention's v (padded lanes have `p = exp(-inf) = 0`), found no witness in
-  about 2,000 inputs, which is evidence, not proof.
+* `benign`: real-equivalent and no witness. All 12 are **proved** bitwise identical: 7 by the
+  uninterpreted-function check (`fp_proof: "uf"`), and 5 by the same check under the lane-product
+  model of `tl.dot` (`fp_proof: "uf-lane"`, below): the 4 matmul `other=1.0` mutants and
+  `other=1.0` on attention's v, which also needs the `-inf` padding rules.
 
 ### The lane-product model of `tl.dot` (`fp_proof: "uf-lane"`)
 
@@ -152,6 +151,19 @@ matmul mutants are syntactically identical to their references at every listed s
 tried only after the plain tier fails, and only on kernels that call `tl.dot`; no other label
 changed when it was added (`tests/test_fporacle.py`).
 
+The tier also applies two IEEE rules for `-inf` padding before folding products:
+`exp(-inf) = +0`, and `-inf - x = -inf` when `x` is finite. Finiteness is read off the term
+conservatively, under the oracle's scope (finite inputs, no overflow) and only in fp32/fp64, where
+overflow needs values beyond 3.4e38. Loads are finite, and so are numerals within fp32 range. An
+fp32/fp64 add, sub, mul, sum, dot or lane product is finite when its operands are. A row max is
+finite when one entry is finite and the rest are finite or `-inf`. Anything else is treated as
+possibly non-finite: `exp`, `sqrt`, division, rounding casts, and every fp16/bf16 op. In this tier
+a `-0.0` literal is its own constant, so the numeral 0 always means `+0`. In attention, a padded
+key's score is `-inf`, so its weight is `p = exp(-inf - max) = +0`, and `+0 * 1` (mutant `v`
+fill) folds to the same `+0` as `+0 * 0`.
+Regenerating all 72 labels with the rules changed only `attention:wrong_other:2` (`fp_proof`
+`null` to `"uf-lane"`).
+
 ### exp, sqrt, max and division (softmax, layernorm, attention)
 
 The bit-vector tier has no exact meaning for these, so it treats them as **uninterpreted
@@ -163,7 +175,8 @@ of the 10 `inequivalent` labels on these kernels was confirmed by an fp64 run of
 (relative difference > 1e-6), and the label records that run. One mutant shows why the check is
 needed: `attention:wrong_other:2` (`other=1.0` on v) differs under uninterpreted `exp`, but
 the padded lanes have `p = exp(-inf) = 0` exactly. fp64 finds no difference, so it stays
-`benign` with `real_proof: false`.
+`benign` with `real_proof: false`, and the lane-product tier with the `-inf` rules then proves it
+bitwise identical.
 
 The emulator follows the interpreter's dtype rules, which were checked with a probe. A 0-d
 operand (a scalar argument or a reduced tile) does not promote a tile, so an fp16 tile minus an
@@ -199,7 +212,8 @@ Command: `TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness audit
 checker below. The 43 original mutants give exactly the same verdicts as the earlier run. Rerun on
 10 Nov 2026 after the lane-product proofs and the row-widened search: every verdict unchanged; the
 four matmul `other` mutants moved from the unproved to the proved row and layernorm's two
-`split_sum`s to the reorder row.
+`split_sum`s to the reorder row. Rerun on 11 Nov 2026 after the `-inf` rules: every verdict
+unchanged; attention's `other` on v moved to the proved row, which leaves the unproved row empty.
 
 Accepted / total, by oracle label (accepting an `oob`, `inequivalent` or
 `numerical: precision` mutant is a miss). Each cell is *all 72* (*new kernels only*: softmax,
@@ -211,8 +225,8 @@ layernorm, attention):
 | inequivalent | 19 (10) | 9 (7) | 0 (0) | 9 (7) | 0 (0) | 0 (0) |
 | numerical: precision loss | 6 (3) | 6 (3) | 6 (3) | 0 (0) | 0 (0) | 6 (3) |
 | numerical: reorder | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) | 8 (3) |
-| benign: proved | 11 (3) | 11 (3) | 11 (3) | 11 (3) | 11 (3) | 11 (3) |
-| benign: unproved | 1 (1) | 1 (1) | 1 (1) | 1 (1) | 1 (1) | 1 (1) |
+| benign: proved | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) | 12 (4) |
+| benign: unproved | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) |
 
 * At tile-multiple sizes the 1e-2 check accepts **every** OOB mutant, all 6 precision-loss
   mutants, and 9 of the 19 inequivalent ones. On the new kernels it accepts 7 of 10: the

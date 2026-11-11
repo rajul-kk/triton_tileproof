@@ -60,8 +60,8 @@ The two mutants that do not compile on GPU Triton (below) are left out of their 
 
 The oracle labels above are the ones stored with the T4 run. Since 10 Nov 2026 the four matmul `other=1.0` mutants
 are proved bitwise identical under the lane-product model of `tl.dot` (README, `fp_proof: "uf-lane"`), so on
-current labels the benign rows read 10 proved and 1 unproved; the row-widened search moved layernorm's two
-`split_sum` mutants to numerical: reorder (8). KernelGYM accepted all of them either way.
+current labels the benign rows read 11 proved and none unproved; the row-widened search moved layernorm's two
+`split_sum` mutants to numerical: reorder (8), and the `-inf` padding rules (11 Nov) proved attention's `other=1.0` on v. KernelGYM accepted all of them either way.
 
 Reading:
 
