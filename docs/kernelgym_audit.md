@@ -58,6 +58,10 @@ The two mutants that do not compile on GPU Triton (below) are left out of their 
 | benign (unproved) | 7 | 7 | 7 | 7 | 7 |
 | does not compile | 2 | – | – | – | – |
 
+The oracle labels above are the ones stored with the T4 run. Since 10 Nov 2026 the four matmul `other=1.0` mutants
+are proved bitwise identical under the lane-product model of `tl.dot` (README, `fp_proof: "uf-lane"`), so on
+current labels the two benign rows read 10 proved and 3 unproved. KernelGYM accepted all of them either way.
+
 Reading:
 
 - Every out-of-bounds mutant passes at tile-multiple sizes, and 17 of 27 still pass at odd sizes. KernelGYM

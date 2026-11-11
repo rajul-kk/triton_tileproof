@@ -109,13 +109,13 @@ Produced by `PYTHONPATH=src python -m triton_equiv.fporacle --out results/labels
 |---|---|---|---|---|---|---|---|
 | vector_add | 5 | 2 | 1 | 0 | 0 | 2 | 0 |
 | row_sum | 4 | 1 | 2 | 0 | 1 (`split_sum`) | 0 | 0 |
-| matmul | 13 | 7 | 2 | 0 | 1 (loop reversed) | 1 (fp16 `tl.zeros`, promoted back to fp32) | 2 (`other` 0 -> 1) |
+| matmul | 13 | 7 | 2 | 0 | 1 (loop reversed) | 3 (fp16 `tl.zeros`, promoted back to fp32; `other` 0 -> 1 on a and b, lane-product model) | 0 |
 | row_sum_loop | 6 | 1 | 2 | 1 (fp16 accumulator) | 2 (loop reversed, `split_sum`) | 0 | 0 |
-| matmul_fp16 | 15 | 7 | 2 | 2 (fp16 accumulator, cast to bf16) | 1 (loop reversed) | 1 (redundant `.to(fp16)` before the store) | 2 (`other` 0 -> 1) |
+| matmul_fp16 | 15 | 7 | 2 | 2 (fp16 accumulator, cast to bf16) | 1 (loop reversed) | 3 (redundant `.to(fp16)` before the store; `other` 0 -> 1 on a and b, lane-product model) | 0 |
 | softmax | 5 | 2 | 2 (pid axis, `other=-inf` -> `0.0`) | 0 | 1 (`split_sum` of the denominator) | 0 | 0 |
 | layernorm | 13 | 2 | 5 (pid axis, `other`, `tl.where` dropped, 2x `/ BLOCK`) | 3 (fp32 upcast dropped or changed to fp16; output cast to bf16) | 0 | 1 (redundant output `.to(fp16)`) | 2 (`split_sum` of mean and variance) |
 | attention | 11 | 5 | 3 (pid axis, key-mask `<=`, `tl.where` dropped) | 0 | 0 | 2 (`other` on q and k) | 1 (`other` on v) |
-| **total** | **72** | **27** | **19** | **6** | **6** | **7** | **7** |
+| **total** | **72** | **27** | **19** | **6** | **6** | **11** | **3** |
 
 The four label families:
 
@@ -131,11 +131,27 @@ The four label families:
   (`matmul_fp16` downgrade and bf16 cast), 55x on `randn` and 108x on `rand` (layernorm computed
   in fp16; unbounded on the wide-exponent inputs, where fp16 overflows) and 17x (layernorm output
   through bf16). Reorderings measure 0.6x-1.5x.
-* `benign`: real-equivalent and no witness. 7 are **proved** bitwise identical by the
-  uninterpreted-function check. The other 7 found no witness in 660-720 inputs, which is
-  evidence, not proof: `other=1.0` in both matmuls and on attention's v (lanes that always meet a
-  zero), and layernorm's two `split_sum`s, where an fp32 reordering has to survive the final
-  fp16 rounding.
+* `benign`: real-equivalent and no witness. 11 are **proved** bitwise identical: 7 by the
+  uninterpreted-function check (`fp_proof: "uf"`), and the 4 matmul `other=1.0` mutants by the
+  same check under the lane-product model of `tl.dot` (`fp_proof: "uf-lane"`, below). The other 3
+  found no witness in 660-720 inputs, which is evidence, not proof: `other=1.0` on attention's v
+  (padded lanes have `p = exp(-inf) = 0`), and layernorm's two `split_sum`s, where an fp32
+  reordering has to survive the final fp16 rounding.
+
+### The lane-product model of `tl.dot` (`fp_proof: "uf-lane"`)
+
+The plain uninterpreted-function tier treats `tl.dot` as one opaque function of its operands, so
+changing a padded lane's fill value from 0 to 1 changes the term even when that lane always meets a
+0 on the other operand. The lane-product tier adds one assumption: **`tl.dot` is a deterministic
+function of the sequence of exact lane products `a_i * b_i`, taken after its inputs are rounded to
+the dot's input precision (fp16, bf16 or tf32).** FMA chains and exact-product tensor-core
+accumulation have this form. Under it, `dot` becomes an uninterpreted function of per-lane product
+terms, and after the program ids are substituted a product of two constants is replaced by its
+value when both constants are exact in fp16 and bf16 (hence tf32) and the product is not -0 (a Z3
+numeral cannot carry the sign of zero). `1 * 0` and `0 * 0` then both become `+0`, and the four
+matmul mutants are syntactically identical to their references at every listed size. The tier is
+tried only after the plain tier fails, and only on kernels that call `tl.dot`; no other label
+changed when it was added (`tests/test_fporacle.py`).
 
 ### exp, sqrt, max and division (softmax, layernorm, attention)
 
@@ -175,7 +191,9 @@ are harmless and stores into the guard can be detected.
 
 Command: `TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness audit --trials 3`
 (135 s, 365 MB peak) -> `results/checker_audit.json`. All 8 reference kernels pass every
-checker below. The 43 original mutants give exactly the same verdicts as the earlier run.
+checker below. The 43 original mutants give exactly the same verdicts as the earlier run. Rerun on
+10 Nov 2026 after the lane-product proofs: every verdict unchanged, only the four matmul `other`
+mutants moved from the unproved to the proved row.
 
 Accepted / total, by oracle label (accepting an `oob`, `inequivalent` or
 `numerical: precision` mutant is a miss). Each cell is *all 72* (*new kernels only*: softmax,
@@ -187,8 +205,8 @@ layernorm, attention):
 | inequivalent | 19 (10) | 9 (7) | 0 (0) | 9 (7) | 0 (0) | 0 (0) |
 | numerical: precision loss | 6 (3) | 6 (3) | 6 (3) | 0 (0) | 0 (0) | 6 (3) |
 | numerical: reorder | 6 (1) | 6 (1) | 6 (1) | 6 (1) | 6 (1) | 6 (1) |
-| benign: proved | 7 (3) | 7 (3) | 7 (3) | 7 (3) | 7 (3) | 7 (3) |
-| benign: unproved | 7 (3) | 7 (3) | 7 (3) | 7 (3) | 7 (3) | 7 (3) |
+| benign: proved | 11 (3) | 11 (3) | 11 (3) | 11 (3) | 11 (3) | 11 (3) |
+| benign: unproved | 3 (3) | 3 (3) | 3 (3) | 3 (3) | 3 (3) | 3 (3) |
 
 * At tile-multiple sizes the 1e-2 check accepts **every** OOB mutant, all 6 precision-loss
   mutants, and 9 of the 19 inequivalent ones. On the new kernels it accepts 7 of 10: the
@@ -344,7 +362,7 @@ orders each SM's queue topologically rather than by task list. This is a model w
 
 ```bash
 pip install -e ".[dev]"     # oracle + tests: Windows, Linux or WSL
-pytest                      # Windows: 130 passed, 162 skipped (no triton, no ninja)
+pytest                      # Windows: 137 passed, 162 skipped (no triton, no ninja)
 ```
 
 ### Tests and CI
@@ -379,7 +397,7 @@ official Windows wheel, so these tests are skipped on Windows.
 python3 -m venv ~/venv-triton-equiv
 ~/venv-triton-equiv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
 ~/venv-triton-equiv/bin/pip install triton ninja z3-solver numpy pytest
-~/venv-triton-equiv/bin/python -m pytest -q      # 405 passed, 4 skipped
+~/venv-triton-equiv/bin/python -m pytest -q      # 412 passed, 4 skipped
 ```
 
 ## License
