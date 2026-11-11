@@ -3,14 +3,14 @@
  "python": "3.10.0",
  "numpy": "2.2.6",
  "z3": "5.3.3",
- "seconds": 72.8,
+ "seconds": 65.7,
  "counts": {
   "oob": 27,
   "inequivalent": 19,
   "benign:proved": 11,
-  "numerical:reorder": 6,
+  "numerical:reorder": 8,
   "numerical:precision": 6,
-  "benign:unproved": 3
+  "benign:unproved": 1
  },
  "labels": [
   {
@@ -48,7 +48,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.085,
+   "seconds": 0.058,
    "notes": [
     "< -> <="
    ]
@@ -88,7 +88,7 @@
     "address": 6
    },
    "trials": 0,
-   "seconds": 0.122,
+   "seconds": 0.063,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -123,7 +123,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.213,
+   "seconds": 0.106,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -149,7 +149,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.244,
+   "seconds": 0.168,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -175,7 +175,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.202,
+   "seconds": 0.146,
    "notes": [
     "added other=1.0 to masked tl.load"
    ]
@@ -215,7 +215,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.045,
+   "seconds": 0.028,
    "notes": [
     "< -> <="
    ]
@@ -250,7 +250,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.05,
+   "seconds": 0.032,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -285,7 +285,7 @@
     "mut_value": 3
    },
    "trials": 0,
-   "seconds": 0.049,
+   "seconds": 0.03,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -344,7 +344,7 @@
     "mut_err_bound": 1.6912865976647311e-06
    },
    "trials": 60,
-   "seconds": 0.247,
+   "seconds": 0.167,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -399,7 +399,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.284,
+   "seconds": 0.245,
    "notes": [
     "< -> <="
    ]
@@ -454,7 +454,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.32,
+   "seconds": 0.26,
    "notes": [
     "< -> <="
    ]
@@ -509,7 +509,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.375,
+   "seconds": 0.291,
    "notes": [
     "< -> <="
    ]
@@ -564,7 +564,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.372,
+   "seconds": 0.342,
    "notes": [
     "< -> <="
    ]
@@ -619,7 +619,7 @@
     "address": 34
    },
    "trials": 0,
-   "seconds": 0.532,
+   "seconds": 0.324,
    "notes": [
     "< -> <="
    ]
@@ -674,7 +674,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.369,
+   "seconds": 0.518,
    "notes": [
     "< -> <="
    ]
@@ -729,7 +729,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.45,
+   "seconds": 0.283,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -777,7 +777,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.526,
+   "seconds": 0.571,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -825,7 +825,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.691,
+   "seconds": 0.597,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -862,7 +862,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 2.859,
+   "seconds": 2.61,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -900,7 +900,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 3.0,
+   "seconds": 2.495,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -1087,7 +1087,7 @@
     "mut_err_bound": 2.3540638081899273e-06
    },
    "trials": 120,
-   "seconds": 2.26,
+   "seconds": 2.14,
    "notes": [
     "loop over k reversed"
    ]
@@ -1124,7 +1124,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 1.344,
+   "seconds": 1.447,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1172,7 +1172,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.074,
+   "seconds": 0.059,
    "notes": [
     "< -> <="
    ]
@@ -1215,7 +1215,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1258,7 +1258,7 @@
     "mut_value": 2
    },
    "trials": 0,
-   "seconds": 0.087,
+   "seconds": 0.065,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -1331,7 +1331,7 @@
     "mut_err_bound": 0.006113385234127447
    },
    "trials": 120,
-   "seconds": 0.623,
+   "seconds": 0.582,
    "notes": [
     "loop over k reversed"
    ]
@@ -1398,7 +1398,7 @@
     "mut_err_bound": 0.0002727847066011007
    },
    "trials": 120,
-   "seconds": 0.63,
+   "seconds": 0.565,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -1465,7 +1465,7 @@
     "mut_err_bound": 0.007599421406463504
    },
    "trials": 120,
-   "seconds": 0.65,
+   "seconds": 0.393,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -1520,7 +1520,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.679,
+   "seconds": 0.407,
    "notes": [
     "< -> <="
    ]
@@ -1575,7 +1575,7 @@
     "address": 42
    },
    "trials": 0,
-   "seconds": 0.739,
+   "seconds": 0.417,
    "notes": [
     "< -> <="
    ]
@@ -1630,7 +1630,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.574,
+   "seconds": 0.669,
    "notes": [
     "< -> <="
    ]
@@ -1685,7 +1685,7 @@
     "address": 35
    },
    "trials": 0,
-   "seconds": 0.633,
+   "seconds": 0.331,
    "notes": [
     "< -> <="
    ]
@@ -1740,7 +1740,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.539,
+   "seconds": 0.448,
    "notes": [
     "< -> <="
    ]
@@ -1795,7 +1795,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.607,
+   "seconds": 0.516,
    "notes": [
     "< -> <="
    ]
@@ -1850,7 +1850,7 @@
     "address": 30
    },
    "trials": 0,
-   "seconds": 0.49,
+   "seconds": 0.304,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -1898,7 +1898,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 1.105,
+   "seconds": 0.359,
    "notes": [
     "program_id(0) -> program_id(1)"
    ]
@@ -1946,7 +1946,7 @@
     "mut_value": 65535
    },
    "trials": 0,
-   "seconds": 0.861,
+   "seconds": 0.63,
    "notes": [
     "program_id(1) -> program_id(0)"
    ]
@@ -1983,7 +1983,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 3.257,
+   "seconds": 3.187,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -2021,7 +2021,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 4.915,
+   "seconds": 3.135,
    "notes": [
     "other=0.0 -> other=1.0",
     "proved under the lane-product model of tl.dot"
@@ -2208,7 +2208,7 @@
     "mut_err_bound": 0.0018443935479292284
    },
    "trials": 690,
-   "seconds": 6.008,
+   "seconds": 3.922,
    "notes": [
     "loop over k reversed"
    ]
@@ -2330,7 +2330,7 @@
     "mut_err_bound": 0.008587361358902274
    },
    "trials": 120,
-   "seconds": 2.21,
+   "seconds": 2.013,
    "notes": [
     "accumulator dtype float32 -> float16"
    ]
@@ -2367,7 +2367,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 2.103,
+   "seconds": 1.197,
    "notes": [
     "dropped .to(tl.float16)"
    ]
@@ -2489,7 +2489,7 @@
     "mut_err_bound": 0.012805953252355905
    },
    "trials": 120,
-   "seconds": 2.151,
+   "seconds": 2.068,
    "notes": [
     ".to(tl.float16) -> .to(tl.bfloat16)"
    ]
@@ -2534,7 +2534,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.069,
+   "seconds": 0.046,
    "notes": [
     "< -> <="
    ]
@@ -2579,7 +2579,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.075,
+   "seconds": 0.047,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -2633,7 +2633,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.096,
+   "seconds": 0.155,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2688,7 +2688,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.295,
+   "seconds": 0.137,
    "notes": [
     "other=-inf -> other=0.0",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2753,7 +2753,7 @@
     "mut_err_bound": 4.302618585872711e-08
    },
    "trials": 90,
-   "seconds": 0.796,
+   "seconds": 1.135,
    "notes": [
     "tl.sum split: halves added first, then reduced"
    ]
@@ -2798,7 +2798,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.067,
+   "seconds": 0.047,
    "notes": [
     "< -> <="
    ]
@@ -2843,7 +2843,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.077,
+   "seconds": 0.048,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -2897,7 +2897,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.101,
+   "seconds": 0.12,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -2952,7 +2952,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.255,
+   "seconds": 0.171,
    "notes": [
     "other=0.0 -> other=1.0",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3007,7 +3007,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.579,
+   "seconds": 0.337,
    "notes": [
     "tl.where(mask, a, b) -> a",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3062,7 +3062,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.813,
+   "seconds": 0.505,
    "notes": [
     "/ n_cols -> / BLOCK",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3117,7 +3117,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.536,
+   "seconds": 0.294,
    "notes": [
     "/ n_cols -> / BLOCK",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3125,7 +3125,7 @@
   },
   {
    "id": "layernorm:split_sum:0",
-   "label": "benign",
+   "label": "numerical",
    "bv_label": "benign",
    "sizes": [
     {
@@ -3144,18 +3144,55 @@
    ],
    "fp_proof": null,
    "real_proof": true,
-   "precision_loss": null,
+   "precision_loss": false,
    "bound_ratio": 0.9997636279298256,
-   "witness": null,
-   "trials": 690,
-   "seconds": 7.243,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "mixed",
+    "seed": 3,
+    "inputs": {
+     "x": [
+      1010.5,
+      0.485595703125,
+      -424.5,
+      -0.1070556640625,
+      -0.0005593299865722656,
+      2130.0,
+      0.0195159912109375,
+      -6116.0,
+      -0.2364501953125,
+      -0.396240234375,
+      -23.546875,
+      -7.09375,
+      0.0010061264038085938,
+      -109.25,
+      -175.875,
+      -4468.0
+     ]
+    },
+    "buffer": "out",
+    "index": 2,
+    "ref_value": 0.00019729137420654297,
+    "mut_value": 0.0001971721649169922,
+    "fp64_value": 0.00019724070663687036,
+    "ref_err_bound": 3.2888643198665537e-07,
+    "mut_err_bound": 2.340189354562612e-07,
+    "widened_from_rows": 256,
+    "widened_row": 16
+   },
+   "trials": 702,
+   "seconds": 10.853,
    "notes": [
-    "tl.sum split: halves added first, then reduced"
+    "tl.sum split: halves added first, then reduced",
+    "witness from the row-widened search (256 rows per input)"
    ]
   },
   {
    "id": "layernorm:split_sum:1",
-   "label": "benign",
+   "label": "numerical",
    "bv_label": "benign",
    "sizes": [
     {
@@ -3174,13 +3211,50 @@
    ],
    "fp_proof": null,
    "real_proof": true,
-   "precision_loss": null,
+   "precision_loss": false,
    "bound_ratio": 0.9996374571011186,
-   "witness": null,
-   "trials": 690,
-   "seconds": 6.131,
+   "witness": {
+    "size": {
+     "n_rows": 2,
+     "n_cols": 8
+    },
+    "generator": "rand",
+    "seed": 2,
+    "inputs": {
+     "x": [
+      0.80029296875,
+      0.56787109375,
+      0.09136962890625,
+      0.362548828125,
+      0.9462890625,
+      0.65478515625,
+      0.369873046875,
+      0.70849609375,
+      0.27490234375,
+      0.6572265625,
+      0.5625,
+      0.1500244140625,
+      0.4326171875,
+      0.66943359375,
+      0.4228515625,
+      0.63330078125
+     ]
+    },
+    "buffer": "out",
+    "index": 1,
+    "ref_value": 0.02008056640625,
+    "mut_value": 0.0200653076171875,
+    "fp64_value": 0.02007293764925242,
+    "ref_err_bound": 1.090350181205532e-05,
+    "mut_err_bound": 1.0892458461541832e-05,
+    "widened_from_rows": 256,
+    "widened_row": 99
+   },
+   "trials": 698,
+   "seconds": 8.279,
    "notes": [
-    "tl.sum split: halves added first, then reduced"
+    "tl.sum split: halves added first, then reduced",
+    "witness from the row-widened search (256 rows per input)"
    ]
   },
   {
@@ -3242,7 +3316,7 @@
     "mut_err_bound": 0.008551760733002824
    },
    "trials": 90,
-   "seconds": 0.912,
+   "seconds": 0.766,
    "notes": [
     "dropped .to(tl.float32)"
    ]
@@ -3272,7 +3346,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.357,
+   "seconds": 0.289,
    "notes": [
     "dropped .to(tl.float16)"
    ]
@@ -3336,7 +3410,7 @@
     "mut_err_bound": 0.008551760733002824
    },
    "trials": 90,
-   "seconds": 0.938,
+   "seconds": 0.682,
    "notes": [
     ".to(tl.float32) -> .to(tl.float16)"
    ]
@@ -3400,7 +3474,7 @@
     "mut_err_bound": 0.0033983821127257295
    },
    "trials": 90,
-   "seconds": 0.925,
+   "seconds": 1.052,
    "notes": [
     ".to(tl.float16) -> .to(tl.bfloat16)"
    ]
@@ -3441,7 +3515,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.166,
+   "seconds": 0.102,
    "notes": [
     "< -> <="
    ]
@@ -3482,7 +3556,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.172,
+   "seconds": 0.107,
    "notes": [
     "< -> <="
    ]
@@ -3523,7 +3597,7 @@
     "address": 10
    },
    "trials": 0,
-   "seconds": 0.179,
+   "seconds": 0.138,
    "notes": [
     "< -> <="
    ]
@@ -3572,7 +3646,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.617,
+   "seconds": 0.655,
    "notes": [
     "< -> <=",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3614,7 +3688,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.188,
+   "seconds": 0.156,
    "notes": [
     "< -> <="
    ]
@@ -3655,7 +3729,7 @@
     "address": 12
    },
    "trials": 0,
-   "seconds": 0.173,
+   "seconds": 0.167,
    "notes": [
     "removed mask= from tl.store"
    ]
@@ -3704,7 +3778,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.214,
+   "seconds": 0.156,
    "notes": [
     "program_id(0) -> program_id(1)",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
@@ -3730,7 +3804,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.483,
+   "seconds": 0.565,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -3755,7 +3829,7 @@
    "bound_ratio": null,
    "witness": null,
    "trials": 0,
-   "seconds": 0.485,
+   "seconds": 0.423,
    "notes": [
     "other=0.0 -> other=1.0"
    ]
@@ -3780,7 +3854,7 @@
    "bound_ratio": 1.0,
    "witness": null,
    "trials": 660,
-   "seconds": 4.954,
+   "seconds": 3.175,
    "notes": [
     "other=0.0 -> other=1.0",
     "bit-vector difference only under uninterpreted functions; not confirmed in fp64",
@@ -3831,7 +3905,7 @@
     }
    },
    "trials": 0,
-   "seconds": 0.888,
+   "seconds": 0.41,
    "notes": [
     "tl.where(rn[None, :] < N, a, b) -> a",
     "bit-vector difference under uninterpreted functions, confirmed in fp64"
