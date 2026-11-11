@@ -447,7 +447,8 @@ non-`match` launches.
   open question above: at this sample size and back-to-back pacing, the dependence from
   repeated launching swamps any extra non-i.i.d.-ness from the dynamic queue. Telling
   them apart would need randomised pacing, or a design with launches interleaved across
-  schedules.
+  schedules. Part 5 runs that design: the gates still fail, and the paired per-round
+  differences separate the schedules.
 * **The in-kernel series are quantised.** `%globaltimer` on the T4 takes only 18–59
   distinct values over 66k samples, so the timer's resolution, not the schedule, sets
   their tail. They are useful as medians, not for EVT. NVIDIA forum answers put
