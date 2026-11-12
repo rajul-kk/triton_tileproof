@@ -119,6 +119,9 @@ likely to be scooped are the formal labels themselves: the proved-benign and pre
 Two could not be opened: the Tatva paper (OpenReview `cEh56JC9TB`) and the Red-Teaming paper (OpenReview
 `JK85pn7BYN`, so which three verifiers it audited is still unknown). Both forums and the OpenReview API redirect
 to a bot check, and neither paper has an arXiv version. Someone with an OpenReview login can read them.
+Re-checked 2026-11-13: title searches still find no arXiv version of either paper. The NeurIPS listing of the
+Red-Teaming paper adds that the verifier accepted all 100 certified solutions and rewarded none of 26 exploit-based
+runs; it still does not name the three published verifiers it audited.
 
 **What is still new after this reading.** None of the checkers read here (TritonRL, DRTriton, TritonGym,
 KernelGYM, the Red-Teaming verifier as described) goes beyond testing (random or seeded inputs at fixed
