@@ -54,7 +54,7 @@ TOLERANCES = {
 }
 
 
-def _torch():
+def get_torch():
     os.environ.setdefault("TRITON_INTERPRET", "1")
     import torch
     return torch
@@ -63,7 +63,7 @@ def _torch():
 # ------------------------------------------------------------------ PyTorch references
 def torch_reference(kernel: str, launch, inputs: dict):
     """What a benchmark's PyTorch model would return, in the output buffer's dtype."""
-    torch = _torch()
+    torch = get_torch()
     a = launch.args
     if kernel == "vector_add":
         return {"out": inputs["x"] + inputs["y"]}
@@ -99,7 +99,7 @@ def fp64_reference(kernel: str, launch, inputs: dict):
 _COMPILED: dict = {}
 
 
-def _compiled(source: str, fn_name: str):
+def compiled(source: str, fn_name: str):
     from .kernels import to_module
     key = (source, fn_name)
     if key not in _COMPILED:
@@ -108,7 +108,7 @@ def _compiled(source: str, fn_name: str):
 
 
 def make_inputs(launch, seed: int, dist: str = "randn"):
-    torch = _torch()
+    torch = get_torch()
     g = torch.Generator().manual_seed(seed)
     dt = {"float16": torch.float16, "float32": torch.float32}
     out = {}
@@ -124,7 +124,7 @@ def make_inputs(launch, seed: int, dist: str = "randn"):
 def run(spec, source: str, launch, inputs: dict, seed: int = 0, device: str = "cpu"):
     """Run ``source`` once. Returns (outputs, guard_write, error string or None); outputs are
     on the CPU. ``device="cuda"`` runs real Triton on a GPU (with ``TRITON_INTERPRET=0``)."""
-    torch = _torch()
+    torch = get_torch()
     dt = {"float16": torch.float16, "float32": torch.float32}
     g = torch.Generator().manual_seed(10_000 + seed)
     big, views = {}, {}
@@ -134,7 +134,7 @@ def run(spec, source: str, launch, inputs: dict, seed: int = 0, device: str = "c
         big[b], views[b] = t, t[GUARD:GUARD + n]
     before = {b: (t[:GUARD].clone(), t[GUARD + launch.buffers[b]:].clone()) for b, t in big.items()}
     try:
-        fn = _compiled(source, spec.fn_name)
+        fn = compiled(source, spec.fn_name)
         fn[launch.grid](**{k: (views[v] if isinstance(v, str) else v) for k, v in launch.args.items()})
         err = None
     except Exception as e:  # a crash is a rejection by any checker
@@ -147,7 +147,7 @@ def run(spec, source: str, launch, inputs: dict, seed: int = 0, device: str = "c
 
 def tritongym_close(out, ref) -> bool:
     """TritonGym's acceptance rule: max absolute difference at most 1e-2, NaN differences mapped to 0."""
-    torch = _torch()
+    torch = get_torch()
     if out.numel() == 0:
         return True
     diff = torch.nan_to_num((out - ref).abs(), nan=0.0, posinf=float("inf"), neginf=float("inf"))
@@ -155,7 +155,7 @@ def tritongym_close(out, ref) -> bool:
 
 
 def close(out, ref, dtype: str, policy: str) -> bool:
-    torch = _torch()
+    torch = get_torch()
     rtol, atol = TOLERANCES[policy][dtype]
     return bool(torch.allclose(out.double(), ref.double(), rtol=rtol, atol=atol))
 
@@ -236,7 +236,7 @@ SWEEP = {
 
 
 def blind_band(labels_path: str, trials: int, dists=("randn", "rand"), kernels=None):
-    torch = _torch()
+    torch = get_torch()
     from .kernels import KERNELS
     from .mutate import mutants
     with open(labels_path) as f:
@@ -287,7 +287,7 @@ def blind_band(labels_path: str, trials: int, dists=("randn", "rand"), kernels=N
 
 # ------------------------------------------------------------------ CLI
 def _env():
-    torch = _torch()
+    torch = get_torch()
     import triton
     return {"python": platform.python_version(), "torch": torch.__version__, "triton": triton.__version__,
             "TRITON_INTERPRET": os.environ.get("TRITON_INTERPRET"), "platform": platform.platform()}
