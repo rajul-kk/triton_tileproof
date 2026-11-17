@@ -81,3 +81,40 @@ Reading:
 
 Not covered: other GPUs, other Triton versions, KernelGYM's performance and decoy checks, and the KernelBench
 workflow.
+
+## 3. What the out-of-bounds stores do on the GPU (U8)
+
+Run on Kaggle, Tesla T4, 2026-11-17, torch 2.11.0+cu130, Triton 3.6.0, 158 s, no crash
+(`notebooks/u8_oob_writes.ipynb`, `src/triton_equiv/oobwrite.py`, results `results/u8_oob_writes_t4.json`). Every mutant whose
+oracle witness is an out-of-bounds store (11, over 6 kernels; the audit's "8" was a miscount), the 16 out-of-bounds-load
+mutants and the 8 references run at the odd checker size, 10 input seeds, in two layouts. In **adjacent**, a sentinel sits
+directly before and after the output in one allocation, so every element written outside the output is counted. In
+**pool**, the output and a sentinel are separate `torch.empty` calls, as a benchmark allocates them, so the caching
+allocator decides what lies past the output. "Accepted" is `torch.allclose` against the PyTorch reference, the comparison
+KernelGYM makes, at KernelBench's 1e-2 (torch's defaults give the same counts except where noted).
+
+| | n | accepted in every trial | wrote outside the output | accepted and wrote outside | hit the separate neighbour (pool) |
+|---|---|---|---|---|---|
+| references | 8 | 8 | 0 | 0 | 0 |
+| out-of-bounds stores | 11 | 5 | **11** | **5** | 3 |
+| out-of-bounds loads | 16 | 12 | 3 | 1 | 0 |
+
+* **Every store mutant writes outside its output on the GPU, and 5 of 11 still pass the check in every trial**
+  (vector_add and attention missing store mask, the matmul, matmul_fp16 and attention `mask_off_by_one:4`, 10-192 elements
+  past the end). Three load mutants also store out of bounds, because their off-by-one mask is shared with the store.
+* **In the realistic layout the stray writes mostly land in allocator padding.** The caching allocator left 96-496 bytes
+  between the output's end and the next allocation, so only the large overruns (252 elements for the two matmul missing
+  store masks, 192 for attention) reached the neighbouring tensor, in every trial. One mutant does both: **attention with
+  its store mask removed passes the check and overwrites the next allocation in every trial.** Which neighbour is hit,
+  and whether padding absorbs a write, depends on the allocator and the sizes, so a write that is harmless here can
+  corrupt another tensor elsewhere.
+* **The GPU rejects mutants the interpreter accepts.** softmax and layernorm without the store mask pass in the CPU
+  interpreter but fail on the T4: each row's program writes past its row into the next row, and on the GPU the programs
+  run concurrently, so a row is sometimes overwritten after its own program stored it. The interpreter runs programs
+  one after another, so the later row always repairs the damage. matmul `mask_off_by_one:5` (accepted in 19 of 20
+  trials) and softmax `mask_off_by_one:0` (15 of 20 at 1e-2, none at torch's defaults) are seed-dependent for the same
+  kind of reason.
+* No mutant faulted: none of the writes left mapped memory.
+
+What this does not show: the size of the effect inside a real training or serving process (other allocators, other sizes,
+graphs that reuse buffers), and whether `compute-sanitizer memcheck` flags these writes (not run).
