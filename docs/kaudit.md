@@ -75,11 +75,44 @@ So goals.md P1's kill threshold (90% caught) is not reached, and the paper's sco
 This follows from the rule as we read it. It is not a measured property of KernelAudit's own code, which we have not
 run. For these kernels, 5 of the 6 `numerical:precision` mutants and 7 of the 19 `inequivalent` mutants go unjudged.
 
+## P2: the same audit on a T4 GPU (`results/p2_kaudit_gpu.json`)
+
+All 80 candidates were run on a Kaggle Tesla T4 (torch 2.11.0+cu130, triton 3.6.0; `gpu`, `torch`, `triton`).
+References were computed on the CPU, as in P1, and each candidate ran in its own process. The run took 430 s and had
+no crashes (`seconds`, `crashes`). The source hashes are in `source`.
+
+The confusion is the same as P1's except for 4 of 80 candidates (row-by-row diff of `rows` against
+`results/kaudit_audit.json`):
+
+| Candidate | Label | P1 interpreter (tile / odd) | P2 T4 (tile / odd) |
+|---|---|---|---|
+| `matmul:acc_dtype_downgrade:0` | benign | accept / accept | reject / reject |
+| `matmul_fp16:acc_dtype_downgrade:0` | numerical | unresolved / unresolved | reject / reject |
+| `matmul:missing_store_mask:0` | oob | accept / reject | accept / accept |
+| `softmax:missing_store_mask:0` | oob | accept / accept | accept / reject |
+
+- **The accumulator downgrades.** Both are rejected in every slot on the GPU. The fp32 one is labelled benign because
+  its proof is over the reals (`labels.json`: `real_proof` true, `fp_proof` "uf"). On hardware, the narrower
+  accumulator's rounding is above the band, while the interpreter hides it. So the "benign" label is a real-number
+  statement, and a floating-point oracle on hardware disagrees with it. This is a labelling caveat for the claim table
+  (P3), not a defect in the oracle.
+- **The missing store masks.** Out-of-bounds stores depend on the hardware: here the odd-shape verdict flips in both
+  directions. These mutants are OOB by label, and on a T4 neither run catches them reliably (U8).
+- **Slot states** (`slot_states`, P1 → P2): `pass` 1195 → 1181, `fail` 391 → 435, `rho_cap` 804 → 780,
+  `ref_nonfinite` 96 → 90, `input_range` 74 unchanged. The per-slot diff of `rows` accounts for every change:
+  - `matmul_fp16:acc_dtype_downgrade:0` now fails 30 slots: 24 that were `rho_cap` and 6 that were `ref_nonfinite`.
+    References still run on the CPU; the candidate's definite failure is checked first (L59), so those slots no
+    longer reach the abstentions.
+  - `matmul:acc_dtype_downgrade:0` goes from pass to fail on 32 slots.
+  - The OOB store masks and `matmul:mask_off_by_one:5` move both ways: `softmax:missing_store_mask:0` +13 fail;
+    `matmul:missing_store_mask:0` −16 and `matmul:mask_off_by_one:5` −15. The off-by-one's verdict does not change,
+    because some slots still fail.
+
 ## Caveats
 
 - **The rule is a re-implementation.** The paper's Appendix B schedule is given only in outline, so our 16 slots are
   an instance of it, not a copy. Different value choices could change individual verdicts.
-- **CPU interpreter only.** Out-of-bounds behaviour on a GPU differs (U8). The GPU rerun of the GPU-dependent mutants
-  is goals.md P2.
+- **One GPU, one run.** P2 is a single T4 run. The OOB flips show that some verdicts are not stable across runs or
+  devices, and P2 did not measure that rate.
 - **Small task shapes.** The `tile` shapes are this repo's checker sizes (`kernels.py`, `checker_sizes`), not
   KernelBench's.
