@@ -128,7 +128,7 @@ def main(argv=None):
     ref_err = {r["kernel"]: r["max_err"] for r in rows if r["id"].endswith(":reference")}
     res = {"command": "python -m triton_equiv.refcheck " + " ".join(argv or sys.argv[1:]),
            "device": args.device, "trials": args.trials, "seconds": round(time.time() - t0, 1),
-           **harness._env(), "reference_kernel_max_err": ref_err,
+           **harness.env_info(), "reference_kernel_max_err": ref_err,
            "disagreements": disagreements(rows), "rows": rows}
     with open(args.out, "w") as f:
         json.dump(res, f, indent=1)

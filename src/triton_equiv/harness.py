@@ -161,20 +161,27 @@ def close(out, ref, dtype: str, policy: str) -> bool:
 
 
 # ------------------------------------------------------------------ audit
+def load_labels(labels_path: str) -> dict:
+    """``results/labels.json`` as ``{mutant id: label dict}``."""
+    with open(labels_path, encoding="utf-8") as f:
+        return {lab["id"]: lab for lab in json.load(f)["labels"]}
+
+
+def candidates(name: str, spec, labels: dict):
+    """The reference kernel (label None), then every mutant of ``name`` with its label, as ``(id, source, label)``."""
+    from .mutate import mutants
+    return [(f"{name}:reference", spec.source, None)] + \
+           [(m.id, m.source, labels[m.id]) for m in mutants(name, spec.source)]
 
 
 def audit(labels_path: str, trials: int, kernels=None):
     from .kernels import KERNELS
-    from .mutate import mutants
-    with open(labels_path) as f:
-        labels = {lab["id"]: lab for lab in json.load(f)["labels"]}
+    labels = load_labels(labels_path)
     rows = []
     for name, spec in KERNELS.items():
         if kernels and name not in kernels:
             continue
-        cands = [(f"{name}:reference", spec.source, None)] + \
-                [(m.id, m.source, labels[m.id]) for m in mutants(name, spec.source)]
-        for mid, src, lab in cands:
+        for mid, src, lab in candidates(name, spec, labels):
             row = {"id": mid, "oracle": _family(lab), "verdict": {}, "guard_write": False, "errors": []}
             for kind, sizes in spec.checker_sizes.items():
                 ok = {p: True for p in TOLERANCES}
@@ -286,7 +293,7 @@ def blind_band(labels_path: str, trials: int, dists=("randn", "rand"), kernels=N
 
 
 # ------------------------------------------------------------------ CLI
-def _env():
+def env_info():
     torch = get_torch()
     import triton
     return {"python": platform.python_version(), "torch": torch.__version__, "triton": triton.__version__,
@@ -310,7 +317,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
     t0 = time.time()
     doc = {"command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.harness " + " ".join(argv),
-           "env": _env(), "tolerances": TOLERANCES}
+           "env": env_info(), "tolerances": TOLERANCES}
     if args.cmd == "audit":
         rows = audit(args.labels, args.trials, args.kernels)
         doc.update(trials_per_size=args.trials, confusion=confusion(rows), rows=rows)
