@@ -111,8 +111,9 @@ def _combine(parts) -> str:
     return "unresolved"
 
 
-def run_slot(spec, name: str, src: str, launch, slot):
-    """One slot on one launch -> (state, guard_write, error). State is ``pass``/``fail``/``unresolved:<why>``."""
+def run_slot(spec, name: str, src: str, launch, slot, device: str = "cpu"):
+    """One slot on one launch -> (state, guard_write, error). State is ``pass``/``fail``/``unresolved:<why>``.
+    References are computed on the CPU whatever ``device`` the candidate runs on."""
     _, dist, scale, seed, calls = slot
     inputs = slot_inputs(launch, dist, scale, seed)
     if inputs is None:
@@ -121,7 +122,7 @@ def run_slot(spec, name: str, src: str, launch, slot):
     ref64 = fp64_reference(name, launch, inputs)
     states, gw = [], False
     for call in range(calls):  # ``seed + call`` only changes the guard-band fill between repeated calls
-        out, g, e = run(spec, src, launch, inputs, seed + call)
+        out, g, e = run(spec, src, launch, inputs, seed + call, device=device)
         gw |= g
         if e:
             return "fail", gw, e  # a crash is a rejection by any checker
@@ -134,7 +135,8 @@ def run_slot(spec, name: str, src: str, launch, slot):
     return (bad[0] if bad else "pass"), gw, None
 
 
-def audit(labels_path: str, kernels=None, kinds=("tile", "odd")):
+def audit(labels_path: str, kernels=None, kinds=("tile", "odd"), device: str = "cpu", ids=None):
+    """Rows for every candidate of ``kernels`` (all by default), or only the candidate ids in ``ids``."""
     from .kernels import KERNELS
     labels = load_labels(labels_path)
     rows = []
@@ -142,6 +144,8 @@ def audit(labels_path: str, kernels=None, kinds=("tile", "odd")):
         if kernels and name not in kernels:
             continue
         for mid, src, lab in candidates(name, spec, labels):
+            if ids is not None and mid not in ids:
+                continue
             row = {"id": mid, "oracle": _family(lab), "slots": {}, "verdict": {}, "guard_write": False,
                    "errors": []}
             for kind in kinds:
@@ -149,7 +153,7 @@ def audit(labels_path: str, kernels=None, kinds=("tile", "odd")):
                 for si, size in enumerate(spec.checker_sizes[kind]):
                     launch = spec.make_launch(**size)
                     for slot in SLOTS:
-                        st, gw, err = run_slot(spec, name, src, launch, slot)
+                        st, gw, err = run_slot(spec, name, src, launch, slot, device)
                         row["slots"][f"{kind}{si}/{slot[0]}"] = st
                         row["guard_write"] |= gw
                         if err and err not in row["errors"]:
@@ -188,10 +192,15 @@ def main(argv=None):
     ap.add_argument("--labels", default="results/labels.json")
     ap.add_argument("--out", default="results/kaudit_audit.json")
     ap.add_argument("--kernels", nargs="*", help="only these kernels (default: all)")
+    ap.add_argument("--ids", nargs="*", help="only these candidate ids, e.g. one per process on a GPU")
+    ap.add_argument("--device", default="cpu", choices=("cpu", "cuda"),
+                    help="cuda runs real Triton (set TRITON_INTERPRET=0)")
     args = ap.parse_args(argv)
     t0 = time.time()
-    rows = audit(args.labels, args.kernels)
-    doc = {"command": "TRITON_INTERPRET=1 PYTHONPATH=src python -m triton_equiv.kaudit " + " ".join(argv),
+    rows = audit(args.labels, args.kernels, device=args.device, ids=set(args.ids) if args.ids else None)
+    if args.ids and len(rows) != len(set(args.ids)):  # L5: an unknown id must not pass silently as "no rows"
+        raise SystemExit(f"unknown candidate ids: {sorted(set(args.ids) - {r['id'] for r in rows})}")
+    doc = {"command": "PYTHONPATH=src python -m triton_equiv.kaudit " + " ".join(argv),
            "env": env_info(), "source": "arXiv 2611.15506 Eq. 1, re-implemented (read 2026-11-18)",
            "constants": {"a_min": A_MIN, "rho_min": RHO_MIN, "rho_max": RHO_MAX, "c": C, "percentile": P},
            "slots": [list(s) for s in SLOTS], "confusion": confusion(rows),
